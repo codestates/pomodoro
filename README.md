@@ -37,6 +37,7 @@
 ![](https://img.shields.io/badge/react_responsive-EA4AAA?style=for-the-badge&logo=GitHub-Sponsors&logoColor=lightpink)
 ![](https://img.shields.io/badge/axios-A100FF?style=for-the-badge&logo=Accenture&logoColor=lightgreen)
 ![](https://img.shields.io/badge/Greeensock-88CE02?style=for-the-badge&logo=GreenSock&logoColor=black)
+![](https://img.shields.io/badge/Swiper-6332F6?style=for-the-badge&logo=Swiper&logoColor=white)
 <br><br>
 
 # Back-end tech stacks
