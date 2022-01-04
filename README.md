@@ -3,7 +3,7 @@
 ![](https://github.com/krim45/img-container/blob/main/pomodoro/logo/original.svg)
 <br><br>
 
-# 🍅 Feature
+# Feature
 
 ### 1. 타이머 기능
 
