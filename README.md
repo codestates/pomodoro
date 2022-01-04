@@ -58,11 +58,12 @@
 ![](https://img.shields.io/badge/docker-2496ED?style=for-the-badge&logo=Docker&logoColor=white)
 ![](https://img.shields.io/badge/nginx-009639?style=for-the-badge&logo=NGINX&logoColor=white)
 ![](https://img.shields.io/badge/amazon_EC2-232F3E?style=for-the-badge&logo=Amazon-AWS&logoColor=yellow)
+![](https://img.shields.io/badge/cloudflare-F38020?style=for-the-badge&logo=Cloudflare&logoColor=white)
 <br><br>
 
 # Network Diagram
 
-![](https://github.com/exxocism/exxo-file-share/raw/master/Wireframe/pomodoro_architecture_01.png)
+![](https://github.com/exxocism/exxo-file-share/raw/master/pomodoro_architecture_02.png)
 <br><br>
 
 # Team: Bug Life
