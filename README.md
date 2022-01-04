@@ -1,6 +1,6 @@
 # Pomodoro
 
-![](https://user-images.githubusercontent.com/82519180/148030169-f21c75c5-a7ed-4f63-b905-9ffaff00e0ab.png)
+![](https://github.com/krim45/img-container/blob/main/pomodoro/logo/original.svg)
 <br><br>
 
 # Pomodoro에서는
