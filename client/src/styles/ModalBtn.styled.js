@@ -9,7 +9,6 @@ export const ModalBtn = styled.button`
   padding: 0.5em 1.5em;
   font-size: 1.6rem;
   letter-spacing: 0.2em;
-  margin-bottom: 1.5em;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
     rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
 
