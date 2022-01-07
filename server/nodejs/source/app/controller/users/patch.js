@@ -2,7 +2,7 @@ const { User } = require('../../models');
 const crypto = require('crypto');
 require('dotenv').config();
 
-const modifyUserInfo = async (req, res) => {
+const modifyUserInfo = (req, res) => {
   if (typeof req.token === 'number') {
     console.log(
       `[ERROR] /api/users PATCH -> req.token is not found or invalid`
