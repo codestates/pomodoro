@@ -24,6 +24,7 @@ const initModels = () => {
     Music,
     Playlist,
     User,
+    sequelize,
   };
 };
 
