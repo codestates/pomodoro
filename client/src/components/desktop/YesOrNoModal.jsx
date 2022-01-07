@@ -26,8 +26,8 @@ const YesOrNoModal = ({text, handleModal, setYes}) => {
       <Modal>
         <ModalText>{text}</ModalText>
         <Buttons>
-          <ModalBtn onClick={handleYes}>예</ModalBtn>
-          <ModalBtn onClick={handleNo}>아니오</ModalBtn>
+          <ModalBtn type='button' onClick={handleYes}>예</ModalBtn>
+          <ModalBtn type='button' onClick={handleNo}>아니오</ModalBtn>
         </Buttons>
       </Modal>
     </ModalContainer>
