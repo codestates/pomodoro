@@ -30,7 +30,7 @@ const userInfo = (req, res) => {
   const where = { user_id: req.token.id };
 
   User.findOne({ attributes, where })
-    .then(async (result) => {
+    .then((result) => {
       if (!result) {
         console.log(`[ERROR] /api/users GET -> 404 : user not found`);
         return res.status(404).send('user not found');
