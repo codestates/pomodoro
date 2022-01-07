@@ -3,7 +3,6 @@ import { FormContainer } from '../../styles/FormContainer.styled';
 import { Form } from '../../styles/Form.styled';
 import { FormInput } from '../../styles/FormInput.styled';
 import { FormWrapper } from '../../styles/FormWrapper.styled';
-import { FormBtn } from '../../styles/FormBtn.styled';
 import { ReactComponent as Icon } from '../../images/tomato.svg';
 import styled from 'styled-components';
 import { FormErrorMsg } from '../../styles/FormErrorMsg.styled';
@@ -38,9 +37,6 @@ const Button = styled.button`
     transition-duration: 250ms;
   }
 `;
-
-const EditBtn = styled(Button)``;
-const LeaveAccountBtn = styled(Button)``;
 
 const EditUserInfo = () => {
   return (
