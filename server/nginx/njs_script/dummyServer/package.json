@@ -1,0 +1,11 @@
+{
+  "name": "dummyserver",
+  "version": "1.0.0",
+  "description": "a njs dummy server",
+  "main": "dummyServer.js",
+  "scripts": {
+    "start": "nginx -s reload"
+  },
+  "author": "Charlie",
+  "license": "GPL-3.0-or-later"
+}

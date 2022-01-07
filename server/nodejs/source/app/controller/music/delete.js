@@ -1,0 +1,7 @@
+const removeMusicForPlaylists = async (req, res) => {
+  const stub = `[stub] /api/playlists/{:playlist_id}/{:music_id} DELETE`;
+  console.log(stub);
+  res.status(200).send(stub);
+};
+
+module.exports = removeMusicForPlaylists;

@@ -1,0 +1,37 @@
+FROM nginx:mainline-alpine AS builder
+
+# nginx:alpine contains NGINX_VERSION environment variable, like so:
+ENV NGINX_VERSION 1.21.5
+
+# Download sources
+RUN wget "https://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz" -O nginx.tar.gz && \
+  wget "https://github.com/limithit/NginxExecute/archive/refs/heads/master.zip" -O nginxExecute.zip
+
+# For latest build deps, see https://github.com/nginxinc/docker-nginx/blob/master/mainline/alpine/Dockerfile
+RUN apk add --no-cache --virtual .build-deps \
+  gcc \
+  libc-dev \
+  make \
+  openssl-dev \
+  pcre2-dev \
+  zlib-dev \
+  linux-headers \
+  libxslt-dev \
+  gd-dev \
+  geoip-dev \
+  perl-dev \
+  libedit-dev \
+  bash \
+  alpine-sdk \
+  findutils
+
+# Reuse same cli arguments as the nginx:alpine image used to build
+RUN CONFARGS=$(nginx -V 2>&1 | sed -n -e 's/^.*arguments: //p')
+RUN tar -zxvf nginx.tar.gz
+RUN unzip nginxExecute.zip
+ENV EXE_MODULEDIR="../NginxExecute-master"
+RUN cd ./nginx-$NGINX_VERSION && \
+  ./configure --with-compat $CONFARGS --add-dynamic-module=$EXE_MODULEDIR && \
+  make && make install
+
+

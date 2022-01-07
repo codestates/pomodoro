@@ -1,0 +1,6 @@
+NGINX logs here.
+
+to tail a logs run the following command:
+
+tail -f ./error.log
+tail -f ./access.log
