@@ -4,19 +4,9 @@ import { Form } from '../../styles/Form.styled';
 import { FormInput } from '../../styles/FormInput.styled';
 import { FormWrapper } from '../../styles/FormWrapper.styled';
 import { FormBtn } from '../../styles/FormBtn.styled';
+import { FormText } from '../../styles/FormText.styled';
 import { ReactComponent as Logo } from '../../images/logo.svg';
 import styled from 'styled-components';
-
-const Text = styled.span`
-  width: 90%;
-  text-align: end;
-  font-size: 1.3rem;
-  cursor: pointer;
-
-  &:hover {
-    color: #d66258;
-  }
-`;
 
 const Wrapper = styled.ul`
   width: 90%;
@@ -44,7 +34,7 @@ const Login = () => {
           <FormInput type="password" placeholder="비밀번호" />
         </FormWrapper>
         <FormWrapper>
-          <Text>비밀번호를 잊으셨나요?</Text>
+          <FormText>비밀번호를 잊으셨나요?</FormText>
         </FormWrapper>
         <FormBtn>로그인</FormBtn>
         <Wrapper>
