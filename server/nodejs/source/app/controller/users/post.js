@@ -77,10 +77,10 @@ const signUp = async (req, res) => {
 
   //hash password and forget it
   const salt = crypto.randomBytes(16).toString('hex');
-  const pwd_hash = (password_hash = crypto
+  const pwd_hash = crypto
     .createHmac('sha256', salt + process.env.SALT_SECRET)
     .update(req.body.password)
-    .digest('hex'));
+    .digest('hex');
   req.body.password = undefined;
 
   //create user
@@ -95,16 +95,19 @@ const signUp = async (req, res) => {
   };
 
   User.create(payload)
-    .then((query) => {
-      const payload = {
-        id: query.user_id,
-        username: query.nickname,
-        email: query.email,
-        type: query.user_type,
+    .then((result) => {
+      const tokenInfo = {
+        id: result.user_id,
+        username: result.nickname,
+        email: result.email,
+        type: result.user_type,
+        pending: result.pending,
       };
-      const token = createToken(payload, '3h');
+      const token = createToken(tokenInfo, '3h');
 
-      console.log('[SUCCESS] /api/users POST -> 201 : user created');
+      console.log(
+        `[SUCCESS] /api/users POST -> 201 : user ${result.nickname} created`
+      );
       res.header('Authorization', 'Bearer ' + token);
       return res.status(201).json({ token });
     })
