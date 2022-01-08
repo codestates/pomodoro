@@ -16,6 +16,8 @@ services:
     volumes:
       - ./mysql/Pomodoro.sql:/docker-entrypoint-initdb.d/dump.sql
       - db:/var/lib/mysql
+    cap_add:
+      - SYS_NICE
     env_file:
       - .store/mysql.env
   nodejs:
