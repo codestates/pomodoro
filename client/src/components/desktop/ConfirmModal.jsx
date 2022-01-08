@@ -13,7 +13,7 @@ const ConfirmModal = ({ text, handleModal }) => {
     <ModalContainer>
       <Modal>
         <ModalText>{text}</ModalText>
-        <ModalBtn onClick={handleClick}>확인</ModalBtn>
+        <ModalBtn type='button' onClick={handleClick}>확인</ModalBtn>
       </Modal>
     </ModalContainer>
   );
