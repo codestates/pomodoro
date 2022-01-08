@@ -29,6 +29,10 @@ module.exports = function (sequelize, DataTypes) {
         type: DataTypes.INTEGER.UNSIGNED,
         allowNull: true,
       },
+      pomo_started: {
+        type: DataTypes.DATE,
+        allowNull: true,
+      },
       user_type: {
         type: DataTypes.INTEGER,
         allowNull: false,

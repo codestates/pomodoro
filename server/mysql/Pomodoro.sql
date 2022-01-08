@@ -9,6 +9,7 @@ CREATE TABLE IF NOT EXISTS `User` (
 	`pwd_hash`	CHAR(64)	NOT NULL,
 	`salt`	VARCHAR(32)	NOT NULL,
 	`num_pomo`	INT UNSIGNED	NULL,
+  `pomo_started` DATETIME	NULL,
 	`user_type`	INT	NOT NULL,
 	`pending`	BOOLEAN	NULL
 );
@@ -18,7 +19,7 @@ CREATE TABLE IF NOT EXISTS `Playlist` (
   `user_id`	INT UNSIGNED	NOT NULL,
 	`playlist_name`	VARCHAR(128) NOT NULL,
 	`order`	VARCHAR(256) NULL,
-  FOREIGN KEY (`user_id`) REFERENCES `User`(`user_id`)
+  FOREIGN KEY (`user_id`) REFERENCES `User`(`user_id`) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS `Music` (
@@ -28,6 +29,5 @@ CREATE TABLE IF NOT EXISTS `Music` (
 	`music_name`	VARCHAR(128)	NULL,
 	`music_address`	VARCHAR(128)	NULL,
 	`music_length`	INT UNSIGNED	NULL,
-  FOREIGN KEY (`playlist_id`)	REFERENCES `Playlist`(`playlist_id`),
-	FOREIGN KEY (`user_id`)	REFERENCES `User`(`user_id`)
+  FOREIGN KEY (`playlist_id`)	REFERENCES `Playlist`(`playlist_id`) ON DELETE CASCADE
 );
