@@ -16,33 +16,28 @@ const getPlaylist = async (req, res) => {
     return res.status(400).send('user id is invalid');
   }
 
+  const attributes = [
+    'playlist_id',
+    'playlist_name',
+    [
+      sequelize.fn('SUM', sequelize.col('Musics.music_length')),
+      'playlist_time',
+    ],
+  ];
+  const where = { user_id: req.token.id };
+  const include = [{ association: 'Musics', attributes: [] }];
+  const group = ['playlist_id'];
+
   let result;
   try {
-    result = await Playlist.findAll({
-      attributes: [
-        'playlist_id',
-        'playlist_name',
-        [
-          sequelize.fn('SUM', sequelize.col('Musics.music_length')),
-          'music_time',
-        ],
-      ],
-      where: { user_id: req.token.id },
-      include: [
-        {
-          association: 'Musics',
-          attributes: [],
-        },
-      ],
-      group: ['playlist_id'],
-    });
+    result = await Playlist.findAll({ attributes, where, include, group });
   } catch (err) {
     console.log(`[ERROR] /api/playlists GET -> 500 : ${err}`);
     return res.status(500).send('Internal Server Error');
   }
 
   console.log(`[SUCCESS] /api/playlists GET -> 200 : playlist sent`);
-  return res.status(200).json(result);
+  return res.status(200).json({ result });
 };
 
 module.exports = getPlaylist;
