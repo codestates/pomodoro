@@ -24,8 +24,7 @@ CREATE TABLE IF NOT EXISTS `Playlist` (
 
 CREATE TABLE IF NOT EXISTS `Music` (
 	`music_id`	INT UNSIGNED	NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  `playlist_id`  INT UNSIGNED	NOT NULL,
-  `user_id`  INT UNSIGNED	NOT NULL,
+  `playlist_id`  INT UNSIGNED	NOT NULL,  
 	`music_name`	VARCHAR(128)	NULL,
 	`music_address`	VARCHAR(128)	NULL,
 	`music_length`	INT UNSIGNED	NULL,
