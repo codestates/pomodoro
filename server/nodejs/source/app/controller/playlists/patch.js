@@ -17,7 +17,10 @@ const renamePlaylists = async (req, res) => {
     return res.status(400).send('user id is invalid');
   }
 
-  if (!req.body['playlist_name']) {
+  if (
+    !req.body['playlist_name'] ||
+    typeof req.body.playlist_name !== 'string'
+  ) {
     console.log(`[ERROR] /api/playlists PATCH -> playlist_name does not exist`);
     return res.status(400).send('insufficient parameters');
   }

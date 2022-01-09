@@ -17,7 +17,10 @@ const addPlaylist = async (req, res) => {
     return res.status(400).send('user id is invalid');
   }
 
-  if (!req.body['playlist_name']) {
+  if (
+    !req.body['playlist_name'] ||
+    typeof req.body['playlist_name'] !== 'string'
+  ) {
     console.log(`[ERROR] /api/playlists POST -> playlist_name does not exist`);
     return res.status(400).send('insufficient parameters');
   }
@@ -37,17 +40,16 @@ const addPlaylist = async (req, res) => {
   }
 
   const user_id = req.token.id;
-  const attributes = [[sequelize.fn('COUNT', '*'), 'count']];
   const where = { user_id };
   let playlistCount;
   try {
-    playlistCount = await Playlist.findOne({ attributes, where });
+    playlistCount = await Playlist.count({ where });
   } catch (err) {
     console.log(`[ERROR] /api/playlists POST -> 500 : ${err}`);
     return res.status(500).send('Internal Server Error');
   }
 
-  if (playlistCount.dataValues.count >= 10) {
+  if (playlistCount >= 10) {
     console.log(
       `[ERROR] /api/playlists POST -> 400 : user ${req.token.username}'s playlist is full`
     );

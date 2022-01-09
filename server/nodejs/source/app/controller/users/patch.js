@@ -25,6 +25,11 @@ const modifyUserInfo = (req, res) => {
     return res.status(400).send('password does not exist');
   }
 
+  if (typeof req.body.password !== 'string') {
+    console.log(`[ERROR] /api/users PATCH -> password is invalid`);
+    return res.status(400).send('password is invalid');
+  }
+
   if (req.body.password.length > 128) {
     console.log('[ERROR] /api/users PATCH -> 400 : password is too long');
     return res.status(400).send('password is too long');

@@ -23,6 +23,11 @@ const deleteUser = async (req, res) => {
     return res.status(400).send('password is missing');
   }
 
+  if (typeof req.header('X-password') !== 'string') {
+    console.log(`[ERROR] /api/users DELETE -> password is invalid`);
+    return res.status(400).send('password is invalid');
+  }
+
   if (req.header('X-password').length < 8) {
     console.log(`[ERROR] /api/users DELETE -> password is too short`);
     return res.status(400).send('password is too short');

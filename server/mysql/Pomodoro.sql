@@ -18,7 +18,8 @@ CREATE TABLE IF NOT EXISTS `Playlist` (
 	`playlist_id`	INT UNSIGNED	NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `user_id`	INT UNSIGNED	NOT NULL,
 	`playlist_name`	VARCHAR(128) NOT NULL,
-	`order`	VARCHAR(256) NULL,
+	`music_order`	VARCHAR(256) NULL,
+  `playlist_order`	VARCHAR(256) NULL,
   FOREIGN KEY (`user_id`) REFERENCES `User`(`user_id`) ON DELETE CASCADE
 );
 

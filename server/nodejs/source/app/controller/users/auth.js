@@ -10,6 +10,16 @@ const login = (req, res) => {
     return res.status(400).send('insufficient parameters');
   }
 
+  if (
+    typeof req.body.nickname !== 'string' ||
+    typeof req.body.password !== 'string'
+  ) {
+    console.log(
+      '[ERROR] /api/auth POST -> 400 : nickname or password is not string'
+    );
+    return res.status(400).send('invalid parameters');
+  }
+
   if (utf8Length(req.body.nickname) > 32) {
     console.log('[ERROR] /api/auth POST -> 400 : nickname is too long');
     return res.status(400).send('nickname is too long');
