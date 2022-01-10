@@ -27,6 +27,15 @@ const RanknName = styled.li`
 const Rank = styled.div`
   color: #c16b3f;
   font-weight: bold;
+  margin-left: 10px;
+`;
+
+const Name = styled.div`
+  margin-left: 43px;
+`;
+
+const Score = styled.div`
+  margin-right: 13px;
 `;
 
 const MyRank = ({ rank, nickname, pomo }) => {
@@ -34,9 +43,9 @@ const MyRank = ({ rank, nickname, pomo }) => {
     <Container>
       <RanknName>
         <Rank>{rank}</Rank>
-        <div>{nickname}</div>
+        <Name>{nickname}</Name>
       </RanknName>
-      <div>{pomo}&nbsp;뽀모</div>
+      <Score>{pomo}&nbsp;뽀모</Score>
     </Container>
   );
 };

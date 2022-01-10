@@ -30,6 +30,10 @@ const StyledStar = styled.div`
   margin-left: -17px;
 `;
 
+const Name = styled.div`
+  margin-left: ${({ topThree }) => topThree};
+`;
+
 const Rank = ({ rank, nickname, score }) => {
   return (
     <RankContainer backgroundColor={rank % 2 === 0 ? '#F7F2ED' : '#FAFAFA'}>
@@ -50,7 +54,7 @@ const Rank = ({ rank, nickname, score }) => {
           </StyledStar>
         )}
         {rank > 3 && <Ranking>{rank}</Ranking>}
-        <div>{nickname}</div>
+        <Name topThree={rank <= 3 ? '-17px' : '0px'}>{nickname}</Name>
       </RanknName>
       <div>{score}&nbsp;&nbsp;뽀모</div>
     </RankContainer>

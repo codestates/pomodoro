@@ -1,16 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
-import Header from '../../components/desktop/Header';
-import Footer from '../../components/desktop/Footer';
 import Rank from '../../components/desktop/Rank';
 import MyRank from '../../components/desktop/MyRank';
-
-import rankingData from '../../dummyData/ranking';
-const userInfo = { nickname: '포모', rank: 100, pomo: 1 };
 
 const Container = styled.div`
   display: flex;
   width: 100vw;
+  height: 80vh;
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -24,7 +20,7 @@ const RankingSection = styled.section`
 
 const Title = styled.h1`
   text-align: center;
-  font-size: 35px;
+  font-size: 4.5rem;
   letter-spacing: 0.1em;
   margin-bottom: 40px;
 `;
@@ -38,13 +34,13 @@ const TopTwentyContainer = styled.div`
 
 const TopTwenty = styled.ol`
   background-color: #f2e7da;
+  height: 100%;
   padding: 10px;
 `;
 
-const Ranking = () => {
+const Ranking = ({userInfo, rankingList}) => {
   return (
     <>
-      <Header />
       <Container>
         <RankingSection>
           <Title>랭킹</Title>
@@ -55,7 +51,7 @@ const Ranking = () => {
           />
           <TopTwentyContainer>
             <TopTwenty>
-              {rankingData.map((item) => (
+              {rankingList.map((item) => (
                 <Rank
                   key={item.rank}
                   rank={item.rank}
@@ -68,7 +64,6 @@ const Ranking = () => {
           </TopTwentyContainer>
         </RankingSection>
       </Container>
-      <Footer />
     </>
   );
 };
