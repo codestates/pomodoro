@@ -3,8 +3,6 @@ import { SectionContainer } from '../../styles/SectionContainer';
 import Playlist from '../../components/desktop/Playlist';
 import styled from 'styled-components';
 
-import dummyData from '../../dummyData/myPlaylist';
-
 const Container = styled(SectionContainer)`
   display: flex;
   flex-direction: column;
@@ -27,12 +25,12 @@ const Title = styled.h3`
   margin-bottom: 10px;
 `;
 
-const MyPlaylist = () => {
+const MyPlaylist = ({ playlists }) => {
   return (
     <Container>
       <Title>내 플레이리스트</Title>
       <Playlists>
-        {dummyData.map((item) => (
+        {playlists.map((item) => (
           <Playlist
             key={item.playlist_id}
             order={item.playlist_id}
