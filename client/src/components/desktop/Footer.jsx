@@ -4,7 +4,7 @@ import github from '../../images/github.svg';
 
 const Foot = styled.footer`
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
   align-items: flex-end;
   max-width: 1320px;
   padding: 0.75rem 0;
@@ -12,7 +12,7 @@ const Foot = styled.footer`
 
   > a {
     width: 11.5rem;
-    margin: 0 5.25rem;
+    /* margin: 0 5.25rem; */
     display: flex;
     justify-content: space-around;
   }
@@ -35,7 +35,7 @@ const Foot = styled.footer`
   }
 
   > div {
-    margin: 0 5.25rem;
+    /* margin: 0 5.25rem; */
     font-size: 1.4rem;
     font-family: 'Poppins', sans-serif;
   }
