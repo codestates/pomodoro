@@ -1,16 +1,7 @@
 import React from 'react';
 import MyStatus from '../../components/desktop/MyStatus';
 import MyPlaylist from '../../components/desktop/MyPlaylist';
-import Header from '../../components/desktop/Header';
-import Footer from '../../components/desktop/Footer';
 import styled from 'styled-components';
-
-const userInfo = {
-  nickname: '포모',
-  email: 'ggdsgg@gmail.com',
-  rank: 100,
-  pomo: 1,
-};
 
 const Container = styled.div`
   display: flex;
@@ -23,15 +14,13 @@ const Container = styled.div`
   user-select: none;
 `;
 
-const MyPage = () => {
+const MyPage = ({ userInfo, playlists }) => {
   return (
     <>
-      <Header />
       <Container>
         <MyStatus userInfo={userInfo} />
-        <MyPlaylist />
+        <MyPlaylist playlists={playlists} />
       </Container>
-      <Footer />
     </>
   );
 };
