@@ -41,7 +41,7 @@ const Span = styled.span`
   font-weight: 700;
   font-size: 1.3rem;
   text-align: center;
-  color: ${(props) => (props.selected ? '#C34040' : 'black')};
+  color: ${(props) => (props.selected ? '#9E150C' : 'black')};
   opacity: 0.6;
 `;
 
@@ -51,36 +51,36 @@ const TabBarMobile = ({ isLogin }) => {
   return (
     <Nav>
       <button onClick={() => setSelected(1)}>
-        <Home fill={selected === 1 ? '#C34040' : 'black'}></Home>
+        <Home fill={selected === 1 ? '#9E150C' : 'black'}></Home>
         <Span selected={selected === 1}>Home</Span>
       </button>
       <button onClick={() => setSelected(2)}>
-        <Clock fill={selected === 2 ? '#C34040' : 'black'}></Clock>
+        <Clock fill={selected === 2 ? '#9E150C' : 'black'}></Clock>
         <Span selected={selected === 2}>Pomodoro</Span>
       </button>
       <button onClick={() => setSelected(3)}>
-        <Ranking fill={selected === 3 ? '#C34040' : 'black'}></Ranking>
+        <Ranking fill={selected === 3 ? '#9E150C' : 'black'}></Ranking>
         <Span selected={selected === 3}>Ranking</Span>
       </button>
       {isLogin ? (
         <>
           <button onClick={() => setSelected(4)}>
-            <MyPage fill={selected === 4 ? '#C34040' : 'black'}></MyPage>
+            <MyPage fill={selected === 4 ? '#9E150C' : 'black'}></MyPage>
             <Span selected={selected === 4}>My page</Span>
           </button>
           <button onClick={() => setSelected(5)}>
-            <SignOut fill={selected === 5 ? '#C34040' : 'black'}></SignOut>
+            <SignOut fill={selected === 5 ? '#9E150C' : 'black'}></SignOut>
             <Span selected={selected === 5}>Sign out</Span>
           </button>
         </>
       ) : (
         <>
           <button onClick={() => setSelected(4)}>
-            <SignIn fill={selected === 4 ? '#C34040' : 'black'}></SignIn>
+            <SignIn fill={selected === 4 ? '#9E150C' : 'black'}></SignIn>
             <Span selected={selected === 4}>Sign in</Span>
           </button>
           <button onClick={() => setSelected(5)}>
-            <SignUp fill={selected === 5 ? '#C34040' : 'black'}></SignUp>
+            <SignUp fill={selected === 5 ? '#9E150C' : 'black'}></SignUp>
             <Span selected={selected === 5}>Sign up</Span>
           </button>
         </>
