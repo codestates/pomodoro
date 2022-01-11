@@ -23,6 +23,7 @@ const Head = styled.header`
       font-size: 2.4rem;
       font-family: 'Poppins', sans-serif;
       padding: 0 2.175rem;
+      white-space: nowrap;
     }
   }
 
@@ -41,6 +42,7 @@ const Head = styled.header`
       font-size: 2rem;
       padding: 0.5rem 2.5rem;
       margin: 0 2.075rem;
+      white-space: nowrap;
 
       :first-child {
         background-color: none;
@@ -54,7 +56,7 @@ const Head = styled.header`
   }
 `;
 
-const Header = ({ isLogin = false }) => {
+const Header = ({ isLogin }) => {
   return (
     <Head>
       <img src={logo} alt="logo"></img>
