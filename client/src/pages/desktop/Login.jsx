@@ -52,8 +52,6 @@ const Login = () => {
     if (result) {
       navigate('/');
     }
-    emailRef.current.value = '';
-    pwRef.current.value = '';
   };
 
   return (
