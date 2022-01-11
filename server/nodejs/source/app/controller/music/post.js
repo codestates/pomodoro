@@ -33,7 +33,7 @@ const addMusicsForPlaylist = async (req, res) => {
   if (
     isNaN(req.params.playlist_id) ||
     req.params.playlist_id < 1 ||
-    req.params.playlist_id > 10
+    req.params.playlist_id > 2147483647
   ) {
     console.log(
       `[ERROR] /api/playlists/:playlist_id POST -> playlist_id is invalid : ${req.params.playlist_id}`

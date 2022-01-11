@@ -1,4 +1,3 @@
-const { music } = require('..');
 const { Playlist, Music, sequelize } = require('../../models');
 
 const getMusicsForPlaylist = async (req, res) => {
@@ -31,7 +30,7 @@ const getMusicsForPlaylist = async (req, res) => {
   if (
     isNaN(req.params.playlist_id) ||
     req.params.playlist_id < 1 ||
-    req.params.playlist_id > 10
+    req.params.playlist_id > 2147483647
   ) {
     console.log(
       `[ERROR] /api/playlists/:playlist_id GET -> playlist_id is invalid : ${req.params.playlist_id}`
