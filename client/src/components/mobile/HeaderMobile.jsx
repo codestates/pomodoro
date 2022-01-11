@@ -7,6 +7,9 @@ const Head = styled.header`
   height: 7.5rem;
   display: flex;
   align-items: center;
+  position: fixed;
+  top: 0;
+  background-color: var(--color-background);
 
   img {
     height: 4rem;
