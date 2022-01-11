@@ -11,6 +11,10 @@ do
   rm -rf *
   cd ..
   SOURCE_REPO=`cat ./.repo`
+  if [ $? -ne 0 ]; then
+    echo "no .repo files, exiting ..."
+    exit 0
+  fi
   rm -f ./.repo
   WORKING_DIR=$(pwd)
 
@@ -39,6 +43,8 @@ do
   echo "** (2/3) Installing packages... **"
   pushd $DEPLOY_DIRECTORY/server/nodejs/source
   npm ci
+  chown -R 1000 ./*
+  chgrp -R 1000 ./*
 
   echo "** (3/3) Copying new server... **"
   rm -rf $TARGET_FOLDER/*
