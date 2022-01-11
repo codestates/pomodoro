@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const FormErrorMsg = styled.span`
-  visibility: hidden;
+  visibility: ${({ show }) => (show ? 'visible' : 'hidden')};
   height: 3rem;
   color: #d66258;
   width: 90%;
