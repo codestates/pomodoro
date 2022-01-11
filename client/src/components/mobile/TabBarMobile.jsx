@@ -20,6 +20,7 @@ const Nav = styled.nav`
   bottom: 0;
   padding: 0 1rem;
   transform: translate(-50%, 0);
+  background-color: var(--color-background);
 
   button {
     display: flex;
