@@ -39,6 +39,8 @@ do
   echo "** (2/3) Installing packages... **"
   pushd $DEPLOY_DIRECTORY/server/nodejs/source
   npm ci
+  chown -R 1000 ./*
+  chgrp -R 1000 ./*
 
   echo "** (3/3) Copying new server... **"
   rm -rf $TARGET_FOLDER/*
