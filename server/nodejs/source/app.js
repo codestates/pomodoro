@@ -75,7 +75,7 @@ app.use(cors(corsOptions));
 //=========================================================
 // Current SERVER MODE
 //=========================================================
-const PREFIX = '/dev'; // 'api' or 'dev'
+const PREFIX = '/api'; // 'api' or 'dev'
 const point = (URL) => `${PREFIX}${URL}`;
 
 //=========================================================
