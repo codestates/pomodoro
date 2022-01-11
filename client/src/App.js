@@ -24,7 +24,7 @@ const App = () => {
   useEffect(() => {
     axios
       .get('https://final.eax.kr/api/users', {
-        withCredentials: true,
+        headers: { authorization: `Bearer ${localStorage.getItem('Token')}` },
       })
       .then((res) => {
         setUserInfo(res.data);
@@ -37,7 +37,7 @@ const App = () => {
   useEffect(() => {
     axios
       .get('https://final.eax.kr/api/ranks', {
-        withCredentials: true,
+        headers: { authorization: `Bearer ${localStorage.getItem('Token')}` },
       })
       .then((res) => {
         setRankingList(res.data.result);
@@ -50,7 +50,7 @@ const App = () => {
   useEffect(() => {
     axios
       .get('https://final.eax.kr/api/playlists', {
-        withCredentials: true,
+        headers: { authorization: `Bearer ${localStorage.getItem('Token')}` },
       })
       .then((res) => {
         setPlaylists(res.data.result);

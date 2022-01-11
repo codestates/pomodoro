@@ -41,7 +41,7 @@ const SignUp = () => {
     let result;
     try {
       result = await axios.get(
-        `https://final.eax.kr/dev/nicknames/${nickname}`
+        `https://final.eax.kr/api/nicknames/${nickname}`
       );
     } catch (error) {
       setShowErrMsg({ ...showErrMsg, nickname: true });
@@ -63,7 +63,7 @@ const SignUp = () => {
     const email = emailRef.current.value;
     let result;
     try {
-      result = await axios.get(`https://final.eax.kr/dev/mails/${email}`);
+      result = await axios.get(`https://final.eax.kr/api/mails/${email}`);
     } catch (error) {
       setShowErrMsg({ ...showErrMsg, email: true });
       setErrMsg({ ...errMsg, email: '이미 사용 중인 이메일입니다.' });
@@ -120,13 +120,12 @@ const SignUp = () => {
     let result;
     try {
       result = await axios.post(
-        'https://final.eax.kr/dev/users',
+        'https://final.eax.kr/api/users',
         {
           nickname: nicknameVal,
           email: emailVal,
           password: passwordVal,
-        },
-        { withCredentials: true }
+        }
       );
     } catch (error) {
       return;
