@@ -70,7 +70,7 @@ const dummy = (req, res) => {
       'GET,POST,PUT,PATCH,DELETE,OPTIONS'
     );
     res.append('access-control-allow-credentials', 'true');
-    res.append('Access-Control-Allow-Headers', '*');
+    res.append('Access-Control-Allow-Headers', 'content-type');
     res.append('Access-Control-Max-Age', '86400');
     return res.status(204).send();
   }
