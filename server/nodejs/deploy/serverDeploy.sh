@@ -11,6 +11,10 @@ do
   rm -rf *
   cd ..
   SOURCE_REPO=`cat ./.repo`
+  if [ $? -ne 0 ]; then
+    echo "no .repo files, exiting ..."
+    exit 0
+  fi
   rm -f ./.repo
   WORKING_DIR=$(pwd)
 
