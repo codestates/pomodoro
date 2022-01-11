@@ -9,6 +9,7 @@ import { FormErrorMsg } from '../../styles/FormErrorMsg.styled';
 import { ReactComponent as Logo } from '../../images/logo.svg';
 import axios from 'axios';
 import {
+  isOnlySpace,
   isValidNickname,
   isValidEmail,
   isValidPassword,
@@ -45,13 +46,25 @@ const SignUp = () => {
       );
     } catch (error) {
       setShowErrMsg({ ...showErrMsg, nickname: true });
-      setErrMsg({ ...errMsg, nickname: '이미 사용 중인 닉네임입니다.' });
+      setErrMsg({
+        ...errMsg,
+        nickname:
+          '이미 사용 중인 닉네임이거나 사용할 수 없는 문자가 포함되어 있습니다.',
+      });
     }
   };
 
   const handleNicknameInput = () => {
     const nickname = nicknameRef.current.value;
     if (nickname === '') return;
+    if (isOnlySpace(nickname)) {
+      setErrMsg({
+        ...errMsg,
+        nickname: '여백만으로 닉네임을 만들 수 없습니다.',
+      });
+      return setShowErrMsg({ ...showErrMsg, nickname: true });
+    }
+
     if (!isValidNickname(nickname)) {
       return setShowErrMsg({ ...showErrMsg, nickname: true });
     }
@@ -72,6 +85,9 @@ const SignUp = () => {
 
   const handleEmailInput = () => {
     const email = emailRef.current.value;
+    if (isOnlySpace(email)) {
+      return setShowErrMsg({ ...showErrMsg, email: true });
+    }
     if (email === '') return;
     if (!isValidEmail(email)) {
       return setShowErrMsg({ ...showErrMsg, email: true });
