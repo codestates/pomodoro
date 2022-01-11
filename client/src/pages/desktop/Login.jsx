@@ -28,8 +28,8 @@ const Wrapper = styled.ul`
 const Login = () => {
   const navigate = useNavigate();
   const [showErrMsg, setShowErrMsg] = useState(false);
-  const emailRef = useRef('');
-  const pwRef = useRef('');
+  const emailRef = useRef(null);
+  const pwRef = useRef(null);
 
   useEffect(() => {
     emailRef.current.focus();
