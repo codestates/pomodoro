@@ -21,7 +21,7 @@ import Bye from './pages/desktop/Bye';
 const App = () => {
   const [userInfo, setUserInfo] = useState('');
   const [rankingList, setRankingList] = useState([]);
-  const [playlists, setPlaylists] = useState([]);
+  const [playlist, setPlaylist] = useState([]);
 
   useEffect(() => {
     axios
@@ -55,7 +55,7 @@ const App = () => {
         headers: { authorization: `Bearer ${localStorage.getItem('Token')}` },
       })
       .then((res) => {
-        setPlaylists(res.data.result);
+        setPlaylist(res.data.result);
       })
       .catch((err) => {
         return;
@@ -84,7 +84,12 @@ const App = () => {
           element={
             <>
               <Header />
-              <MyPage userInfo={userInfo} playlists={playlists} />
+              <MyPage
+                userInfo={userInfo}
+                setUserInfo={setUserInfo}
+                playlist={playlist}
+                setPlaylist={setPlaylist}
+              />
               <Footer />
             </>
           }

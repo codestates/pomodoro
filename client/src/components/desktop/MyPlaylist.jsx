@@ -25,16 +25,20 @@ const Title = styled.h3`
   margin-bottom: 10px;
 `;
 
-const MyPlaylist = ({ playlists }) => {
+const MyPlaylist = ({ playlist, setPlaylist }) => {
   return (
     <Container>
       <Title>내 플레이리스트</Title>
       <Playlists>
-        {playlists.map((item) => (
+        {playlist.map((item, index) => (
           <Playlist
+            id={item.playlist_id}
+            index={index}
             key={item.playlist_id}
-            order={item.playlist_id}
+            order={index + 1}
             name={item.playlist_name}
+            playlist={playlist}
+            setPlaylist={setPlaylist}
           />
         ))}
       </Playlists>
