@@ -45,8 +45,6 @@ const Playlist = ({ order, name, id, index, playlist, setPlaylist }) => {
   const [open, setOpen] = useState(false);
   const inputRef = useRef(null);
 
-  console.log();
-
   useEffect(() => {
     if (editMode) {
       inputRef.current.focus();
