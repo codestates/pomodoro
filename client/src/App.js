@@ -23,7 +23,7 @@ import MusicSelection from './pages/desktop/MusicSelection';
 const App = () => {
   const [userInfo, setUserInfo] = useState('');
   const [rankingList, setRankingList] = useState([]);
-  const [playlists, setPlaylists] = useState([]);
+  const [playlist, setPlaylist] = useState([]);
 
   useLayoutEffect(() => {
     const headers = {
@@ -32,7 +32,7 @@ const App = () => {
     const getRequests = [
       ['https://final.eax.kr/api/users', setUserInfo],
       ['https://final.eax.kr/api/ranks', setRankingList],
-      ['https://final.eax.kr/api/playlists', setPlaylists],
+      ['https://final.eax.kr/api/playlists', setPlaylist],
     ];
     for (const request of getRequests) {
       axios
