@@ -106,12 +106,14 @@ app.post(point('/mails'), controller.mails.post);
 //PLAYLIST
 app.get(point('/playlists'), controller.playlists.get);
 app.post(point('/playlists'), controller.playlists.post);
+app.put(point('/playlists'), controller.playlists.put);
 app.patch(point('/playlists/:playlist_id'), controller.playlists.patch);
 app.delete(point('/playlists/:playlist_id'), controller.playlists.delete);
 
 //PLAYLIST
 app.get(point('/playlists/:playlist_id'), controller.music.get);
 app.post(point('/playlists/:playlist_id'), controller.music.post);
+app.put(point('/playlists/:playlist_id'), controller.music.put);
 app.patch(point('/playlists/:playlist_id/:music_id'), controller.music.patch);
 app.delete(point('/playlists/:playlist_id/:music_id'), controller.music.delete);
 

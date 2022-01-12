@@ -12,10 +12,12 @@ services:
 #    expose:
 #        "3306"
     ports:
-      - "3306:3306"
+      - "13306:3306"
     volumes:
       - ./mysql/Pomodoro.sql:/docker-entrypoint-initdb.d/dump.sql
       - db:/var/lib/mysql
+    cap_add:
+      - SYS_NICE
     env_file:
       - .store/mysql.env
   nodejs:

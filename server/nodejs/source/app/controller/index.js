@@ -21,12 +21,14 @@ module.exports = {
   playlists: {
     get: require('./playlists/get'),
     post: require('./playlists/post'),
+    put: require('./playlists/put'),
     patch: require('./playlists/patch'),
     delete: require('./playlists/delete'),
   },
   music: {
     get: require('./music/get'),
     post: require('./music/post'),
+    put: require('./music/put'),
     patch: require('./music/patch'),
     delete: require('./music/delete'),
   },

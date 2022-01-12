@@ -15,8 +15,6 @@ const initModels = () => {
 
   Music.belongsTo(Playlist, { as: 'playlist', foreignKey: 'playlist_id' });
   Playlist.hasMany(Music, { as: 'Musics', foreignKey: 'playlist_id' });
-  Music.belongsTo(User, { as: 'user', foreignKey: 'user_id' });
-  User.hasMany(Music, { as: 'Musics', foreignKey: 'user_id' });
   Playlist.belongsTo(User, { as: 'user', foreignKey: 'user_id' });
   User.hasMany(Playlist, { as: 'Playlists', foreignKey: 'user_id' });
 
@@ -24,6 +22,7 @@ const initModels = () => {
     Music,
     Playlist,
     User,
+    sequelize,
   };
 };
 

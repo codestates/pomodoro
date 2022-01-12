@@ -102,9 +102,12 @@ const start = (req, res) => {
       fs.writeFileSync(`${CWD}/client/main`, process_env.GITHUB_DEPLOY_CLIENT);
       fs.writeFileSync(`${CWD}/server/main`, process_env.GITHUB_DEPLOY_SERVER);
       break;
-    case 'dev': //'dev-front'
+    case 'dev-front': //'dev-front'
       console.log('[GITHUB Webhook] Client dev branch deployment started');
-      fs.writeFileSync(`${CWD}/client/dev`, process_env.GITHUB_DEPLOY_CLIENT);
+      fs.writeFileSync(
+        `${CWD}/client/dev-front`,
+        process_env.GITHUB_DEPLOY_CLIENT
+      );
       break;
     case 'dev-back':
       console.log('[GITHUB Webhook] Server dev-back branch deployment started');

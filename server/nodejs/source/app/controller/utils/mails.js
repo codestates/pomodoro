@@ -6,12 +6,18 @@ const checkIfEmailAlreadyExists = (req, res) => {
     console.log('[ERROR] /api/mails GET -> 400 : email is required');
     return res.status(400).send('email is required');
   }
+
   if (utf8Length(req.params.email) > 89) {
     console.log('[ERROR] /api/mails GET -> 400 : email is too long');
     return res.status(400).send('email is too long');
   }
 
   const email = decodeURI(req.params.email);
+
+  if (typeof email !== 'string') {
+    console.log('[ERROR] /api/mails GET -> 400 : email is invalid');
+    return res.status(400).send('email is invalid');
+  }
 
   if (!checkEmaliValidity(email)) {
     console.log('[ERROR] /api/mails GET -> 400 : email is invalid');
