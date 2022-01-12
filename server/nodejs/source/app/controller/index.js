@@ -39,4 +39,10 @@ module.exports = {
   ranks: {
     get: require('./ranks/get'),
   },
+  search: {
+    get: require('./search/get'),
+  },
+  tags: {
+    get: require('./tags/get'),
+  },
 };
