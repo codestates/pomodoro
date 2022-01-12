@@ -124,6 +124,12 @@ app.patch(point('/pomodoro'), controller.pomodoro.patch);
 //RANK
 app.get(point('/ranks'), controller.ranks.get);
 
+//SEARCH
+app.get(point('/search'), controller.search.get);
+
+//TAGS
+app.get(point('/tags'), controller.tags.get);
+
 //=========================================================
 //Not Found : show Available routes
 //=========================================================
