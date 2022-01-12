@@ -1,13 +1,17 @@
 import styled from 'styled-components';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import SwiperCore, { EffectCoverflow, Pagination } from 'swiper';
-import axios from 'axios';
+import SwiperCore, {
+  EffectCoverflow,
+  Pagination,
+  Mousewheel,
+  Keyboard,
+} from 'swiper';
 
 import 'swiper/css';
 import 'swiper/css/effect-coverflow';
 import 'swiper/css/pagination';
 
-SwiperCore.use([EffectCoverflow, Pagination]);
+SwiperCore.use([EffectCoverflow, Pagination, Mousewheel, Keyboard]);
 
 const SwiperContainer = styled.div`
   margin-top: 3rem;
@@ -46,6 +50,8 @@ const SwiperMusic = ({ searchResult }) => {
         spaceBetween={0}
         slidesPerView={3}
         slidesPerGroup={1}
+        mousewheel={true}
+        keyboard={true}
         loop
         coverflowEffect={{
           rotate: 0,

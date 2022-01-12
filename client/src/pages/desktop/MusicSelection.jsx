@@ -4,6 +4,7 @@ import axios from 'axios';
 
 import SwiperMusic from '../../components/desktop/SwiperMusic';
 import { ReactComponent as Search } from '../../images/search.svg';
+import MusicTags from '../../components/desktop/MusicTags';
 
 const MainContainer = styled.div`
   max-width: 132rem;
@@ -16,7 +17,7 @@ const PlaylistSelectFlexBox = styled.div`
   display: flex;
   justify-content: baseline;
   align-items: center;
-  height: 73px;
+  height: 7.3rem;
 `;
 
 const PlaylistGhostDiv = styled.div`
@@ -87,7 +88,7 @@ const ChooseMusic = () => {
           item.music_image = `https://i.ytimg.com/vi/${item.music_url}/hqdefault.jpg`;
         }
       }
-      setSearchResult(result.data.result[0]);
+      setSearchResult(result.data.result);
     }
     fetchData();
   }, []);
@@ -103,10 +104,16 @@ const ChooseMusic = () => {
             <Search />
           </SearchButton>
         </SearchButtonWrapper>
-        <TagWrapper>Tags</TagWrapper>
+        <TagWrapper>
+          {searchResult ? (
+            <MusicTags tags={searchResult} />
+          ) : (
+            <div>Loading...</div>
+          )}
+        </TagWrapper>
       </PlaylistSelectFlexBox>
       {searchResult ? (
-        <SwiperMusic searchResult={searchResult} />
+        <SwiperMusic searchResult={searchResult[0]} />
       ) : (
         <div>Loading...</div>
       )}

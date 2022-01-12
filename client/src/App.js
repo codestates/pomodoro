@@ -22,8 +22,8 @@ import MusicSelection from './pages/desktop/MusicSelection';
 
 const App = () => {
   const [userInfo, setUserInfo] = useState('');
-  const [rankingList, setRankingList] = useState([]);
-  const [playlists, setPlaylists] = useState([]);
+  const [rankingList, setRankingList] = useState('');
+  const [playlists, setPlaylists] = useState('');
 
   useLayoutEffect(() => {
     const headers = {
