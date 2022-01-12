@@ -34,7 +34,7 @@ services:
     command: >
       sh -c "chmod +x /root/deploy/*.sh
       && /root/deploy/inotify_entrypoint.sh
-      && exec nodemon app.js"
+      && exec nodemon -L app.js"
   nginx:
     build: ./nginx
     restart: always
