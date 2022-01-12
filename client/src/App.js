@@ -9,6 +9,8 @@ import Footer from './components/desktop/Footer';
 import Login from './pages/desktop/Login';
 import SignUp from './pages/desktop/SignUp';
 import ForgotPassword from './pages/desktop/ForgotPassword';
+import EditUserInfo from './pages/desktop/EditUserInfo';
+import Bye from './pages/desktop/Bye';
 
 /*
   import { useMediaQuery } from 'react-responsive';
@@ -24,7 +26,7 @@ const App = () => {
   useEffect(() => {
     axios
       .get('https://final.eax.kr/api/users', {
-        withCredentials: true,
+        headers: { authorization: `Bearer ${localStorage.getItem('Token')}` },
       })
       .then((res) => {
         setUserInfo(res.data);
@@ -37,7 +39,7 @@ const App = () => {
   useEffect(() => {
     axios
       .get('https://final.eax.kr/api/ranks', {
-        withCredentials: true,
+        headers: { authorization: `Bearer ${localStorage.getItem('Token')}` },
       })
       .then((res) => {
         setRankingList(res.data.result);
@@ -50,7 +52,7 @@ const App = () => {
   useEffect(() => {
     axios
       .get('https://final.eax.kr/api/playlists', {
-        withCredentials: true,
+        headers: { authorization: `Bearer ${localStorage.getItem('Token')}` },
       })
       .then((res) => {
         setPlaylists(res.data.result);
@@ -66,6 +68,17 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/forgotpw" element={<ForgotPassword />} />
+        <Route path="/delete" element={<Bye />} />
+        <Route
+          path="/editinfo"
+          element={
+            <>
+              <Header />
+              <EditUserInfo />
+              <Footer />
+            </>
+          }
+        />
         <Route
           path="/mypage"
           element={

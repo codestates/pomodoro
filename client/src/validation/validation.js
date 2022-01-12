@@ -1,3 +1,8 @@
+export const isOnlySpace = (nickname) => {
+  const text = nickname.replace(/\s+/g, '');
+  return text.length === 0;
+};
+
 export const isValidNickname = (nickname) => {
   const text = new TextEncoder('utf-8').encode(nickname);
   return text.length <= 32;
