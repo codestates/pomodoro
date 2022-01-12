@@ -19,15 +19,16 @@ const searchQuery = async (req, res) => {
   }
 
   const attributes = [
-    [sequelize.fn('DISTINCT', sequelize.col('music_name')), 'music_name'],
-    'music_id',
     ['music_address', 'music_url'],
-    ['music_length', 'music_time'],
+    [sequelize.fn('ANY_VALUE', sequelize.col('music_id')), 'music_id'],
+    [sequelize.fn('ANY_VALUE', sequelize.col('music_name')), 'music_name'],
+    [sequelize.fn('ANY_VALUE', sequelize.col('music_length')), 'music_time'],
   ];
   const where = { music_name: { [Op.like]: `%${req.query.q}%` } };
+  const group = ['music_url'];
   let searchResult;
   try {
-    searchResult = await Music.findAll({ attributes, where });
+    searchResult = await Music.findAll({ attributes, where, group });
   } catch (err) {
     console.log(`[ERROR] /api/search GET -> 500 : ${err}`);
     return res.status(500).send('Internal Server Error');
