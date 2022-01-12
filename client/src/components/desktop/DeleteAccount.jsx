@@ -1,16 +1,18 @@
-import React from 'react';
+import React, { useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { ReactComponent as Icon } from '../../images/tomato.svg';
 import { ModalContainer } from '../../styles/ModalContainer.styled';
 import { Form } from '../../styles/Form.styled';
 import { FormWrapper } from '../../styles/FormWrapper.styled';
 import { FormInput } from '../../styles/FormInput.styled';
 import styled from 'styled-components';
+import axios from 'axios';
 
 const StyledIcon = styled.div`
   margin-bottom: 30px;
   svg .st0,
   svg .st1 {
-    animation: fadeout 3000ms ease-in;
+    animation: fadeout 2000ms ease-in;
     animation-iteration-count: infinite;
   }
 
@@ -29,6 +31,7 @@ const Header = styled.h1`
   width: 80%;
   font-size: 2rem;
   margin-bottom: 30px;
+  user-select: none;
 `;
 
 const ButtonWrapper = styled.div`
@@ -47,11 +50,29 @@ const Button = styled.button`
   margin-top: 10px;
 `;
 
-const DeleteAccount = () => {
+export const DeleteAccount = ({ setOpen }) => {
+  const navigate = useNavigate();
+  const passwordRef = useRef(null);
+
   const handleClickContainer = (e) => {
     if (e.target.id === 'container') {
-      // 모달 닫기
+      setOpen(false);
     }
+  };
+
+  const handleDeleteBtn = async () => {
+    await axios
+      .delete('https://final.eax.kr/api/users', {
+        headers: {
+          authorization: `Bearer ${localStorage.getItem('Token')}`,
+          'X-password': passwordRef.current.value,
+        },
+      })
+      .then((res) => {
+        navigate('/delete');
+        localStorage.clear();
+      })
+      .catch((error) => console.log(error));
   };
   return (
     <ModalContainer id="container" onClick={handleClickContainer}>
@@ -65,14 +86,12 @@ const DeleteAccount = () => {
           정말 탈퇴하시겠습니까?
         </Header>
         <FormWrapper>
-          <FormInput type="password" placeholder="비밀번호" />
+          <FormInput type="password" placeholder="비밀번호" ref={passwordRef} />
         </FormWrapper>
         <ButtonWrapper>
-          <Button>탈퇴하기</Button>
+          <Button onClick={handleDeleteBtn}>탈퇴하기</Button>
         </ButtonWrapper>
       </Form>
     </ModalContainer>
   );
 };
-
-export default DeleteAccount;

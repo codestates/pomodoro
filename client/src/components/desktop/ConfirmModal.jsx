@@ -4,19 +4,25 @@ import { ModalText } from '../../styles/ModalText.styled';
 import { ModalBtn } from '../../styles/ModalBtn.styled';
 import { Modal } from '../../styles/Modal.styled';
 
-const ConfirmModal = ({ text, handleModal }) => {
+export const ConfirmModal = ({ text, handleModal }) => {
+  const handleClickContainer = (e) => {
+    if (e.target.id === 'container') {
+      handleModal(false);
+    }
+  };
+
   const handleClick = () => {
     handleModal(false);
   };
 
   return (
-    <ModalContainer>
+    <ModalContainer id="container" onClick={handleClickContainer}>
       <Modal>
         <ModalText>{text}</ModalText>
-        <ModalBtn type='button' onClick={handleClick}>확인</ModalBtn>
+        <ModalBtn type="button" onClick={handleClick}>
+          확인
+        </ModalBtn>
       </Modal>
     </ModalContainer>
   );
 };
-
-export default ConfirmModal;
