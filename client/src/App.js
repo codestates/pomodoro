@@ -1,6 +1,7 @@
 import './App.css';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useLayoutEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+
 import axios from 'axios';
 import MyPage from './pages/desktop/MyPage';
 import Ranking from './pages/desktop/Ranking';
@@ -11,6 +12,7 @@ import SignUp from './pages/desktop/SignUp';
 import ForgotPassword from './pages/desktop/ForgotPassword';
 import EditUserInfo from './pages/desktop/EditUserInfo';
 import Bye from './pages/desktop/Bye';
+import MusicSelection from './pages/desktop/MusicSelection';
 
 /*
   import { useMediaQuery } from 'react-responsive';
@@ -21,50 +23,43 @@ import Bye from './pages/desktop/Bye';
 const App = () => {
   const [userInfo, setUserInfo] = useState('');
   const [rankingList, setRankingList] = useState([]);
-  const [playlist, setPlaylist] = useState([]);
+  const [playlists, setPlaylists] = useState([]);
 
-  useEffect(() => {
-    axios
-      .get('https://final.eax.kr/api/users', {
-        headers: { authorization: `Bearer ${localStorage.getItem('Token')}` },
-      })
-      .then((res) => {
-        setUserInfo(res.data);
-      })
-      .catch((err) => {
-        return;
-      });
-  }, []);
-
-  useEffect(() => {
-    axios
-      .get('https://final.eax.kr/api/ranks', {
-        headers: { authorization: `Bearer ${localStorage.getItem('Token')}` },
-      })
-      .then((res) => {
-        setRankingList(res.data.result);
-      })
-      .catch((err) => {
-        return;
-      });
-  }, []);
-
-  useEffect(() => {
-    axios
-      .get('https://final.eax.kr/api/playlists', {
-        headers: { authorization: `Bearer ${localStorage.getItem('Token')}` },
-      })
-      .then((res) => {
-        setPlaylist(res.data.result);
-      })
-      .catch((err) => {
-        return;
-      });
+  useLayoutEffect(() => {
+    const headers = {
+      authorization: `Bearer ${localStorage.getItem('Token')}`,
+    };
+    const getRequests = [
+      ['https://final.eax.kr/api/users', setUserInfo],
+      ['https://final.eax.kr/api/ranks', setRankingList],
+      ['https://final.eax.kr/api/playlists', setPlaylists],
+    ];
+    for (const request of getRequests) {
+      axios
+        .get(request[0], { headers })
+        .then((res) => {
+          if (res.data['result']) request[1](res.data.result);
+          else request[1](res.data);
+        })
+        .catch((err) => {
+          console.dir(err);
+        });
+    }
   }, []);
 
   return (
     <Router>
       <Routes>
+        <Route
+          path="/music"
+          element={
+            <>
+              <Header />
+              <MusicSelection />
+              <Footer />
+            </>
+          }
+        />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/forgotpw" element={<ForgotPassword />} />
