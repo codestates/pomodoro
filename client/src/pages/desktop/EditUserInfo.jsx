@@ -51,8 +51,8 @@ const EditUserInfo = () => {
     password: false,
     conformPassword: false,
   });
-  const passwordRef = useRef();
-  const confirmPasswordRef = useRef();
+  const passwordRef = useRef(null);
+  const confirmPasswordRef = useRef(null);
 
   useEffect(() => {
     passwordRef.current.focus();
@@ -76,9 +76,8 @@ const EditUserInfo = () => {
   };
 
   const handleEditBtn = async () => {
-    let result;
-    try {
-      result = await axios.patch(
+    await axios
+      .patch(
         'https://final.eax.kr/api/users',
         {
           password: passwordRef.current.value,
@@ -86,15 +85,13 @@ const EditUserInfo = () => {
         {
           headers: { authorization: `Bearer ${localStorage.getItem('Token')}` },
         }
-      );
-    } catch (error) {
-      return;
-    }
-    if (result) {
-      setOpen({ ...open, confirm: true });
-    }
-    passwordRef.current.value = '';
-    confirmPasswordRef.current.value = '';
+      )
+      .then((res) => {
+        setOpen({ ...open, confirm: true });
+        passwordRef.current.value = '';
+        confirmPasswordRef.current.value = '';
+      })
+      .catch((error) => console.log(error));
   };
 
   const handleDeleteBtn = () => {
