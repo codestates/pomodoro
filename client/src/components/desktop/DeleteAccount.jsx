@@ -10,7 +10,7 @@ const StyledIcon = styled.div`
   margin-bottom: 30px;
   svg .st0,
   svg .st1 {
-    animation: fadeout 3000ms ease-in;
+    animation: fadeout 2000ms ease-in;
     animation-iteration-count: infinite;
   }
 
@@ -29,6 +29,7 @@ const Header = styled.h1`
   width: 80%;
   font-size: 2rem;
   margin-bottom: 30px;
+  user-select: none;
 `;
 
 const ButtonWrapper = styled.div`
@@ -47,11 +48,15 @@ const Button = styled.button`
   margin-top: 10px;
 `;
 
-const DeleteAccount = () => {
+export const DeleteAccount = ({ setOpen }) => {
   const handleClickContainer = (e) => {
     if (e.target.id === 'container') {
-      // 모달 닫기
+      setOpen(false);
     }
+  };
+
+  const handleDeleteBtn = () => {
+    // 탈퇴
   };
   return (
     <ModalContainer id="container" onClick={handleClickContainer}>
@@ -68,11 +73,9 @@ const DeleteAccount = () => {
           <FormInput type="password" placeholder="비밀번호" />
         </FormWrapper>
         <ButtonWrapper>
-          <Button>탈퇴하기</Button>
+          <Button onClick={handleDeleteBtn}>탈퇴하기</Button>
         </ButtonWrapper>
       </Form>
     </ModalContainer>
   );
 };
-
-export default DeleteAccount;

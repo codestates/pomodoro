@@ -9,6 +9,7 @@ import Footer from './components/desktop/Footer';
 import Login from './pages/desktop/Login';
 import SignUp from './pages/desktop/SignUp';
 import ForgotPassword from './pages/desktop/ForgotPassword';
+import EditUserInfo from './pages/desktop/EditUserInfo';
 
 /*
   import { useMediaQuery } from 'react-responsive';
@@ -66,6 +67,16 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/forgotpw" element={<ForgotPassword />} />
+        <Route
+          path="/editinfo"
+          element={
+            <>
+              <Header />
+              <EditUserInfo />
+              <Footer />
+            </>
+          }
+        />
         <Route
           path="/mypage"
           element={

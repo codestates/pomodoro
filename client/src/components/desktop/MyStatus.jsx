@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { ReactComponent as Medal } from '../../images/medal.svg';
 import { SectionContainer } from '../../styles/SectionContainer';
@@ -38,6 +39,7 @@ const StyledMedal = styled.div`
 `;
 
 const MyStatus = ({ userInfo }) => {
+  const navigate = useNavigate();
   const { nickname, email, rank, pomo } = userInfo;
   return (
     <>
@@ -63,7 +65,9 @@ const MyStatus = ({ userInfo }) => {
             {pomo}
           </UserData>
         </UserDatas>
-        <Button type="button">정보 수정</Button>
+        <Button type="button" onClick={() => navigate('/editinfo')}>
+          정보 수정
+        </Button>
       </SectionContainer>
     </>
   );
