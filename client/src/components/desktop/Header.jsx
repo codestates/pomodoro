@@ -11,7 +11,6 @@ const Head = styled.header`
   margin: 0 auto;
 
   > img {
-    /* width: 25rem; */
     height: 5rem;
     padding: 0 4rem;
   }

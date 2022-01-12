@@ -4,6 +4,7 @@ import logo from '../../images/original.svg';
 
 const Head = styled.header`
   max-width: 1320px;
+  width: 100vw;
   height: 7.5rem;
   display: flex;
   align-items: center;
