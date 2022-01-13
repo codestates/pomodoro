@@ -72,7 +72,7 @@ const App = () => {
             <>
               <Header />
               <EditUserInfo />
-              <Footer />
+              {/* <Footer /> */}
             </>
           }
         />
@@ -97,7 +97,7 @@ const App = () => {
             <>
               <Header />
               <Ranking userInfo={userInfo} rankingList={rankingList} />
-              <Footer />
+              {/* <Footer /> */}
             </>
           }
         />
