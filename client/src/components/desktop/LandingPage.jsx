@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/all';
@@ -316,7 +317,9 @@ const LandingPage = () => {
             편리하게 사용이 가능합니다.
           </div>
           <div>
-            <button>지금 체험하러 가기</button>
+            <Link to="/music">
+              <button>지금 체험하러 가기</button>
+            </Link>
           </div>
         </div>
         <div className="box">

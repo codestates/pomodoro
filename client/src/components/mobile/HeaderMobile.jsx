@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import logo from '../../images/original.svg';
+import { Link } from 'react-router-dom';
 
 const Head = styled.header`
   max-width: 1320px;
@@ -20,9 +21,11 @@ const Head = styled.header`
 
 const HeaderMobile = () => {
   return (
-    <Head>
-      <img src={logo} alt="logo"></img>
-    </Head>
+    <Link to="/">
+      <Head>
+        <img src={logo} alt="logo"></img>
+      </Head>
+    </Link>
   );
 };
 
