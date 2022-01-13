@@ -31,6 +31,13 @@ const Button = styled.button`
   &:hover {
     transform: scale(0.9);
   }
+
+  @media screen and (max-width: 768px) {
+    position: relative;
+    top: 0;
+    right: 0;
+    margin: 10px 0 20px;
+  }
 `;
 
 const StyledMedal = styled.div`
