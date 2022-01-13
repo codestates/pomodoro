@@ -5,7 +5,7 @@ export const Form = styled.ul`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 350px;
+  width: ${({ width }) => width || '350px'};
   padding: 35px;
   border-radius: 15px;
   background-color: #fdfdfd;

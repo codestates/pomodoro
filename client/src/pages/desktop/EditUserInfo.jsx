@@ -68,19 +68,28 @@ const EditUserInfo = () => {
   };
 
   const handleConfirmPasswordInput = () => {
-    const pw = passwordRef.current.value;
-    const cpw = confirmPasswordRef.current.value;
-    if (pw !== cpw) {
+    const password = passwordRef.current.value;
+    const cPassword = confirmPasswordRef.current.value;
+
+    if (password === '' || cPassword === '') return;
+
+    if (password !== cPassword) {
       setShowErrMsg({ ...showErrMsg, conformPassword: true });
     } else setShowErrMsg({ ...showErrMsg, conformPassword: false });
   };
 
   const handleEditBtn = async () => {
+    const password = passwordRef.current.value;
+    const cPassword = confirmPasswordRef.current.value;
+
+    if (password === '' || cPassword === '') return;
+    if (showErrMsg.password || showErrMsg.conformPassword) return;
+
     await axios
       .patch(
         'https://final.eax.kr/api/users',
         {
-          password: passwordRef.current.value,
+          password,
         },
         {
           headers: { authorization: `Bearer ${localStorage.getItem('Token')}` },

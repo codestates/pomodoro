@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import logo from '../../images/original.svg';
@@ -7,75 +7,92 @@ const Head = styled.header`
   max-width: 1320px;
   height: 10rem;
   display: flex;
+  justify-content: space-between;
   align-items: center;
   margin: 0 auto;
 
-  > img {
-    height: 5rem;
-    padding: 0 4rem;
-  }
-
   > nav {
     display: flex;
+    align-items: center;
 
-    div {
+    > div {
+      padding: 0 2.175rem;
+    }
+
+    img {
+      height: 5rem;
+    }
+
+    a {
       font-size: 2.4rem;
       font-family: 'Poppins', sans-serif;
-      padding: 0 2.175rem;
       white-space: nowrap;
     }
   }
 
   > div {
-    flex: 7 0 0;
+    display: flex;
+  }
 
-    > div {
-      display: flex;
-      justify-content: right;
-    }
+  button {
+    border: 1px solid #666666;
+    border-radius: 1rem;
+    font-family: 'Poppins', sans-serif;
+    font-size: 2rem;
+    padding: 0.5rem 2.5rem;
+    margin: 0 2.075rem;
+    white-space: nowrap;
+    background-color: none;
 
-    button {
-      border: 1px solid #666666;
-      border-radius: 1rem;
-      font-family: 'Poppins', sans-serif;
-      font-size: 2rem;
-      padding: 0.5rem 2.5rem;
-      margin: 0 2.075rem;
-      white-space: nowrap;
-
-      :first-child {
-        background-color: none;
-      }
-
-      :nth-child(2) {
-        color: #ffffff;
-        background-color: #111032;
-      }
+    &.navy {
+      color: #ffffff;
+      background-color: #111032;
     }
   }
 `;
 
-const Header = ({ isLogin }) => {
+const Header = () => {
+  const [isLogin, setIsLogin] = useState(localStorage.getItem('Token'));
+
+  const signOut = () => {
+    localStorage.removeItem('Token');
+    setIsLogin(false);
+  };
+
   return (
     <Head>
-      <img src={logo} alt="logo"></img>
       <nav>
-        <div>Let's start!</div>
-        <div>Ranking</div>
+        <div>
+          <Link to="/">
+            <img src={logo} alt="logo"></img>
+          </Link>
+        </div>
+        <div>
+          <Link to="/music">Let's start!</Link>
+        </div>
+        <div>
+          <Link to="/ranking">Ranking</Link>
+        </div>
       </nav>
-      <div>
-        {isLogin ? (
-          <div>
+      {isLogin ? (
+        <div>
+          <Link to="/mypage">
             <button>My page</button>
-            <button>Sign out</button>
-          </div>
-        ) : (
-          <div>
+          </Link>
+          <button className="navy" onClick={signOut}>
+            Sign out
+          </button>
+        </div>
+      ) : (
+        <div>
+          <Link to="/login">
             <button>Sign in</button>
-            <button>Sign up</button>
-          </div>
-        )}
-      </div>
+          </Link>
+          <Link to="/signup">
+            <button className="navy">Sign up</button>
+          </Link>
+        </div>
+      )}
     </Head>
   );
 };

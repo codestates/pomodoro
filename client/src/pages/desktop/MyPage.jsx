@@ -16,12 +16,10 @@ const Container = styled.div`
 
 const MyPage = ({ userInfo, playlist, setPlaylist }) => {
   return (
-    <>
-      <Container>
-        <MyStatus userInfo={userInfo} />
-        <MyPlaylist playlist={playlist} setPlaylist={setPlaylist} />
-      </Container>
-    </>
+    <Container>
+      <MyStatus userInfo={userInfo} />
+      <MyPlaylist playlist={playlist} setPlaylist={setPlaylist} />
+    </Container>
   );
 };
 
