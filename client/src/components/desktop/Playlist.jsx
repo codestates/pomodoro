@@ -2,6 +2,7 @@ import React, { useRef, useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { ReactComponent as Edit } from '../../images/edit.svg';
 import { ReactComponent as Delete } from '../../images/delete.svg';
+import axios from 'axios';
 
 const Container = styled.li`
   display: flex;
@@ -38,9 +39,10 @@ const StyledDelete = styled(StyledEdit)`
   margin-right: 0;
 `;
 
-const Playlist = ({ order, name }) => {
+const Playlist = ({ order, name, id, index, playlist, setPlaylist }) => {
   const [editMode, setEditMode] = useState(false);
   const [title, setTitle] = useState(name);
+  const [open, setOpen] = useState(false);
   const inputRef = useRef(null);
 
   useEffect(() => {
@@ -49,8 +51,26 @@ const Playlist = ({ order, name }) => {
     }
   }, [editMode]);
 
-  const handleBlur = () => {
+  const handleBlur = async () => {
     setEditMode(false);
+    await axios
+      .patch(
+        `https://final.eax.kr/api/playlists/${id}`,
+        {
+          playlist_name: inputRef.current.value,
+        },
+        {
+          headers: {
+            authorization: `Bearer ${localStorage.getItem('Token')}`,
+          },
+        }
+      )
+      .then((res) => {
+        const list = [...playlist];
+        list[index].playlist_name = title;
+        setPlaylist(list);
+      })
+      .catch((error) => console.log(error));
   };
 
   const handleEditMode = () => {
@@ -62,7 +82,18 @@ const Playlist = ({ order, name }) => {
     setEditMode(true);
   };
 
-  const handleDelete = () => {};
+  const handleDelete = async () => {
+    await axios
+      .delete(`https://final.eax.kr/api/playlists/${id}`, {
+        headers: { authorization: `Bearer ${localStorage.getItem('Token')}` },
+      })
+      .then((res) => {
+        const list = [...playlist];
+        list.splice(index, 1);
+        setPlaylist(list);
+      })
+      .catch((error) => console.log(error));
+  };
   return (
     <Container>
       {editMode ? (
@@ -84,7 +115,7 @@ const Playlist = ({ order, name }) => {
           <Edit onClick={handleEdit} width="2rem" />
         </StyledEdit>
         <StyledDelete>
-          <Delete onClick={handleDelete} width="2rem" />
+          <Delete width="2rem" onClick={handleDelete} />
         </StyledDelete>
       </Icons>
     </Container>

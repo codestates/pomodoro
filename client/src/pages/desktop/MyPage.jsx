@@ -14,12 +14,12 @@ const Container = styled.div`
   user-select: none;
 `;
 
-const MyPage = ({ userInfo, playlists }) => {
+const MyPage = ({ userInfo, playlist, setPlaylist }) => {
   return (
     <>
       <Container>
         <MyStatus userInfo={userInfo} />
-        <MyPlaylist playlists={playlists} />
+        <MyPlaylist playlist={playlist} setPlaylist={setPlaylist} />
       </Container>
     </>
   );
