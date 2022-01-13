@@ -12,7 +12,7 @@ const GoTop = styled.div`
     background-color: #f57270;
     position: fixed;
     right: 5%;
-    bottom: 5rem;
+    bottom: 12rem;
     width: 6rem;
     height: 6rem;
     border: none;
