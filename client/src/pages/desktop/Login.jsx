@@ -28,6 +28,7 @@ const Wrapper = styled.ul`
 const Login = () => {
   const navigate = useNavigate();
   const [showErrMsg, setShowErrMsg] = useState(false);
+  const [errMsg, setErrMsg] = useState('');
   const nicknameRef = useRef(null);
   const pwRef = useRef(null);
 
@@ -38,21 +39,26 @@ const Login = () => {
   const handleLoginBtn = async () => {
     const nickname = nicknameRef.current.value;
     const password = pwRef.current.value;
-    if (nickname === '' || password === '') return;
-    let result;
-    try {
-      result = await axios.post('https://final.eax.kr/api/auth', {
+    if (nickname === '' || password === '') {
+      setShowErrMsg(true);
+      setErrMsg('닉네임과 비밀번호를 입력해주세요.');
+      return;
+    }
+
+    await axios
+      .post('https://final.eax.kr/api/auth', {
         nickname,
         password,
+      })
+      .then((res) => {
+        const token = res.data.token;
+        localStorage.setItem('Token', token);
+        navigate('/');
+      })
+      .catch((error) => {
+        setShowErrMsg(true);
+        setErrMsg('닉네임과 비밀번호가 일치하지 않습니다.');
       });
-    } catch (error) {
-      setShowErrMsg(true);
-    }
-    if (result) {
-      const token = result.data.token;
-      localStorage.setItem('Token', token);
-      navigate('/');
-    }
   };
 
   return (
@@ -65,9 +71,7 @@ const Login = () => {
         <FormWrapper>
           <FormInput type="password" ref={pwRef} placeholder="비밀번호" />
         </FormWrapper>
-        <FormErrorMsg show={showErrMsg}>
-          닉네임과 비밀번호가 일치하지 않습니다.
-        </FormErrorMsg>
+        <FormErrorMsg show={showErrMsg}>{errMsg}</FormErrorMsg>
         <FormWrapper>
           <FormText onClick={() => navigate('/forgotpw')}>
             비밀번호를 잊으셨나요?
