@@ -45,11 +45,7 @@ const LoadingPlaceHolder = styled.div`
   justify-content: center;
   align-items: center;
 
-  background: linear-gradient(
-    var(--color-menu),
-    var(--color-background),
-    var(--color-menu)
-  );
+  background: linear-gradient(lightgray, var(--color-background), lightgray);
 `;
 
 const SwiperMusic = ({ searchResult }) => {
@@ -83,7 +79,7 @@ const SwiperMusic = ({ searchResult }) => {
                 </SwiperSlide>
               );
             })
-          : Array(7).map((item, index) => {
+          : Array({ len: 7 }).map((item, index) => {
               return (
                 <SwiperSlide key={index}>
                   <LoadingPlaceHolder className="loading-placeholder">
