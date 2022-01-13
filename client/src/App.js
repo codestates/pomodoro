@@ -33,7 +33,7 @@ const App = () => {
 
   useLayoutEffect(() => {
     const token = localStorage.getItem('Token');
-    if(!token) return;
+    if (!token) return;
     const headers = {
       authorization: `Bearer ${token}`,
     };
@@ -119,6 +119,7 @@ const App = () => {
           path="/editinfo"
           element={
             <>
+              <Header />
               <EditUserInfo />
             </>
           }
@@ -127,12 +128,14 @@ const App = () => {
           path="/mypage"
           element={
             <>
+              <Header />
               <MyPage
                 userInfo={userInfo}
                 setUserInfo={setUserInfo}
                 playlist={playlist}
                 setPlaylist={setPlaylist}
               />
+              <Footer />
             </>
           }
         />
@@ -140,7 +143,9 @@ const App = () => {
           path="/ranking"
           element={
             <>
+              <Header />
               <Ranking userInfo={userInfo} rankingList={rankingList} />
+              <Footer />
             </>
           }
         />

@@ -23,6 +23,11 @@ const Buttons = styled.div`
   display: flex;
   justify-content: space-between;
   width: 80%;
+
+  @media screen and (max-width: 768px) {
+    flex-direction: column;
+    width: 50%;
+  }
 `;
 
 const Button = styled.button`
@@ -39,6 +44,10 @@ const Button = styled.button`
   &:active {
     transform: scale(0.9);
     transition-duration: 250ms;
+  }
+
+  @media screen and (max-width: 768px) {
+    margin-bottom: 10px;
   }
 `;
 
