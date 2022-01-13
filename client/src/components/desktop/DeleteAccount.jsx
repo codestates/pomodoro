@@ -1,10 +1,11 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ReactComponent as Icon } from '../../images/tomato.svg';
 import { ModalContainer } from '../../styles/ModalContainer.styled';
 import { Form } from '../../styles/Form.styled';
 import { FormWrapper } from '../../styles/FormWrapper.styled';
 import { FormInput } from '../../styles/FormInput.styled';
+import { FormErrorMsg } from '../../styles/FormErrorMsg.styled';
 import styled from 'styled-components';
 import axios from 'axios';
 
@@ -28,14 +29,16 @@ const StyledIcon = styled.div`
 `;
 
 const Header = styled.h1`
-  width: 80%;
-  font-size: 2rem;
+  width: 90%;
+  font-size: 1.8rem;
+  line-height: 1.5em;
   margin-bottom: 30px;
+  text-align: center;
   user-select: none;
 `;
 
 const ButtonWrapper = styled.div`
-  width: 90%;
+  width: 80%;
   text-align: end;
 `;
 
@@ -45,13 +48,18 @@ const Button = styled.button`
   color: white;
   border-radius: 5px;
   text-align: end;
-  font-size: 1.8rem;
+  font-size: 1.5rem;
   padding: 0.4em 0.7em;
   margin-top: 10px;
+
+  &:hover {
+    opacity: 0.8;
+  }
 `;
 
 export const DeleteAccount = ({ setOpen }) => {
   const navigate = useNavigate();
+  const [showErrMsg, setShowErrMsg] = useState(false);
   const passwordRef = useRef(null);
 
   const handleClickContainer = (e) => {
@@ -72,11 +80,13 @@ export const DeleteAccount = ({ setOpen }) => {
         navigate('/delete');
         localStorage.clear();
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        setShowErrMsg(true);
+      });
   };
   return (
     <ModalContainer id="container" onClick={handleClickContainer}>
-      <Form>
+      <Form width="430px">
         <StyledIcon>
           <Icon width="80px" />
         </StyledIcon>
@@ -86,7 +96,15 @@ export const DeleteAccount = ({ setOpen }) => {
           정말 탈퇴하시겠습니까?
         </Header>
         <FormWrapper>
-          <FormInput type="password" placeholder="비밀번호" ref={passwordRef} />
+          <FormInput
+            type="password"
+            placeholder="비밀번호"
+            ref={passwordRef}
+            width="80%"
+          />
+          <FormErrorMsg width="80%" show={showErrMsg}>
+            비밀번호가 틀렸습니다.
+          </FormErrorMsg>
         </FormWrapper>
         <ButtonWrapper>
           <Button onClick={handleDeleteBtn}>탈퇴하기</Button>
