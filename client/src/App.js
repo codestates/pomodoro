@@ -26,8 +26,10 @@ const App = () => {
   const [playlist, setPlaylist] = useState([]);
 
   useLayoutEffect(() => {
+    const token = localStorage.getItem('Token');
+    if(!token) return;
     const headers = {
-      authorization: `Bearer ${localStorage.getItem('Token')}`,
+      authorization: `Bearer ${token}`,
     };
     const getRequests = [
       ['https://final.eax.kr/api/users', setUserInfo],
