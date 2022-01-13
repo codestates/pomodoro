@@ -16,7 +16,7 @@ const Head = styled.header`
     align-items: center;
 
     > div {
-      padding: 0 2.175rem;
+      margin: 0 2rem;
     }
 
     img {
@@ -40,9 +40,10 @@ const Head = styled.header`
     font-family: 'Poppins', sans-serif;
     font-size: 2rem;
     padding: 0.5rem 2.5rem;
-    margin: 0 2.075rem;
+    margin: 0 1.5rem;
     white-space: nowrap;
     background-color: none;
+    box-shadow: 2px 4px 4px 0px rgba(0, 0, 0, 0.35);
 
     &.navy {
       color: #ffffff;
