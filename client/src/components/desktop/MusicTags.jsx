@@ -3,7 +3,6 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import SwiperCore, { Mousewheel } from 'swiper';
 
 import 'swiper/css';
-import { userContext } from '../../App';
 
 SwiperCore.use([Mousewheel]);
 
@@ -26,6 +25,11 @@ const TagButtons = styled.div`
     line-height: 2.2rem;
     color: rgba(13, 24, 37, 0.8);
   }
+
+  & .gray-loading-placeholder {
+    max-width: 10rem;
+    background-color: lightgray;
+  }
 `;
 
 const calculateTagWidth = (s) => {
@@ -45,17 +49,28 @@ const MusicTags = ({ tags, onClick }) => {
         slidesPerView={'auto'}
         mousewheel={true}
         onSlideChange={() => console.log('slide change')}
-        onSwiper={(swiper) => console.log(swiper)}
+        // onSwiper={(swiper) => console.log(swiper)}
       >
-        {tags?.map((tag, index) => (
-          <SwiperSlide
-            key={tag.tag_id}
-            style={{ maxWidth: `${calculateTagWidth(tag.tag_name)}rem` }}
-            onClick={() => console.log(tag.tag_name)}
-          >
-            {tag.tag_name}
-          </SwiperSlide>
-        ))}
+        {tags
+          ? tags?.map((tag, index) => (
+              <SwiperSlide
+                key={tag.tag_id}
+                style={{ maxWidth: `${calculateTagWidth(tag.tag_name)}rem` }}
+                onClick={() => console.log(tag.tag_name)}
+              >
+                {tag.tag_name}
+              </SwiperSlide>
+            ))
+          : Array(5)
+              .fill(null)
+              .map((item, index) => {
+                return (
+                  <SwiperSlide
+                    key={index}
+                    className="gray-loading-placeholder"
+                  ></SwiperSlide>
+                );
+              })}
       </Swiper>
     </TagButtons>
   );

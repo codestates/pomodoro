@@ -11,6 +11,12 @@ const Container = styled(SectionContainer)`
   height: 350px;
   padding: 2em;
   font-size: 1.5rem;
+
+  @media screen and (max-width: 768px) {
+    flex-direction: column;
+    margin-bottom: 50px;
+    height: 100%;
+  }
 `;
 
 const Playlists = styled.ol`

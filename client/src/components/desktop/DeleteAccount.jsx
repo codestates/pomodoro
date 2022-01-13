@@ -55,6 +55,10 @@ const Button = styled.button`
   &:hover {
     opacity: 0.8;
   }
+
+  @media screen and (max-width: 768px) {
+    margin-top: 0;
+  }
 `;
 
 export const DeleteAccount = ({ setOpen }) => {

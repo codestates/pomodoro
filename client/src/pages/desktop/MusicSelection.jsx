@@ -1,10 +1,11 @@
-import { useLayoutEffect, useState } from 'react';
+import { useEffect, useState, createContext } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 
 import SwiperMusic from '../../components/desktop/SwiperMusic';
 import { ReactComponent as Search } from '../../images/search.svg';
 import MusicTags from '../../components/desktop/MusicTags';
+import Metadata from '../../components/desktop/Metadata';
 
 const MainContainer = styled.div`
   max-width: 132rem;
@@ -68,10 +69,20 @@ const TagWrapper = styled.div`
   max-width: 80.4rem;
 `;
 
+export const CurrentMusicInfo = createContext({
+  currentMusic: {},
+  changeCurrentMusic: () => {},
+});
+
 const ChooseMusic = () => {
   const [searchResult, setSearchResult] = useState(false);
+  const [currentMusic, setCurrentMusic] = useState({});
 
-  useLayoutEffect(() => {
+  const changeCurrentMusic = (music) => {
+    setCurrentMusic(music);
+  };
+
+  useEffect(() => {
     const endpoint = 'https://final.eax.kr/api/tags';
     async function fetchData() {
       const result = await axios(endpoint);
@@ -95,30 +106,24 @@ const ChooseMusic = () => {
 
   return (
     // <FlexWrapper>
-    <MainContainer>
-      <PlaylistSelectFlexBox>
-        <PlaylistGhostDiv />
-        <PlaylistSelectLabel>플레이리스트 선택</PlaylistSelectLabel>
-        <SearchButtonWrapper>
-          <SearchButton>
-            <Search />
-          </SearchButton>
-        </SearchButtonWrapper>
-        <TagWrapper>
-          {searchResult ? (
+    <CurrentMusicInfo.Provider value={{ currentMusic, changeCurrentMusic }}>
+      <MainContainer>
+        <PlaylistSelectFlexBox>
+          <PlaylistGhostDiv />
+          <PlaylistSelectLabel>플레이리스트 선택</PlaylistSelectLabel>
+          <SearchButtonWrapper>
+            <SearchButton>
+              <Search />
+            </SearchButton>
+          </SearchButtonWrapper>
+          <TagWrapper>
             <MusicTags tags={searchResult} />
-          ) : (
-            <div>Loading...</div>
-          )}
-        </TagWrapper>
-      </PlaylistSelectFlexBox>
-      {searchResult ? (
-        <SwiperMusic searchResult={searchResult[0]} />
-      ) : (
-        <div>Loading...</div>
-      )}
-    </MainContainer>
-    // </FlexWrapper>
+          </TagWrapper>
+        </PlaylistSelectFlexBox>
+        <SwiperMusic searchResult={searchResult} />
+        <Metadata />
+      </MainContainer>
+    </CurrentMusicInfo.Provider>
   );
 };
 
