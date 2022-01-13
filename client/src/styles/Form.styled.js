@@ -11,4 +11,8 @@ export const Form = styled.ul`
   background-color: #fdfdfd;
   margin: 0 15px;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+
+  @media screen and (max-width: 768px) {
+    margin-bottom: 70px;
+  }
 `;
