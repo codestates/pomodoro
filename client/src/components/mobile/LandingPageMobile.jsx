@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import img1 from '../../images/img1.png';
 import img2 from '../../images/img2.png';
@@ -6,6 +7,7 @@ import img3 from '../../images/img3.png';
 import img4 from '../../images/img4.png';
 import img5 from '../../images/img5.png';
 import img6 from '../../images/img6.png';
+import ScrollToTop from '../desktop/ScrollToTop';
 
 const Wrapper = styled.div`
   max-width: 1320px;
@@ -14,18 +16,19 @@ const Wrapper = styled.div`
   margin-bottom: 10rem;
   padding: 2rem;
 
-  div {
+  > section {
     display: grid;
     align-content: center;
 
+    > div {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
     img {
       width: 80%;
-      margin: 0 auto;
       padding: 3rem 7rem;
-
-      &.landing-6 {
-        /* padding: 3rem 0; */
-      }
     }
 
     h1 {
@@ -52,34 +55,33 @@ const Wrapper = styled.div`
       text-align: center;
     }
 
-    div.text {
+    h1.text {
       font-size: 2.5rem;
       font-weight: 700;
       text-align: center;
       line-height: 5rem;
       margin-bottom: 3rem;
     }
-  }
 
-  button {
-    margin: 0 auto;
-    background-color: #f57270;
-    border: none;
-    color: #ffffff;
-    font-size: 2.5rem;
-    font-weight: 700;
-    padding: 2.5rem 4.5rem;
-    border-radius: 50px;
-    text-align: center;
+    button {
+      background-color: #f57270;
+      border: none;
+      color: #ffffff;
+      font-size: 2.5rem;
+      font-weight: 700;
+      padding: 2.5rem 4.5rem;
+      border-radius: 50px;
+      text-align: center;
+    }
   }
 `;
 
 const LandingPageMobile = () => {
   return (
     <Wrapper>
-      <div>
+      <section>
         <div>
-          <img src={img1} alt="landing img 1"></img>
+          <img src={img1} alt="landing img1"></img>
         </div>
         <div>
           <h1>집중하고 계신가요?</h1>
@@ -93,11 +95,11 @@ const LandingPageMobile = () => {
             <br />
           </p>
         </div>
-      </div>
+      </section>
 
-      <div>
+      <section>
         <div>
-          <img src={img2} alt="landing img 2"></img>
+          <img src={img2} alt="landing img2"></img>
         </div>
         <div>
           <h1 className="line-height no-margin">
@@ -114,11 +116,11 @@ const LandingPageMobile = () => {
             {'(Pomodoro, 이탈리아어로 토마토를 의미)'}
           </p>
         </div>
-      </div>
+      </section>
 
-      <div>
+      <section>
         <div>
-          <img src={img3} alt="landing img 3"></img>
+          <img src={img3} alt="landing img3"></img>
         </div>
         <div>
           <h1 className="line-height">
@@ -129,11 +131,11 @@ const LandingPageMobile = () => {
             관리해보세요
           </h1>
         </div>
-      </div>
+      </section>
 
-      <div>
+      <section>
         <div>
-          <img src={img4} alt="landing img 4"></img>
+          <img src={img4} alt="landing img4"></img>
         </div>
         <div>
           <h1 className="line-height">
@@ -142,11 +144,11 @@ const LandingPageMobile = () => {
             원하는 음악으로
           </h1>
         </div>
-      </div>
+      </section>
 
-      <div>
+      <section>
         <div>
-          <img src={img5} alt="landing img 5"></img>
+          <img src={img5} alt="landing img5"></img>
         </div>
         <div>
           <h1 className="line-height">
@@ -157,30 +159,33 @@ const LandingPageMobile = () => {
             경쟁도 가능해요
           </h1>
         </div>
-      </div>
+      </section>
 
-      <div>
+      <section>
         <div>
-          <img className="landing-6" src={img6} alt="landing img 6"></img>
+          <img src={img6} alt="landing img6"></img>
         </div>
         <div>
-          <div className="text">
+          <h1 className="text">
             뽀모도로를 이용해
             <br />
             나만의 플레이리스트를
             <br />
             완성하세요.
-          </div>
-          <div className="text">
+            <br />
+            <br />
             모바일과 데스크톱 모두
             <br />
             편리하게 사용이 가능합니다.
-          </div>
+          </h1>
           <div>
-            <button>지금 체험하러 가기</button>
+            <Link to="/music">
+              <button>지금 체험하러 가기</button>
+            </Link>
           </div>
         </div>
-      </div>
+      </section>
+      <ScrollToTop />
     </Wrapper>
   );
 };

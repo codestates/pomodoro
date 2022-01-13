@@ -14,6 +14,12 @@ import {
   isValidEmail,
   isValidPassword,
 } from '../../validation/validation';
+import styled from 'styled-components';
+
+const StyledLogo = styled.div`
+  width: 100%;
+  cursor: pointer;
+`;
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -39,19 +45,19 @@ const SignUp = () => {
   const duplicateNickname = async () => {
     const nickname = nicknameRef.current.value;
 
-    let result;
-    try {
-      result = await axios.get(
-        `https://final.eax.kr/api/nicknames/${nickname}`
-      );
-    } catch (error) {
-      setShowErrMsg({ ...showErrMsg, nickname: true });
-      setErrMsg({
-        ...errMsg,
-        nickname:
-          '이미 사용 중인 닉네임이거나 사용할 수 없는 문자가 포함되어 있습니다.',
+    await axios
+      .get(`https://final.eax.kr/api/nicknames/${nickname}`)
+      .then((res) => {
+        return;
+      })
+      .catch((error) => {
+        setShowErrMsg({ ...showErrMsg, nickname: true });
+        setErrMsg({
+          ...errMsg,
+          nickname:
+            '이미 사용 중인 닉네임이거나 사용할 수 없는 문자가 포함되어 있습니다.',
+        });
       });
-    }
   };
 
   const handleNicknameInput = () => {
@@ -74,13 +80,16 @@ const SignUp = () => {
 
   const duplicateEmail = async () => {
     const email = emailRef.current.value;
-    let result;
-    try {
-      result = await axios.get(`https://final.eax.kr/api/mails/${email}`);
-    } catch (error) {
-      setShowErrMsg({ ...showErrMsg, email: true });
-      setErrMsg({ ...errMsg, email: '이미 사용 중인 이메일입니다.' });
-    }
+
+    await axios
+      .get(`https://final.eax.kr/api/mails/${email}`)
+      .then((res) => {
+        return;
+      })
+      .catch((error) => {
+        setShowErrMsg({ ...showErrMsg, email: true });
+        setErrMsg({ ...errMsg, email: '이미 사용 중인 이메일입니다.' });
+      });
   };
 
   const handleEmailInput = () => {
@@ -112,50 +121,44 @@ const SignUp = () => {
     const confirmPassword = confirmPasswordRef.current.value;
     if (password !== confirmPassword) {
       setShowErrMsg({ ...showErrMsg, confirmPassword: true });
-      return false;
     } else {
       setShowErrMsg({ ...showErrMsg, confirmPassword: false });
-      return true;
     }
   };
 
   const handleSignUpBtn = async () => {
-    const { nickname, email, password, confirmPassword } = showErrMsg;
-    const nicknameVal = nicknameRef.current.value;
-    const emailVal = emailRef.current.value;
-    const passwordVal = passwordRef.current.value;
-    const confirmPasswordVal = confirmPasswordRef.current.value;
+    const nickname = nicknameRef.current.value;
+    const email = emailRef.current.value;
+    const password = passwordRef.current.value;
 
-    if (isMatchPassword()) {
-      console.log(showErrMsg);
-      if (nickname || email || password || confirmPassword) return;
-      if (!nicknameVal || !emailVal || !passwordVal || !confirmPasswordVal)
-        return;
-    }
-
-    let result;
-    try {
-      result = await axios.post(
-        'https://final.eax.kr/api/users',
-        {
-          nickname: nicknameVal,
-          email: emailVal,
-          password: passwordVal,
-        }
-      );
-    } catch (error) {
+    if (
+      showErrMsg.nickname ||
+      showErrMsg.email ||
+      showErrMsg.password ||
+      showErrMsg.confirmPassword
+    )
       return;
-    }
 
-    if (result) {
-      navigate('/login');
-    }
+    await axios
+      .post('https://final.eax.kr/api/users', {
+        nickname,
+        email,
+        password,
+      })
+      .then((res) => {
+        navigate('/login');
+      })
+      .catch((error) => {
+        return;
+      });
   };
 
   return (
     <FormContainer>
       <Form>
-        <Logo />
+        <StyledLogo onClick={() => navigate('/')} title="홈으로 가기">
+          <Logo />
+        </StyledLogo>
         <FormWrapper marginTop="40px">
           <FormInput
             type="text"
@@ -193,6 +196,8 @@ const SignUp = () => {
             type="password"
             ref={confirmPasswordRef}
             placeholder="비밀번호 재입력"
+            onFocus={isMatchPassword}
+            onChange={isMatchPassword}
           />
           <FormErrorMsg show={showErrMsg.confirmPassword}>
             비밀번호가 일치하지 않습니다.
