@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { ReactComponent as Home } from '../../images/home.svg';
 import { ReactComponent as Clock } from '../../images/clock.svg';
 import { ReactComponent as Ranking } from '../../images/rank.svg';
@@ -46,44 +47,67 @@ const Span = styled.span`
   opacity: 0.6;
 `;
 
-const TabBarMobile = ({ isLogin }) => {
+const TabBarMobile = () => {
   const [selected, setSelected] = useState(1);
+  const [isLogin, setIsLogin] = useState(localStorage.getItem('Token'));
+
+  const signOut = () => {
+    localStorage.removeItem('Token');
+    setIsLogin(false);
+  };
 
   return (
     <Nav>
-      <button onClick={() => setSelected(1)}>
-        <Home fill={selected === 1 ? '#9E150C' : 'black'}></Home>
-        <Span selected={selected === 1}>Home</Span>
-      </button>
-      <button onClick={() => setSelected(2)}>
-        <Clock fill={selected === 2 ? '#9E150C' : 'black'}></Clock>
-        <Span selected={selected === 2}>Pomodoro</Span>
-      </button>
-      <button onClick={() => setSelected(3)}>
-        <Ranking fill={selected === 3 ? '#9E150C' : 'black'}></Ranking>
-        <Span selected={selected === 3}>Ranking</Span>
-      </button>
+      <Link to="/">
+        <button onClick={() => setSelected(1)}>
+          <Home fill={selected === 1 ? '#9E150C' : 'black'}></Home>
+          <Span selected={selected === 1}>Home</Span>
+        </button>
+      </Link>
+      <Link to="/music">
+        <button onClick={() => setSelected(2)}>
+          <Clock fill={selected === 2 ? '#9E150C' : 'black'}></Clock>
+          <Span selected={selected === 2}>Pomodoro</Span>
+        </button>
+      </Link>
+      <Link to="/ranking">
+        <button onClick={() => setSelected(3)}>
+          <Ranking fill={selected === 3 ? '#9E150C' : 'black'}></Ranking>
+          <Span selected={selected === 3}>Ranking</Span>
+        </button>
+      </Link>
       {isLogin ? (
         <>
-          <button onClick={() => setSelected(4)}>
-            <MyPage fill={selected === 4 ? '#9E150C' : 'black'}></MyPage>
-            <Span selected={selected === 4}>My page</Span>
-          </button>
-          <button onClick={() => setSelected(5)}>
+          <Link to="/mypage">
+            <button onClick={() => setSelected(4)}>
+              <MyPage fill={selected === 4 ? '#9E150C' : 'black'}></MyPage>
+              <Span selected={selected === 4}>My page</Span>
+            </button>
+          </Link>
+          <button
+            onClick={() => {
+              setSelected(5);
+              signOut();
+            }}
+          >
             <SignOut fill={selected === 5 ? '#9E150C' : 'black'}></SignOut>
             <Span selected={selected === 5}>Sign out</Span>
           </button>
         </>
       ) : (
         <>
-          <button onClick={() => setSelected(4)}>
-            <SignIn fill={selected === 4 ? '#9E150C' : 'black'}></SignIn>
-            <Span selected={selected === 4}>Sign in</Span>
-          </button>
-          <button onClick={() => setSelected(5)}>
-            <SignUp fill={selected === 5 ? '#9E150C' : 'black'}></SignUp>
-            <Span selected={selected === 5}>Sign up</Span>
-          </button>
+          <Link to="/login">
+            <button onClick={() => setSelected(4)}>
+              <SignIn fill={selected === 4 ? '#9E150C' : 'black'}></SignIn>
+              <Span selected={selected === 4}>Sign in</Span>
+            </button>
+          </Link>
+          <Link to="/signup">
+            <button onClick={() => setSelected(5)}>
+              <SignUp fill={selected === 5 ? '#9E150C' : 'black'}></SignUp>
+              <Span selected={selected === 5}>Sign up</Span>
+            </button>
+          </Link>
         </>
       )}
     </Nav>
