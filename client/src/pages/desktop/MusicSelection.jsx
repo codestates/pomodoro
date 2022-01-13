@@ -1,4 +1,4 @@
-import { useLayoutEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 
@@ -71,7 +71,7 @@ const TagWrapper = styled.div`
 const ChooseMusic = () => {
   const [searchResult, setSearchResult] = useState(false);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     const endpoint = 'https://final.eax.kr/api/tags';
     async function fetchData() {
       const result = await axios(endpoint);
@@ -105,18 +105,10 @@ const ChooseMusic = () => {
           </SearchButton>
         </SearchButtonWrapper>
         <TagWrapper>
-          {searchResult ? (
-            <MusicTags tags={searchResult} />
-          ) : (
-            <div>Loading...</div>
-          )}
+          <MusicTags tags={searchResult} />
         </TagWrapper>
       </PlaylistSelectFlexBox>
-      {searchResult ? (
-        <SwiperMusic searchResult={searchResult[0]} />
-      ) : (
-        <div>Loading...</div>
-      )}
+      <SwiperMusic searchResult={searchResult} />
     </MainContainer>
     // </FlexWrapper>
   );

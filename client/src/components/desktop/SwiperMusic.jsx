@@ -10,6 +10,7 @@ import SwiperCore, {
 import 'swiper/css';
 import 'swiper/css/effect-coverflow';
 import 'swiper/css/pagination';
+import { ReactComponent as Loading } from '../../images/loading.svg';
 
 SwiperCore.use([EffectCoverflow, Pagination, Mousewheel, Keyboard]);
 
@@ -23,7 +24,8 @@ const SwiperContainer = styled.div`
     background-position: center;
     background-size: cover;
   }
-  & .swiper-slide img {
+  & .swiper-slide img,
+  & .swiper-slide .loading-placeholder {
     border-radius: 2rem;
     width: 41.1rem;
     height: 29.1rem;
@@ -38,9 +40,15 @@ const SwiperContainer = styled.div`
   }
 `;
 
-const SwiperMusic = ({ searchResult }) => {
-  console.dir(searchResult);
+const LoadingPlaceHolder = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
+  background: linear-gradient(lightgray, var(--color-background), lightgray);
+`;
+
+const SwiperMusic = ({ searchResult }) => {
   return (
     <SwiperContainer>
       <Swiper
@@ -63,36 +71,26 @@ const SwiperMusic = ({ searchResult }) => {
         onSwiper={(swiper) => console.log(swiper)}
         onSlideChange={() => console.log('slide change')}
       >
-        {searchResult.Musics?.map((item) => {
-          return (
-            <SwiperSlide key={item.music_id}>
-              <img src={item.music_image} alt={item.music_name} />;
-            </SwiperSlide>
-          );
-        })}
+        {searchResult
+          ? searchResult[0].Musics?.map((item) => {
+              return (
+                <SwiperSlide key={item.music_id}>
+                  <img src={item.music_image} alt={item.music_name} />;
+                </SwiperSlide>
+              );
+            })
+          : Array({ len: 7 }).map((item, index) => {
+              return (
+                <SwiperSlide key={index}>
+                  <LoadingPlaceHolder className="loading-placeholder">
+                    <Loading width="15rem" height="15rem" />
+                  </LoadingPlaceHolder>
+                </SwiperSlide>
+              );
+            })}
       </Swiper>
     </SwiperContainer>
   );
 };
-
-/*
-<Swiper
-modules={[Virtual]}
-spaceBetween={10}
-slidesPerView={5}
-slidesPerGroup={1}
-loop
-speed={500}
-onSwiper={(swiper) => console.log(swiper)}
-onSlideChange={() => console.log('slide change')}
-virtual
->
-<SwiperSlide virtualIndex={0}>Slide1</SwiperSlide>
-<SwiperSlide virtualIndex={1}>Slide2</SwiperSlide>
-<SwiperSlide virtualIndex={2}>Slide3</SwiperSlide>
-<SwiperSlide virtualIndex={3}>Slide4</SwiperSlide>
-<SwiperSlide virtualIndex={4}>Slide45</SwiperSlide>
-</Swiper>
-*/
 
 export default SwiperMusic;
