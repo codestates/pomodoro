@@ -11,6 +11,11 @@ import { ReactComponent as Logo } from '../../images/logo.svg';
 import styled from 'styled-components';
 import axios from 'axios';
 
+const StyledLogo = styled.div`
+  width: 100%;
+  cursor: pointer;
+`;
+
 const Wrapper = styled.ul`
   width: 90%;
   display: flex;
@@ -64,7 +69,9 @@ const Login = () => {
   return (
     <FormContainer>
       <Form>
-        <Logo onClick={() => navigate('/')} />
+        <StyledLogo onClick={() => navigate('/')} title="홈으로 가기">
+          <Logo />
+        </StyledLogo>
         <FormWrapper marginTop="40px" marginBottom="30px">
           <FormInput type="text" ref={nicknameRef} placeholder="닉네임" />
         </FormWrapper>
