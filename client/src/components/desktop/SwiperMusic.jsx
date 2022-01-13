@@ -1,3 +1,4 @@
+import { useContext, useEffect } from 'react';
 import styled from 'styled-components';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import SwiperCore, {
@@ -11,6 +12,7 @@ import 'swiper/css';
 import 'swiper/css/effect-coverflow';
 import 'swiper/css/pagination';
 import { ReactComponent as Loading } from '../../images/loading.svg';
+import { CurrentMusicInfo } from '../../pages/desktop/MusicSelection';
 
 SwiperCore.use([EffectCoverflow, Pagination, Mousewheel, Keyboard]);
 
@@ -49,6 +51,19 @@ const LoadingPlaceHolder = styled.div`
 `;
 
 const SwiperMusic = ({ searchResult }) => {
+  const { changeCurrentMusic } = useContext(CurrentMusicInfo);
+
+  const StoreSlideInfo = (swiper) => {
+    const data = swiper.slides[swiper.realIndex].dataset;
+    changeCurrentMusic(data);
+  };
+
+  useEffect(() => {
+    if (!searchResult) return;
+    console.log('called ');
+    changeCurrentMusic(searchResult[0].Musics[0]);
+  }, []);
+
   return (
     <SwiperContainer>
       <Swiper
@@ -68,13 +83,18 @@ const SwiperMusic = ({ searchResult }) => {
           modifier: 1,
           slideShadows: true,
         }}
-        onSwiper={(swiper) => console.log(swiper)}
-        onSlideChange={() => console.log('slide change')}
+        onSlideChange={StoreSlideInfo}
       >
         {searchResult
           ? searchResult[0].Musics?.map((item) => {
               return (
-                <SwiperSlide key={item.music_id}>
+                <SwiperSlide
+                  key={item.music_id}
+                  data-music_name={item.music_name}
+                  data-music_time={item.music_time}
+                  data-music_url={item.music_url}
+                  data-music_id={item.music_id}
+                >
                   <img src={item.music_image} alt={item.music_name} />;
                 </SwiperSlide>
               );

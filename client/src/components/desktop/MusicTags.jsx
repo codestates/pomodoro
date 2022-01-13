@@ -49,7 +49,7 @@ const MusicTags = ({ tags, onClick }) => {
         slidesPerView={'auto'}
         mousewheel={true}
         onSlideChange={() => console.log('slide change')}
-        onSwiper={(swiper) => console.log(swiper)}
+        // onSwiper={(swiper) => console.log(swiper)}
       >
         {tags
           ? tags?.map((tag, index) => (
