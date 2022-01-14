@@ -70,7 +70,6 @@ const Ranking = ({ userInfo }) => {
     axios
       .get('https://final.eax.kr/api/ranks')
       .then((res) => {
-        console.log(res.data.result);
         setRankingList(res.data.result);
       })
       .catch((error) => console.log(error));
