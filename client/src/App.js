@@ -27,7 +27,6 @@ import './App.css';
 const App = () => {
   const isMobile = useMediaQuery({ query: '(max-width: 900px)' });
   const [userInfo, setUserInfo] = useState('');
-  const [rankingList, setRankingList] = useState([]);
   const [playlist, setPlaylist] = useState([]);
 
   useLayoutEffect(() => {
@@ -38,9 +37,9 @@ const App = () => {
     };
     const getRequests = [
       ['https://final.eax.kr/api/users', setUserInfo],
-      ['https://final.eax.kr/api/ranks', setRankingList],
       ['https://final.eax.kr/api/playlists', setPlaylist],
     ];
+
     for (const request of getRequests) {
       axios
         .get(request[0], { headers })
@@ -77,10 +76,7 @@ const App = () => {
               />
             }
           />
-          <Route
-            path="/ranking"
-            element={<Ranking userInfo={userInfo} rankingList={rankingList} />}
-          />
+          <Route path="/ranking" element={<Ranking userInfo={userInfo} />} />
         </Routes>
         <TabBarMobile />
       </Router>
@@ -143,7 +139,7 @@ const App = () => {
           element={
             <>
               <Header />
-              <Ranking userInfo={userInfo} rankingList={rankingList} />
+              <Ranking userInfo={userInfo} />
               <Footer />
             </>
           }
