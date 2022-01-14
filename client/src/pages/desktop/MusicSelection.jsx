@@ -1,6 +1,5 @@
-import { useEffect, useState, createContext } from 'react';
+import { useState, createContext } from 'react';
 import styled from 'styled-components';
-import axios from 'axios';
 
 import SwiperMusic from '../../components/desktop/SwiperMusic';
 import { ReactComponent as Search } from '../../images/search.svg';
@@ -74,38 +73,14 @@ export const CurrentMusicInfo = createContext({
   changeCurrentMusic: () => {},
 });
 
-const ChooseMusic = () => {
-  const [searchResult, setSearchResult] = useState(false);
+const ChooseMusic = ({ tags, setTags }) => {
   const [currentMusic, setCurrentMusic] = useState({});
 
   const changeCurrentMusic = (music) => {
     setCurrentMusic(music);
   };
 
-  useEffect(() => {
-    const endpoint = 'https://final.eax.kr/api/tags';
-    async function fetchData() {
-      const result = await axios(endpoint);
-      for (const item of result.data.result[0].Musics) {
-        try {
-          const url = `https://final.eax.kr/images/${item.music_url}.jpg`;
-          const image = await axios.get(url, { responseType: 'arraybuffer' });
-          const base64string = btoa(
-            String.fromCharCode(...new Uint8Array(image.data))
-          );
-          item.music_image = `data:image/jpeg;base64,${base64string}`;
-        } catch (e) {
-          console.dir(e);
-          item.music_image = `https://i.ytimg.com/vi/${item.music_url}/hqdefault.jpg`;
-        }
-      }
-      setSearchResult(result.data.result);
-    }
-    fetchData();
-  }, []);
-
   return (
-    // <FlexWrapper>
     <CurrentMusicInfo.Provider value={{ currentMusic, changeCurrentMusic }}>
       <MainContainer>
         <PlaylistSelectFlexBox>
@@ -117,10 +92,10 @@ const ChooseMusic = () => {
             </SearchButton>
           </SearchButtonWrapper>
           <TagWrapper>
-            <MusicTags tags={searchResult} />
+            <MusicTags tags={tags} />
           </TagWrapper>
         </PlaylistSelectFlexBox>
-        <SwiperMusic searchResult={searchResult} />
+        <SwiperMusic searchResult={tags} />
         <Metadata />
       </MainContainer>
     </CurrentMusicInfo.Provider>

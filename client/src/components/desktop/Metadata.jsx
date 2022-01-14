@@ -2,6 +2,7 @@ import { useContext } from 'react';
 import styled from 'styled-components';
 
 import { CurrentMusicInfo } from '../../pages/desktop/MusicSelection';
+import { UserContext } from '../../App';
 
 const MetadataContainer = styled.div`
   margin: 2rem auto 0 auto;
@@ -86,11 +87,17 @@ const AddButton = styled.button`
 
 const Metadata = () => {
   const { currentMusic } = useContext(CurrentMusicInfo);
+  const { requestUserInfo } = useContext(UserContext);
 
   const musicTimeFormat = (time) => {
     const minutes = Math.floor(time / 60);
     const seconds = Math.floor(time % 60);
     return `${minutes}:${seconds < 10 ? `0${seconds}` : seconds}`;
+  };
+
+  const addToPlaylist = (e) => {
+    requestUserInfo();
+    e.preventDefault();
   };
 
   return (
@@ -112,7 +119,7 @@ const Metadata = () => {
             ? musicTimeFormat(currentMusic.music_time)
             : '--:--'}
         </MusicLength>
-        <AddButton>+</AddButton>
+        <AddButton onClick={addToPlaylist}>+</AddButton>
       </MetadataWrapper>
     </MetadataContainer>
   );
