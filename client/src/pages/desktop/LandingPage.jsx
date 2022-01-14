@@ -11,7 +11,7 @@ import img5 from '../../images/img5.png';
 import img6 from '../../images/img6.png';
 import ScrollToTop from '../../components/desktop/ScrollToTop';
 
-const Wrapper = styled.main`
+const Wrapper = styled.div`
   max-width: 1320px;
   margin: 0 auto;
   padding: 3rem;
@@ -29,11 +29,11 @@ const Wrapper = styled.main`
   }
 
   .padding-left {
-    padding-left: 15rem;
+    padding-left: 10rem;
   }
 
   .padding-right {
-    padding-right: 15rem;
+    padding-right: 10rem;
   }
 `;
 
