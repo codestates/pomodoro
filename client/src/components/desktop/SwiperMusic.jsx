@@ -1,4 +1,4 @@
-import { useContext, useEffect } from 'react';
+import { useContext } from 'react';
 import styled from 'styled-components';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import SwiperCore, {
@@ -58,12 +58,6 @@ const SwiperMusic = ({ searchResult }) => {
     changeCurrentMusic(data);
   };
 
-  useEffect(() => {
-    if (!searchResult) return;
-    console.log('called ');
-    changeCurrentMusic(searchResult[0].Musics[0]);
-  }, []);
-
   return (
     <SwiperContainer>
       <Swiper
@@ -84,6 +78,13 @@ const SwiperMusic = ({ searchResult }) => {
           slideShadows: true,
         }}
         onSlideChange={StoreSlideInfo}
+        onSwiper={(swiper) => {
+          setTimeout(() => {
+            try {
+              changeCurrentMusic(swiper.slides[swiper.realIndex + 1].dataset);
+            } catch (e) {}
+          }, 4000);
+        }}
       >
         {searchResult
           ? searchResult[0].Musics?.map((item) => {
@@ -95,7 +96,11 @@ const SwiperMusic = ({ searchResult }) => {
                   data-music_url={item.music_url}
                   data-music_id={item.music_id}
                 >
-                  <img src={item.music_image} alt={item.music_name} />;
+                  <img
+                    src={`https://final.eax.kr/images/${item.music_url}.jpg`}
+                    alt={item.music_name}
+                  />
+                  ;
                 </SwiperSlide>
               );
             })
