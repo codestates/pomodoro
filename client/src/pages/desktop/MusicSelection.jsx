@@ -96,42 +96,24 @@ const ShrinkFlexBox = styled.div`
   align-items: center;
 `;
 
-export const CurrentMusicInfo = createContext({
-  currentMusic: {},
-  changeCurrentMusic: () => {},
+export const CurrentPlaylistInfo = createContext({
+  currentPlaylist: null,
+  setCurrentPlaylist: () => {},
 });
 
 const ChooseMusic = ({ tags, setTags }) => {
   const screenShouldShrink = useMediaQuery({ query: '(max-width: 1065px)' });
   const [currentMusic, setCurrentMusic] = useState({});
-
-  const changeCurrentMusic = (music) => {
-    setCurrentMusic(music);
-  };
+  const [currentPlaylist, setCurrentPlaylist] = useState(null);
 
   return (
-    <CurrentMusicInfo.Provider value={{ currentMusic, changeCurrentMusic }}>
-      <MainContainer>
-        {screenShouldShrink ? (
-          <>
-            <PlaylistSelectLabel style={{ marginLeft: '6.5rem' }}>
-              플레이리스트 선택
-            </PlaylistSelectLabel>
-            <ShrinkFlexBox>
-              <SearchButtonWrapper>
-                <SearchButton>
-                  <Search />
-                </SearchButton>
-              </SearchButtonWrapper>
-              <TagWrapper>
-                <MusicTags tags={tags} />
-              </TagWrapper>
-            </ShrinkFlexBox>
-          </>
-        ) : (
-          <PlaylistSelectFlexBox>
-            <PlaylistGhostDiv />
-            <PlaylistSelectLabel>플레이리스트 선택</PlaylistSelectLabel>
+    <MainContainer>
+      {screenShouldShrink ? (
+        <>
+          <PlaylistSelectLabel style={{ marginLeft: '6.5rem' }}>
+            플레이리스트 선택
+          </PlaylistSelectLabel>
+          <ShrinkFlexBox>
             <SearchButtonWrapper>
               <SearchButton>
                 <Search />
@@ -140,17 +122,33 @@ const ChooseMusic = ({ tags, setTags }) => {
             <TagWrapper>
               <MusicTags tags={tags} />
             </TagWrapper>
-          </PlaylistSelectFlexBox>
-        )}
-        <SwiperMusic searchResult={tags} />
-        <Metadata />
-        <PlaylistContainer>
-          <MenuForPlaylist />
-          <PlaylistGhostMiddleDiv />
-          <MenuForMusicList />
-        </PlaylistContainer>
-      </MainContainer>
-    </CurrentMusicInfo.Provider>
+          </ShrinkFlexBox>
+        </>
+      ) : (
+        <PlaylistSelectFlexBox>
+          <PlaylistGhostDiv />
+          <PlaylistSelectLabel>플레이리스트 선택</PlaylistSelectLabel>
+          <SearchButtonWrapper>
+            <SearchButton>
+              <Search />
+            </SearchButton>
+          </SearchButtonWrapper>
+          <TagWrapper>
+            <MusicTags tags={tags} />
+          </TagWrapper>
+        </PlaylistSelectFlexBox>
+      )}
+      <SwiperMusic searchResult={tags} setCurrentMusic={setCurrentMusic} />
+      <Metadata currentMusic={currentMusic} />
+      <PlaylistContainer>
+        <MenuForPlaylist
+          currentPlaylist={currentPlaylist}
+          setCurrentPlaylist={setCurrentPlaylist}
+        />
+        <PlaylistGhostMiddleDiv />
+        <MenuForMusicList currentPlaylist={currentPlaylist} />
+      </PlaylistContainer>
+    </MainContainer>
   );
 };
 
