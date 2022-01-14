@@ -1,20 +1,21 @@
 import styled from 'styled-components';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 
-import { ReactComponent as PlaylistIcon } from '../../images/playlists.svg';
+import { ReactComponent as MusicIcon } from '../../images/music.svg';
 
-const PlaylistContainer = styled.div`
-  flex: 388 388 auto;
-  max-width: 38.8rem;
+const MusicListContainer = styled.div`
+  flex: 817 817 auto;
+  max-width: 81.7rem;
   background: rgba(242, 231, 218, 0.6);
   box-shadow: 0.3rem 0.3rem 0.4rem rgba(0, 0, 0, 0.25);
   border-radius: 1rem;
 `;
 
-const PlaylistMenuNav = styled.div`
-  margin: 1.2rem auto 2.8rem auto;
+const MusicListNav = styled.div`
+  margin: 1.2rem auto 2.8rem 5rem;
   max-width: 32.1rem;
   display: flex;
+  justify-content: baseline;
   align-items: center;
 `;
 
@@ -50,14 +51,12 @@ const NavTitle = styled.div`
   -ms-user-select: none;
 `;
 
-const WithEmptyPlaylist = styled.div`
-  max-width: 26.6rem;
-  margin: 0 auto 1rem auto;
+const EmptyPlaylist = styled.div`
+  text-align: center;
   font-style: normal;
   font-weight: bold;
   font-size: 23px;
   color: rgba(85, 85, 85, 0.8);
-  cursor: pointer;
   user-drag: none;
   -webkit-user-drag: none;
   user-select: none;
@@ -66,19 +65,19 @@ const WithEmptyPlaylist = styled.div`
   -ms-user-select: none;
 `;
 
-const MenuForPlaylist = () => {
+const MenuForMusiclist = () => {
   return (
-    <PlaylistContainer>
-      <PlaylistMenuNav>
+    <MusicListContainer>
+      <MusicListNav>
         <Circle>
-          <PlaylistIcon width={34.4} height={34.4} />
+          <MusicIcon width={34.4} height={34.4} />
         </Circle>
         <NavGhostDiv />
-        <NavTitle>저장된 플레이리스트</NavTitle>
-      </PlaylistMenuNav>
-      <WithEmptyPlaylist>빈 플레이리스트로 시작</WithEmptyPlaylist>
-    </PlaylistContainer>
+        <NavTitle>현재 재생 목록</NavTitle>
+      </MusicListNav>
+      <EmptyPlaylist>플레이리스트가 비어 있습니다.</EmptyPlaylist>
+    </MusicListContainer>
   );
 };
 
-export default MenuForPlaylist;
+export default MenuForMusiclist;

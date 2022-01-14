@@ -55,7 +55,10 @@ const MusicTags = ({ tags, onClick }) => {
           ? tags?.map((tag, index) => (
               <SwiperSlide
                 key={tag.tag_id}
-                style={{ maxWidth: `${calculateTagWidth(tag.tag_name)}rem` }}
+                style={{
+                  maxWidth: `${calculateTagWidth(tag.tag_name)}rem`,
+                  cursor: 'pointer',
+                }}
                 onClick={() => console.log(tag.tag_name)}
               >
                 {tag.tag_name}
