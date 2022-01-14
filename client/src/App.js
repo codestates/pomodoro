@@ -11,10 +11,10 @@ import ForgotPassword from './pages/desktop/ForgotPassword';
 import EditUserInfo from './pages/desktop/EditUserInfo';
 import Bye from './pages/desktop/Bye';
 import MusicSelection from './pages/desktop/MusicSelection';
-import LandingPage from './components/desktop/LandingPage';
+import LandingPageMobile from './pages/mobile/LandingPageMobile';
 import HeaderMobile from './components/mobile/HeaderMobile';
 import TabBarMobile from './components/mobile/TabBarMobile';
-import LandingPageMobile from './components/mobile/LandingPageMobile';
+import LandingPage from './pages/desktop/LandingPage';
 import axios from 'axios';
 import './App.css';
 
@@ -25,8 +25,7 @@ import './App.css';
   */
 
 const App = () => {
-  const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
-  // const isMobile = useMediaQuery({ query: '(max-aspect-ratio: 3/4)' });
+  const isMobile = useMediaQuery({ query: '(max-width: 900px)' });
   const [userInfo, setUserInfo] = useState('');
   const [rankingList, setRankingList] = useState([]);
   const [playlist, setPlaylist] = useState([]);

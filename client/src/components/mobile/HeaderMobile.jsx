@@ -4,28 +4,32 @@ import logo from '../../images/original.svg';
 import { Link } from 'react-router-dom';
 
 const Head = styled.header`
+  background-color: var(--color-background);
   max-width: 1320px;
   width: 100vw;
-  height: 7.5rem;
+  height: 7rem;
   display: flex;
-  align-items: center;
   position: fixed;
   top: 0;
-  background-color: var(--color-background);
+
+  > div {
+    margin: 1.5rem 2rem;
+  }
 
   img {
     height: 4rem;
-    padding: 0 2rem;
   }
 `;
 
 const HeaderMobile = () => {
   return (
-    <Link to="/">
-      <Head>
-        <img src={logo} alt="logo"></img>
-      </Head>
-    </Link>
+    <Head>
+      <div>
+        <Link to="/">
+          <img src={logo} alt="logo"></img>
+        </Link>
+      </div>
+    </Head>
   );
 };
 

@@ -2,31 +2,31 @@ import React, { useEffect, useState } from 'react';
 import arrowUp from '../../images/arrowUp.svg';
 import styled from 'styled-components';
 
-const GoTop = styled.div`
+const Wrapper = styled.div`
   display: ${(props) => (props.isVisible ? 'block' : 'none')};
+`;
 
-  > button {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #f57270;
-    position: fixed;
-    right: 5%;
-    bottom: 12rem;
-    width: 6rem;
-    height: 6rem;
-    border: none;
-    border-radius: 100%;
-    z-index: 1;
-  }
+const GoTopButton = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f57270;
+  position: fixed;
+  right: 5%;
+  bottom: 9rem;
+  width: ${(props) => (props.isMobile ? '4rem' : '7rem')};
+  height: ${(props) => (props.isMobile ? '4rem' : '7rem')};
+  border: none;
+  border-radius: 100%;
+  z-index: 1;
 
-  img {
+  > img {
     width: 80%;
     height: 80%;
   }
 `;
 
-const ScrollToTop = () => {
+const ScrollToTop = ({ isMobile }) => {
   const [isVisible, setVisible] = useState(false);
 
   useEffect(() => {
@@ -60,11 +60,11 @@ const ScrollToTop = () => {
   };
 
   return (
-    <GoTop isVisible={isVisible}>
-      <button onClick={goTop}>
+    <Wrapper isVisible={isVisible}>
+      <GoTopButton isMobile={isMobile} onClick={goTop}>
         <img src={arrowUp} alt="back to top"></img>
-      </button>
-    </GoTop>
+      </GoTopButton>
+    </Wrapper>
   );
 };
 
