@@ -63,40 +63,18 @@ const TopTwenty = styled.ol`
 `;
 
 const Ranking = ({ userInfo }) => {
-  const dummy = [
-    { rank: 1, nickname: 'newnick', score: 0 },
-    { rank: 2, nickname: 'newnick', score: 0 },
-    { rank: 3, nickname: 'newnick', score: 0 },
-    { rank: 4, nickname: 'newnick', score: 0 },
-    { rank: 5, nickname: 'newnick', score: 0 },
-    { rank: 6, nickname: 'newnick', score: 0 },
-    { rank: 7, nickname: 'newnick', score: 0 },
-    { rank: 8, nickname: 'newnick', score: 0 },
-    { rank: 9, nickname: 'newnick', score: 0 },
-    { rank: 10, nickname: 'newnick', score: 0 },
-    { rank: 11, nickname: 'newnick', score: 0 },
-    { rank: 12, nickname: 'newnick', score: 0 },
-    { rank: 13, nickname: 'newnick', score: 0 },
-    { rank: 14, nickname: 'newnick', score: 0 },
-    { rank: 15, nickname: 'newnick', score: 0 },
-    { rank: 16, nickname: 'newnick', score: 0 },
-    { rank: 17, nickname: 'newnick', score: 0 },
-    { rank: 18, nickname: 'newnick', score: 0 },
-    { rank: 19, nickname: 'newnick', score: 0 },
-    { rank: 20, nickname: 'newnick', score: 0 },
-  ];
-  const [rankingList, setRankingList] = useState(dummy);
+  const [rankingList, setRankingList] = useState([]);
   const token = localStorage.getItem('Token');
 
-  // useEffect(() => {
-  //   axios
-  //     .get('https://final.eax.kr/api/ranks')
-  //     .then((res) => {
-  //       console.log(res.data.result);
-  //       setRankingList(res.data.result);
-  //     })
-  //     .catch((error) => console.log(error));
-  // }, []);
+  useEffect(() => {
+    axios
+      .get('https://final.eax.kr/api/ranks')
+      .then((res) => {
+        console.log(res.data.result);
+        setRankingList(res.data.result);
+      })
+      .catch((error) => console.log(error));
+  }, []);
 
   return (
     <Container>

@@ -10,7 +10,7 @@ export const RankContainer = styled.li`
   align-items: center;
   background-color: ${({ backgroundColor }) => backgroundColor};
   padding: 0 25px;
-  height: 50px;
+  height: 45px;
   font-size: 18px;
 `;
 
