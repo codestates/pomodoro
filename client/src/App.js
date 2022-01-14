@@ -4,18 +4,17 @@ import { useMediaQuery } from 'react-responsive';
 
 import MyPage from './pages/desktop/MyPage';
 import Ranking from './pages/desktop/Ranking';
-import Header from './components/desktop/Header';
-import Footer from './components/desktop/Footer';
 import Login from './pages/desktop/Login';
 import SignUp from './pages/desktop/SignUp';
 import ForgotPassword from './pages/desktop/ForgotPassword';
 import EditUserInfo from './pages/desktop/EditUserInfo';
 import Bye from './pages/desktop/Bye';
 import MusicSelection from './pages/desktop/MusicSelection';
-import LandingPageMobile from './pages/mobile/LandingPageMobile';
-import HeaderMobile from './components/mobile/HeaderMobile';
-import TabBarMobile from './components/mobile/TabBarMobile';
 import LandingPage from './pages/desktop/LandingPage';
+import LandingPageMobile from './pages/mobile/LandingPageMobile';
+import LayoutWithHeader from './pages/desktop/LayoutWithHeader';
+import LayoutMobileWithHeader from './pages/mobile/LayoutMobileWithHeader';
+import TabBarMobile from './components/mobile/TabBarMobile';
 import axios from 'axios';
 import './App.css';
 
@@ -72,27 +71,31 @@ const App = () => {
         value={{ userInfo, playlist, requestUserInfo, tags }}
       >
         <Router>
-          <HeaderMobile />
           <Routes>
-            <Route path="/" element={<LandingPageMobile />} />
-            <Route path="/music" element={<MusicSelection tags={tags} />} />
+            <Route element={<LayoutMobileWithHeader />}>
+              <Route path="/" element={<LandingPageMobile />} />
+              <Route path="/music" element={<MusicSelection tags={tags} />} />
+              <Route path="/editinfo" element={<EditUserInfo />} />
+              <Route path="/delete" element={<Bye />} />
+              <Route
+                path="/mypage"
+                element={
+                  <MyPage
+                    userInfo={userInfo}
+                    setUserInfo={setUserInfo}
+                    playlist={playlist}
+                    setPlaylist={setPlaylist}
+                  />
+                }
+              />
+              <Route
+                path="/ranking"
+                element={<Ranking userInfo={userInfo} />}
+              />
+            </Route>
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<SignUp />} />
-            <Route path="/editinfo" element={<EditUserInfo />} />
             <Route path="/forgotpw" element={<ForgotPassword />} />
-            <Route path="/delete" element={<Bye />} />
-            <Route
-              path="/mypage"
-              element={
-                <MyPage
-                  userInfo={userInfo}
-                  setUserInfo={setUserInfo}
-                  playlist={playlist}
-                  setPlaylist={setPlaylist}
-                />
-              }
-            />
-            <Route path="/ranking" element={<Ranking userInfo={userInfo} />} />
           </Routes>
           <TabBarMobile />
         </Router>
@@ -104,55 +107,27 @@ const App = () => {
     <UserContext.Provider value={{ userInfo, playlist, requestUserInfo, tags }}>
       <Router>
         <Routes>
-          <Route
-            path="/"
-            element={
-              <>
-                <Header />
-                <LandingPage />
-                <Footer />
-              </>
-            }
-          />
-          <Route
-            path="/music"
-            element={
-              <>
-                <Header />
-                <MusicSelection tags={tags} />
-                <Footer />
-              </>
-            }
-          />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<SignUp />} />
-          <Route path="/forgotpw" element={<ForgotPassword />} />
-          <Route path="/delete" element={<Bye />} />
-          <Route
-            path="/editinfo"
-            element={
-              <>
-                <Header />
-                <EditUserInfo />
-              </>
-            }
-          />
-          <Route
-            path="/mypage"
-            element={
-              <>
-                <Header />
+          <Route element={<LayoutWithHeader />}>
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/music" element={<MusicSelection tags={tags} />} />
+            <Route path="/delete" element={<Bye />} />
+            <Route path="/editinfo" element={<EditUserInfo />} />
+            <Route path="/ranking" element={<Ranking userInfo={userInfo} />} />
+            <Route
+              path="/mypage"
+              element={
                 <MyPage
                   userInfo={userInfo}
                   setUserInfo={setUserInfo}
                   playlist={playlist}
                   setPlaylist={setPlaylist}
                 />
-                <Footer />
-              </>
-            }
-          />
-          <Route path="/ranking" element={<Ranking userInfo={userInfo} />} />
+              }
+            />
+          </Route>
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/forgotpw" element={<ForgotPassword />} />
         </Routes>
       </Router>
     </UserContext.Provider>
