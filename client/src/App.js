@@ -1,6 +1,7 @@
-import React, { useState, useLayoutEffect } from 'react';
+import React, { useState, useLayoutEffect, createContext } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useMediaQuery } from 'react-responsive';
+
 import MyPage from './pages/desktop/MyPage';
 import Ranking from './pages/desktop/Ranking';
 import Header from './components/desktop/Header';
@@ -18,134 +19,143 @@ import LandingPage from './pages/desktop/LandingPage';
 import axios from 'axios';
 import './App.css';
 
-/*
-  import { useMediaQuery } from 'react-responsive';
-  const isMobile = useMediaQuery({ query: '(max-width: 667px)' });
-  const isPortrait = useMediaQuery({ query: '(orientation: portrait)' });
-  */
+export const UserContext = createContext({
+  userInfo: '',
+  rankingList: [],
+  playlist: [],
+  requestUserInfo: () => {},
+  tags: null,
+});
 
 const App = () => {
   const isMobile = useMediaQuery({ query: '(max-width: 900px)' });
   const [userInfo, setUserInfo] = useState('');
   const [playlist, setPlaylist] = useState([]);
+  const [tags, setTags] = useState(false);
 
-  useLayoutEffect(() => {
+  const requestUserInfo = () => {
+    const ENDPOINT = 0;
+    const STATE_TO_STORE = 1;
+    const TOKEN_REQUIRED = 2;
+
     const token = localStorage.getItem('Token');
-    if (!token) return;
     const headers = {
       authorization: `Bearer ${token}`,
     };
     const getRequests = [
-      ['https://final.eax.kr/api/users', setUserInfo],
-      ['https://final.eax.kr/api/playlists', setPlaylist],
+      ['https://final.eax.kr/api/users', setUserInfo, TOKEN_REQUIRED],
+      ['https://final.eax.kr/api/playlists', setPlaylist, TOKEN_REQUIRED],
+      ['https://final.eax.kr/api/tags', setTags],
     ];
 
     for (const request of getRequests) {
+      if (request[TOKEN_REQUIRED] && !token) continue;
       axios
-        .get(request[0], { headers })
+        .get(request[ENDPOINT], { headers })
         .then((res) => {
-          if (res.data['result']) request[1](res.data.result);
-          else request[1](res.data);
+          if (res.data['result']) request[STATE_TO_STORE](res.data.result);
+          else request[STATE_TO_STORE](res.data);
         })
         .catch((err) => {
           console.dir(err);
         });
     }
+  };
+
+  useLayoutEffect(() => {
+    requestUserInfo();
   }, []);
 
   if (isMobile) {
     return (
-      <Router>
-        <HeaderMobile />
-        <Routes>
-          <Route path="/" element={<LandingPageMobile />} />
-          <Route path="/music" element={<MusicSelection />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<SignUp />} />
-          <Route path="/editinfo" element={<EditUserInfo />} />
-          <Route path="/forgotpw" element={<ForgotPassword />} />
-          <Route path="/delete" element={<Bye />} />
-          <Route
-            path="/mypage"
-            element={
-              <MyPage
-                userInfo={userInfo}
-                setUserInfo={setUserInfo}
-                playlist={playlist}
-                setPlaylist={setPlaylist}
-              />
-            }
-          />
-          <Route path="/ranking" element={<Ranking userInfo={userInfo} />} />
-        </Routes>
-        <TabBarMobile />
-      </Router>
+      <UserContext.Provider
+        value={{ userInfo, playlist, requestUserInfo, tags }}
+      >
+        <Router>
+          <HeaderMobile />
+          <Routes>
+            <Route path="/" element={<LandingPageMobile />} />
+            <Route path="/music" element={<MusicSelection tags={tags} />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<SignUp />} />
+            <Route path="/editinfo" element={<EditUserInfo />} />
+            <Route path="/forgotpw" element={<ForgotPassword />} />
+            <Route path="/delete" element={<Bye />} />
+            <Route
+              path="/mypage"
+              element={
+                <MyPage
+                  userInfo={userInfo}
+                  setUserInfo={setUserInfo}
+                  playlist={playlist}
+                  setPlaylist={setPlaylist}
+                />
+              }
+            />
+            <Route path="/ranking" element={<Ranking userInfo={userInfo} />} />
+          </Routes>
+          <TabBarMobile />
+        </Router>
+      </UserContext.Provider>
     );
   }
 
   return (
-    <Router>
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <>
-              <Header />
-              <LandingPage />
-              <Footer />
-            </>
-          }
-        />
-        <Route
-          path="/music"
-          element={
-            <>
-              <Header />
-              <MusicSelection />
-              <Footer />
-            </>
-          }
-        />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<SignUp />} />
-        <Route path="/forgotpw" element={<ForgotPassword />} />
-        <Route path="/delete" element={<Bye />} />
-        <Route
-          path="/editinfo"
-          element={
-            <>
-              <Header />
-              <EditUserInfo />
-            </>
-          }
-        />
-        <Route
-          path="/mypage"
-          element={
-            <>
-              <Header />
-              <MyPage
-                userInfo={userInfo}
-                setUserInfo={setUserInfo}
-                playlist={playlist}
-                setPlaylist={setPlaylist}
-              />
-              <Footer />
-            </>
-          }
-        />
-        <Route
-          path="/ranking"
-          element={
-            <>
-              <Header />
-              <Ranking userInfo={userInfo} />
-              <Footer />
-            </>
-          }
-        />
-      </Routes>
-    </Router>
+    <UserContext.Provider value={{ userInfo, playlist, requestUserInfo, tags }}>
+      <Router>
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <>
+                <Header />
+                <LandingPage />
+                <Footer />
+              </>
+            }
+          />
+          <Route
+            path="/music"
+            element={
+              <>
+                <Header />
+                <MusicSelection tags={tags} />
+                <Footer />
+              </>
+            }
+          />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/forgotpw" element={<ForgotPassword />} />
+          <Route path="/delete" element={<Bye />} />
+          <Route
+            path="/editinfo"
+            element={
+              <>
+                <Header />
+                <EditUserInfo />
+              </>
+            }
+          />
+          <Route
+            path="/mypage"
+            element={
+              <>
+                <Header />
+                <MyPage
+                  userInfo={userInfo}
+                  setUserInfo={setUserInfo}
+                  playlist={playlist}
+                  setPlaylist={setPlaylist}
+                />
+                <Footer />
+              </>
+            }
+          />
+          <Route path="/ranking" element={<Ranking userInfo={userInfo} />} />
+        </Routes>
+      </Router>
+    </UserContext.Provider>
   );
 };
 
