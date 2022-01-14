@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import logo from '../../images/original.svg';
 
 const Head = styled.header`
+  background-color: var(--color-background);
   max-width: 1320px;
   height: 10rem;
   display: flex;
