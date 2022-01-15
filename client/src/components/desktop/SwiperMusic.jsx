@@ -1,6 +1,6 @@
-import { useContext } from 'react';
 import styled from 'styled-components';
 import { Swiper, SwiperSlide } from 'swiper/react';
+
 import SwiperCore, {
   EffectCoverflow,
   Pagination,
@@ -12,7 +12,6 @@ import 'swiper/css';
 import 'swiper/css/effect-coverflow';
 import 'swiper/css/pagination';
 import { ReactComponent as Loading } from '../../images/loading.svg';
-import { CurrentMusicInfo } from '../../pages/desktop/MusicSelection';
 
 SwiperCore.use([EffectCoverflow, Pagination, Mousewheel, Keyboard]);
 
@@ -50,12 +49,10 @@ const LoadingPlaceHolder = styled.div`
   background: linear-gradient(lightgray, var(--color-background), lightgray);
 `;
 
-const SwiperMusic = ({ searchResult }) => {
-  const { changeCurrentMusic } = useContext(CurrentMusicInfo);
-
+const SwiperMusic = ({ searchResult, setCurrentMusic }) => {
   const StoreSlideInfo = (swiper) => {
     const data = swiper.slides[swiper.realIndex].dataset;
-    changeCurrentMusic(data);
+    setCurrentMusic(data);
   };
 
   return (
@@ -81,9 +78,9 @@ const SwiperMusic = ({ searchResult }) => {
         onSwiper={(swiper) => {
           setTimeout(() => {
             try {
-              changeCurrentMusic(swiper.slides[swiper.realIndex + 1].dataset);
+              setCurrentMusic(swiper.slides[swiper.realIndex + 1].dataset);
             } catch (e) {}
-          }, 4000);
+          }, 2000);
         }}
       >
         {searchResult
