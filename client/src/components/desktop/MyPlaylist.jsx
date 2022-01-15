@@ -10,12 +10,12 @@ const Container = styled(SectionContainer)`
   align-items: space-between;
   height: 350px;
   padding: 2em;
-  font-size: 1.5rem;
+  font-size: 1.8rem;
 
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 900px) {
     flex-direction: column;
     margin-bottom: 50px;
-    height: 100%;
+    height: auto;
   }
 `;
 

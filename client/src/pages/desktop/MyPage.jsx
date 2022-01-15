@@ -8,15 +8,18 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   width: 100vw;
+  height: 80vh;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   color: #945151;
   user-select: none;
+  z-index: 100;
 
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 900px) {
+    height: auto;
     margin-top: 100px;
-    margin-bottom: 100px
+    margin-bottom: 100px;
   }
 `;
 

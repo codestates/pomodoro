@@ -11,6 +11,7 @@ const Head = styled.header`
   display: flex;
   position: fixed;
   top: 0;
+  z-index: 100;
 
   > div {
     margin: 1.5rem 2rem;

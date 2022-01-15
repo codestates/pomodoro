@@ -24,7 +24,7 @@ const Buttons = styled.div`
   justify-content: space-between;
   width: 80%;
 
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 900px) {
     flex-direction: column;
     width: 50%;
   }
@@ -46,7 +46,9 @@ const Button = styled.button`
     transition-duration: 250ms;
   }
 
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 900px) {
+    width: auto;
+    padding: 10px;
     margin-bottom: 10px;
   }
 `;
