@@ -28,11 +28,12 @@ export const UserContext = createContext({
 
 const App = () => {
   const isMobile = useMediaQuery({ query: '(max-width: 900px)' });
-  const [userInfo, setUserInfo] = useState('');
+  const [userInfo, setUserInfo] = useState(null);
   const [playlist, setPlaylist] = useState([]);
   const [tags, setTags] = useState(false);
 
-  const requestUserInfo = () => {
+  // 유저 정보 요청 함수
+  const requestUserInfo = (specificRequest) => {
     const ENDPOINT = 0;
     const STATE_TO_STORE = 1;
     const TOKEN_REQUIRED = 2;
@@ -41,14 +42,28 @@ const App = () => {
     const headers = {
       authorization: `Bearer ${token}`,
     };
-    const getRequests = [
+    const requestDictionary = [
       ['https://final.eax.kr/api/users', setUserInfo, TOKEN_REQUIRED],
       ['https://final.eax.kr/api/playlists', setPlaylist, TOKEN_REQUIRED],
       ['https://final.eax.kr/api/tags', setTags],
     ];
+    //특정요청만 다시 불러오는 경우 배열과 아닌경우를 분리하여 융통성 있개 배치
+    let getRequests = [];
+    if (specificRequest) {
+      if (Array.isArray(specificRequest))
+        for (const requestID of specificRequest)
+          getRequests.push(requestDictionary[requestID]);
+      else getRequests.push(requestDictionary[specificRequest]);
+    } else getRequests = requestDictionary;
 
+    //Driver code : 요청 확인 후 각 State에 저장
     for (const request of getRequests) {
-      if (request[TOKEN_REQUIRED] && !token) continue;
+      //토큰 요구사항인데 값이 없으면 실행하지 않음
+      if (request[TOKEN_REQUIRED] && !token) {
+        request[STATE_TO_STORE](null);
+        continue;
+      }
+      //axios 요청 후 결과값을 State에 저장
       axios
         .get(request[ENDPOINT], { headers })
         .then((res) => {
@@ -56,11 +71,16 @@ const App = () => {
           else request[STATE_TO_STORE](res.data);
         })
         .catch((err) => {
+          //오류 발생시 토큰관련 문제인 경우 토큰을 삭제
+          if (request[TOKEN_REQUIRED] && err.response.data === 'unauthorized')
+            localStorage.removeItem('Token');
+          request[STATE_TO_STORE](null);
           console.dir(err);
         });
     }
   };
 
+  //로드시 각종 State에 넣을 값을 최초 1회 요청
   useLayoutEffect(() => {
     requestUserInfo();
   }, []);
