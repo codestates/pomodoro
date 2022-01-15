@@ -9,7 +9,7 @@ const UserDatas = styled.ul`
   flex-direction: column;
   align-items: flex-start;
   flex: 3;
-  font-size: 1.5rem;
+  font-size: 1.8rem;
 `;
 
 const UserData = styled.li`
@@ -21,7 +21,7 @@ const Button = styled.button`
   top: 20px;
   right: 30px;
   font-size: 1.5rem;
-  padding: 0.5em 2em;
+  padding: 0.5em 1.5em;
   background-color: #f2e7da;
   border: none;
   border-radius: 30px;
@@ -32,7 +32,7 @@ const Button = styled.button`
     transform: scale(0.9);
   }
 
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 900px) {
     position: relative;
     top: 0;
     right: 0;
@@ -49,34 +49,32 @@ const MyStatus = ({ userInfo }) => {
   const navigate = useNavigate();
   const { nickname, email, rank, pomo } = userInfo;
   return (
-    <>
-      <SectionContainer>
-        <StyledMedal>
-          <Medal width="110px" />
-        </StyledMedal>
-        <UserDatas>
-          <UserData>
-            <strong>닉네임:&nbsp;</strong>
-            {nickname}
-          </UserData>
-          <UserData>
-            <strong>이메일:&nbsp;</strong>
-            {email}
-          </UserData>
-          <UserData>
-            <strong>순위:&nbsp;</strong>
-            {rank}
-          </UserData>
-          <UserData>
-            <strong>뽀모:&nbsp;</strong>
-            {pomo}
-          </UserData>
-        </UserDatas>
-        <Button type="button" onClick={() => navigate('/editinfo')}>
-          정보 수정
-        </Button>
-      </SectionContainer>
-    </>
+    <SectionContainer>
+      <StyledMedal>
+        <Medal width="110px" />
+      </StyledMedal>
+      <UserDatas>
+        <UserData>
+          <strong>닉네임:&nbsp;</strong>
+          {nickname}
+        </UserData>
+        <UserData>
+          <strong>이메일:&nbsp;</strong>
+          {email}
+        </UserData>
+        <UserData>
+          <strong>순위:&nbsp;</strong>
+          {rank}
+        </UserData>
+        <UserData>
+          <strong>뽀모:&nbsp;</strong>
+          {pomo}
+        </UserData>
+      </UserDatas>
+      <Button type="button" onClick={() => navigate('/editinfo')}>
+        정보 수정
+      </Button>
+    </SectionContainer>
   );
 };
 

@@ -8,7 +8,7 @@ export const FormErrorMsg = styled.span`
   margin-top: 5px;
   font-size: 1.3rem;
 
-  @media screen and (max-width: 768px) {
-    height: 4.5rem;
+  @media screen and (max-width: 900px) {
+    height: 5.5rem;
   }
 `;
