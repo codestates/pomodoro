@@ -1,6 +1,7 @@
 import { useContext } from 'react';
 import styled from 'styled-components';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
+import axios from 'axios';
 
 import { ReactComponent as PlaylistIcon } from '../../images/playlists.svg';
 import { ReactComponent as SelectedIcon } from '../../images/select.svg';
@@ -55,9 +56,15 @@ const NavTitle = styled.div`
   -ms-user-select: none;
 `;
 
+const EmptyPlaylistWrapper = styled.div`
+  max-width: 34.8rem;
+  margin: 0 auto 1.5rem auto;
+  display: flex;
+  align-items: center;
+`;
+
 const WithEmptyPlaylist = styled.div`
   max-width: 26.6rem;
-  margin: 0 auto 1.5rem auto;
   font-style: normal;
   font-weight: bold;
   font-size: 2.3rem;
@@ -134,6 +141,26 @@ const MenuForPlaylist = ({ currentPlaylist, setCurrentPlaylist }) => {
     console.dir(result);
   };
 
+  const removePlaylist = (e) => {
+    const { id, playlistid } = e.currentTarget.dataset;
+    const endpoint = `https://final.eax.kr/api/playlists/${playlistid}`;
+    const token = localStorage.getItem('Token');
+    const headers = {
+      authorization: `Bearer ${token}`,
+    };
+    const removedList = [...playlist];
+    removedList.splice(id, 1);
+    axios
+      .delete(endpoint, { headers })
+      .then(() => {
+        if (currentPlaylist == playlistid) setCurrentPlaylist(0);
+        requestUserInfo(1);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   return (
     <PlaylistContainer>
       <PlaylistMenuNav>
@@ -143,7 +170,18 @@ const MenuForPlaylist = ({ currentPlaylist, setCurrentPlaylist }) => {
         <NavGhostDiv />
         <NavTitle>저장된 플레이리스트</NavTitle>
       </PlaylistMenuNav>
-      <WithEmptyPlaylist>빈 플레이리스트로 시작</WithEmptyPlaylist>
+      <EmptyPlaylistWrapper>
+        <CheckBoxDiv>
+          {currentPlaylist ? false : <SelectedIcon width={24} height={24} />}
+        </CheckBoxDiv>
+        <WithEmptyPlaylist
+          onClick={() => {
+            setCurrentPlaylist(0);
+          }}
+        >
+          빈 플레이리스트로 시작
+        </WithEmptyPlaylist>
+      </EmptyPlaylistWrapper>
       <DragDropContext onDragEnd={reorderList}>
         <Droppable droppableId="droppable">
           {(provided, snapshot) => (
@@ -185,7 +223,13 @@ const MenuForPlaylist = ({ currentPlaylist, setCurrentPlaylist }) => {
                             : '--:--'}
                         </TotalTimeDiv>
                         <DeleteDiv>
-                          <DeleteIcon width={26} height={26} />
+                          <DeleteIcon
+                            width={26}
+                            height={26}
+                            data-id={index}
+                            data-playlistid={playlist_id}
+                            onClick={removePlaylist}
+                          />
                         </DeleteDiv>
                       </DragItem>
                     )}
