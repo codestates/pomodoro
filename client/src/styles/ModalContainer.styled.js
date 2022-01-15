@@ -11,6 +11,7 @@ export const ModalContainer = styled.div`
   justify-content: center;
   align-items: center;
 
-    @media screen and (max-width: 768px) {
+  @media screen and (max-width: 900px) {
+    height: 110vh;
   }
 `;
