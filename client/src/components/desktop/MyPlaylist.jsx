@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { SectionContainer } from '../../styles/SectionContainer';
 import Playlist from '../../components/desktop/Playlist';
 import styled from 'styled-components';
+import { UserContext } from '../../App';
 
 const Container = styled(SectionContainer)`
   display: flex;
@@ -31,7 +32,8 @@ const Title = styled.h3`
   margin-bottom: 10px;
 `;
 
-const MyPlaylist = ({ playlist, setPlaylist }) => {
+const MyPlaylist = () => {
+  const { playlist } = useContext(UserContext);
   return (
     <Container>
       <Title>내 플레이리스트</Title>
@@ -43,8 +45,6 @@ const MyPlaylist = ({ playlist, setPlaylist }) => {
             key={item.playlist_id}
             order={index + 1}
             name={item.playlist_name}
-            playlist={playlist}
-            setPlaylist={setPlaylist}
           />
         ))}
       </Playlists>

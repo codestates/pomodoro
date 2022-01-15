@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FormContainer } from '../../styles/FormContainer.styled';
 import { Form } from '../../styles/Form.styled';
@@ -10,6 +10,7 @@ import { FormErrorMsg } from '../../styles/FormErrorMsg.styled';
 import { ReactComponent as Logo } from '../../images/logo.svg';
 import styled from 'styled-components';
 import axios from 'axios';
+import { UserContext } from '../../App';
 
 const StyledLogo = styled.div`
   width: 100%;
@@ -36,10 +37,32 @@ const Login = () => {
   const [errMsg, setErrMsg] = useState('');
   const nicknameRef = useRef(null);
   const pwRef = useRef(null);
+  let token = '';
+  const { setUserInfo, setPlaylist } = useContext(UserContext);
 
   useEffect(() => {
     nicknameRef.current.focus();
   }, []);
+
+  const getUserInfo = async () => {
+    if (!token) return;
+    await axios
+      .get('https://final.eax.kr/api/users', {
+        headers: { authorization: `Bearer ${token}` },
+      })
+      .then((res) => setUserInfo(res.data))
+      .catch((error) => console.log(error));
+  };
+
+  const getUserPlaylist = async () => {
+    if (!token) return;
+    await axios
+      .get('https://final.eax.kr/api/playlists', {
+        headers: { authorization: `Bearer ${token}` },
+      })
+      .then((res) => setPlaylist(res.data.result))
+      .catch((error) => console.log(error));
+  };
 
   const handleLoginBtn = async () => {
     const nickname = nicknameRef.current.value;
@@ -56,8 +79,10 @@ const Login = () => {
         password,
       })
       .then((res) => {
-        const token = res.data.token;
+        token = res.data.token;
         localStorage.setItem('Token', token);
+        getUserInfo();
+        getUserPlaylist();
         navigate('/');
       })
       .catch((error) => {

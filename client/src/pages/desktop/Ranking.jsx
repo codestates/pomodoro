@@ -62,7 +62,7 @@ const TopTwenty = styled.ol`
   padding: 10px;
 `;
 
-const Ranking = ({ userInfo }) => {
+const Ranking = () => {
   const [rankingList, setRankingList] = useState([]);
   const token = localStorage.getItem('Token');
 
@@ -79,15 +79,7 @@ const Ranking = ({ userInfo }) => {
     <Container>
       <RankingSection>
         <Title>랭킹</Title>
-        {token ? (
-          <MyRank
-            rank={userInfo.rank}
-            nickname={userInfo.nickname}
-            pomo={userInfo.pomo}
-          />
-        ) : (
-          <></>
-        )}
+        {token ? <MyRank /> : <></>}
         <TopTwentyContainer>
           <TopTwenty>
             {rankingList?.map((item) => (

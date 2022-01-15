@@ -28,7 +28,7 @@ export const UserContext = createContext({
 
 const App = () => {
   const isMobile = useMediaQuery({ query: '(max-width: 900px)' });
-  const [userInfo, setUserInfo] = useState(null);
+  const [userInfo, setUserInfo] = useState(''); // null 쓰지마세요. 에러 뜹니다.
   const [playlist, setPlaylist] = useState([]);
   const [tags, setTags] = useState(false);
 
@@ -42,11 +42,7 @@ const App = () => {
     const headers = {
       authorization: `Bearer ${token}`,
     };
-    const requestDictionary = [
-      ['https://final.eax.kr/api/users', setUserInfo, TOKEN_REQUIRED],
-      ['https://final.eax.kr/api/playlists', setPlaylist, TOKEN_REQUIRED],
-      ['https://final.eax.kr/api/tags', setTags],
-    ];
+    const requestDictionary = [['https://final.eax.kr/api/tags', setTags]];
     //특정요청만 다시 불러오는 경우 배열과 아닌경우를 분리하여 융통성 있개 배치
     let getRequests = [];
     if (specificRequest) {
@@ -88,7 +84,14 @@ const App = () => {
   if (isMobile) {
     return (
       <UserContext.Provider
-        value={{ userInfo, playlist, requestUserInfo, tags }}
+        value={{
+          userInfo,
+          setUserInfo,
+          playlist,
+          setPlaylist,
+          requestUserInfo,
+          tags,
+        }}
       >
         <Router>
           <Routes>
@@ -97,21 +100,8 @@ const App = () => {
               <Route path="/music" element={<MusicSelection tags={tags} />} />
               <Route path="/editinfo" element={<EditUserInfo />} />
               <Route path="/delete" element={<Bye />} />
-              <Route
-                path="/mypage"
-                element={
-                  <MyPage
-                    userInfo={userInfo}
-                    setUserInfo={setUserInfo}
-                    playlist={playlist}
-                    setPlaylist={setPlaylist}
-                  />
-                }
-              />
-              <Route
-                path="/ranking"
-                element={<Ranking userInfo={userInfo} />}
-              />
+              <Route path="/mypage" element={<MyPage />} />
+              <Route path="/ranking" element={<Ranking />} />
             </Route>
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<SignUp />} />
@@ -124,7 +114,16 @@ const App = () => {
   }
 
   return (
-    <UserContext.Provider value={{ userInfo, playlist, requestUserInfo, tags }}>
+    <UserContext.Provider
+      value={{
+        userInfo,
+        setUserInfo,
+        playlist,
+        setPlaylist,
+        requestUserInfo,
+        tags,
+      }}
+    >
       <Router>
         <Routes>
           <Route element={<LayoutWithHeader />}>
@@ -132,18 +131,8 @@ const App = () => {
             <Route path="/music" element={<MusicSelection tags={tags} />} />
             <Route path="/delete" element={<Bye />} />
             <Route path="/editinfo" element={<EditUserInfo />} />
-            <Route path="/ranking" element={<Ranking userInfo={userInfo} />} />
-            <Route
-              path="/mypage"
-              element={
-                <MyPage
-                  userInfo={userInfo}
-                  setUserInfo={setUserInfo}
-                  playlist={playlist}
-                  setPlaylist={setPlaylist}
-                />
-              }
-            />
+            <Route path="/ranking" element={<Ranking />} />
+            <Route path="/mypage" element={<MyPage />} />
           </Route>
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
