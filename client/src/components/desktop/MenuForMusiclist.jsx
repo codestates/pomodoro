@@ -141,6 +141,14 @@ const musicTimeFormat = (time) => {
   return `${minutes}:${seconds < 10 ? `0${seconds}` : seconds}`;
 };
 
+const reorder = (list, startIndex, endIndex) => {
+  const result = Array.from(list);
+  const [removed] = result.splice(startIndex, 1);
+  result.splice(endIndex, 0, removed);
+
+  return result;
+};
+
 const MenuForMusiclist = ({ currentPlaylist }) => {
   const { userInfo, requestUserInfo } = useContext(UserContext);
   const [musicList, setMusicList] = useState([]);
@@ -163,23 +171,33 @@ const MenuForMusiclist = ({ currentPlaylist }) => {
 
   useEffect(() => {
     if (!currentPlaylist || !userInfo) return;
+    getMusicList();
+  }, [userInfo, currentPlaylist]);
+
+  const reorderList = (result) => {
+    if (!result.destination) return;
+    if (result.source.index === result.destination.index) return;
+
+    const items = reorder(
+      musicList,
+      result.source.index,
+      result.destination.index
+    );
+
     const endpoint = `https://final.eax.kr/api/playlists/${currentPlaylist}`;
     const token = localStorage.getItem('Token');
     const headers = {
       authorization: `Bearer ${token}`,
     };
+    const music_order = items.map(({ music_id }) => music_id);
     axios
-      .get(endpoint, { headers })
-      .then((res) => {
-        setMusicList(res.data.result);
-      })
+      .put(endpoint, { music_order }, { headers })
+      .then(() => {})
       .catch((err) => {
         console.log(err);
+        setMusicList(musicList);
       });
-  }, [userInfo, currentPlaylist]);
-
-  const reorderList = (result) => {
-    console.dir(result);
+    setMusicList(items);
   };
 
   return (
