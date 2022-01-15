@@ -49,9 +49,9 @@ const LoadingPlaceHolder = styled.div`
   background: linear-gradient(lightgray, var(--color-background), lightgray);
 `;
 
-const SwiperMusic = ({ searchResult, setCurrentMusic }) => {
+const SwiperMusic = ({ searchResult, currentTagIndex, setCurrentMusic }) => {
   const StoreSlideInfo = (swiper) => {
-    const data = swiper.slides[swiper.realIndex].dataset;
+    const data = swiper.slides[swiper.activeIndex + 1].dataset;
     setCurrentMusic(data);
   };
 
@@ -74,6 +74,7 @@ const SwiperMusic = ({ searchResult, setCurrentMusic }) => {
           modifier: 1,
           slideShadows: true,
         }}
+        onUpdate={StoreSlideInfo}
         onSlideChange={StoreSlideInfo}
         onSwiper={(swiper) => {
           setTimeout(() => {
@@ -83,8 +84,10 @@ const SwiperMusic = ({ searchResult, setCurrentMusic }) => {
           }, 2000);
         }}
       >
-        {searchResult
-          ? searchResult[0].Musics?.map((item) => {
+        {searchResult[currentTagIndex] &&
+        searchResult[currentTagIndex]['Musics'] &&
+        searchResult[currentTagIndex].Musics.length
+          ? searchResult[currentTagIndex].Musics?.map((item) => {
               return (
                 <SwiperSlide
                   key={item.music_id}

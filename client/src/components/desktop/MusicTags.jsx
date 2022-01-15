@@ -40,7 +40,7 @@ const calculateTagWidth = (s) => {
   return lowerCase + upperCase + cjkLetter;
 };
 
-const MusicTags = ({ tags, onClick }) => {
+const MusicTags = ({ tags, currentTagIndex, setCurrentTagIndex }) => {
   return (
     <TagButtons>
       <Swiper
@@ -55,11 +55,16 @@ const MusicTags = ({ tags, onClick }) => {
           ? tags?.map((tag, index) => (
               <SwiperSlide
                 key={tag.tag_id}
+                data-id={index}
                 style={{
+                  backgroundColor:
+                    currentTagIndex == index
+                      ? 'rgba(81, 163, 30, 0.5)'
+                      : '#ffbd6f',
                   maxWidth: `${calculateTagWidth(tag.tag_name)}rem`,
                   cursor: 'pointer',
                 }}
-                onClick={() => console.log(tag.tag_name)}
+                onClick={(e) => setCurrentTagIndex(e.target.dataset.id)}
               >
                 {tag.tag_name}
               </SwiperSlide>
