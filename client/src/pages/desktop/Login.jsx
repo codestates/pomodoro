@@ -38,7 +38,6 @@ const Login = () => {
   const nicknameRef = useRef(null);
   const pwRef = useRef(null);
   let token = '';
-  const { setUserInfo, setPlaylist } = useContext(UserContext);
 
   useEffect(() => {
     nicknameRef.current.focus();
