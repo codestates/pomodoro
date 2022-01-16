@@ -16,7 +16,7 @@ const ejsRenderFile = (res, purpose, path, data) => {
 
   if (purpose === 'emailAuth') {
     const { email, code, apiUrl } = data;
-    ejs.renderFile(path, { user_id, email, code, apiUrl }, renderCallback);
+    ejs.renderFile(path, { email, code, apiUrl }, renderCallback);
   }
   if (purpose === 'forgetPassword') {
     const { code, apiUrl } = data;
