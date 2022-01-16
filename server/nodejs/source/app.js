@@ -93,49 +93,25 @@ const point = (URL) => `${PREFIX}${URL}`;
 //=========================================================
 // MVC pattern - Routes
 //=========================================================
-const controller = require('./app/controller');
-// deployment
-app.post(point('/upload'), controller.upload);
+const auth = require('./app/router/auth');
+const users = require('./app/router/users');
+const password = require('./app/router/passwords');
+const nickname = require('./app/router/nicknames');
+const mail = require('./app/router/mails');
+const playlist = require('./app/router/playlists');
+const music = require('./app/router/music');
+const pomodoro = require('./app/router/pomodoro');
+const rank = require('./app/router/ranks');
 
-//USER
-app.post(point('/auth'), controller.users.auth);
-app.get(point('/users'), controller.users.get);
-app.post(point('/users'), controller.users.post);
-app.patch(point('/users'), controller.users.patch);
-app.delete(point('/users'), controller.users.delete);
-
-//PASSWORD
-app.post(point('/passwords'), controller.passwords.post);
-app.patch(point('/passwords'), controller.passwords.patch);
-
-//NICKNAME
-app.get(point('/nicknames/:nickname'), controller.nicknames.get);
-
-//MAIL
-app.get(point('/mails/:email'), controller.mails.get);
-app.post(point('/mails'), controller.mails.post);
-
-//PLAYLIST
-app.get(point('/playlists'), controller.playlists.get);
-app.post(point('/playlists'), controller.playlists.post);
-app.put(point('/playlists'), controller.playlists.put);
-app.patch(point('/playlists/:playlist_id'), controller.playlists.patch);
-app.delete(point('/playlists/:playlist_id'), controller.playlists.delete);
-
-//PLAYLIST
-app.get(point('/playlists/:playlist_id'), controller.music.get);
-app.post(point('/playlists/:playlist_id'), controller.music.post);
-app.put(point('/playlists/:playlist_id'), controller.music.put);
-app.patch(point('/playlists/:playlist_id/:music_id'), controller.music.patch);
-app.delete(point('/playlists/:playlist_id/:music_id'), controller.music.delete);
-
-//POMODORO
-app.post(point('/pomodoro'), controller.pomodoro.post);
-app.patch(point('/pomodoro'), controller.pomodoro.patch);
-
-//RANK
-app.get(point('/ranks'), controller.ranks.get);
-
+app.use(point('/auth'), auth);
+app.use(point('/users'), users);
+app.use(point('/passwords'), password);
+app.use(point('/nicknames'), nickname);
+app.use(point('/mails'), mail);
+app.use(point('/playlists'), playlist);
+app.use(point('/playlists/:playlist_id'), music);
+app.use(point('/pomodoro'), pomodoro);
+app.use(point('/ranks'), rank);
 //=========================================================
 //Not Found : show Available routes
 //=========================================================
