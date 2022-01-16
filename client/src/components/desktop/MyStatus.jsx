@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { ReactComponent as Medal } from '../../images/medal.svg';
 import { SectionContainer } from '../../styles/SectionContainer';
+import { UserContext } from '../../App';
 
 const UserDatas = styled.ul`
   display: flex;
@@ -45,9 +46,9 @@ const StyledMedal = styled.div`
   flex: 1;
 `;
 
-const MyStatus = ({ userInfo }) => {
+const MyStatus = () => {
   const navigate = useNavigate();
-  const { nickname, email, rank, pomo } = userInfo;
+  const { userInfo } = useContext(UserContext);
   return (
     <SectionContainer>
       <StyledMedal>
@@ -56,19 +57,19 @@ const MyStatus = ({ userInfo }) => {
       <UserDatas>
         <UserData>
           <strong>닉네임:&nbsp;</strong>
-          {nickname}
+          {userInfo.nickname}
         </UserData>
         <UserData>
           <strong>이메일:&nbsp;</strong>
-          {email}
+          {userInfo.email}
         </UserData>
         <UserData>
           <strong>순위:&nbsp;</strong>
-          {rank}
+          {userInfo.rank}
         </UserData>
         <UserData>
           <strong>뽀모:&nbsp;</strong>
-          {pomo}
+          {userInfo.pomo}
         </UserData>
       </UserDatas>
       <Button type="button" onClick={() => navigate('/editinfo')}>

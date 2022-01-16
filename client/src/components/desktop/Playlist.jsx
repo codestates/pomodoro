@@ -1,8 +1,9 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
 import { ReactComponent as Edit } from '../../images/edit.svg';
 import { ReactComponent as Delete } from '../../images/delete.svg';
 import axios from 'axios';
+import { UserContext } from '../../App';
 
 const Container = styled.li`
   display: flex;
@@ -39,11 +40,12 @@ const StyledDelete = styled(StyledEdit)`
   margin-right: 0;
 `;
 
-const Playlist = ({ order, name, id, index, playlist, setPlaylist }) => {
+const Playlist = ({ order, name, id, index }) => {
   const [editMode, setEditMode] = useState(false);
   const [title, setTitle] = useState(name);
   const [open, setOpen] = useState(false);
   const inputRef = useRef(null);
+  const { playlist, setPlaylist } = useContext(UserContext);
 
   useEffect(() => {
     if (editMode) {

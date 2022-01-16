@@ -97,21 +97,8 @@ const App = () => {
               <Route path="/music" element={<MusicSelection tags={tags} />} />
               <Route path="/editinfo" element={<EditUserInfo />} />
               <Route path="/delete" element={<Bye />} />
-              <Route
-                path="/mypage"
-                element={
-                  <MyPage
-                    userInfo={userInfo}
-                    setUserInfo={setUserInfo}
-                    playlist={playlist}
-                    setPlaylist={setPlaylist}
-                  />
-                }
-              />
-              <Route
-                path="/ranking"
-                element={<Ranking userInfo={userInfo} />}
-              />
+              <Route path="/mypage" element={<MyPage />} />
+              <Route path="/ranking" element={<Ranking />} />
             </Route>
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<SignUp />} />
@@ -132,18 +119,8 @@ const App = () => {
             <Route path="/music" element={<MusicSelection tags={tags} />} />
             <Route path="/delete" element={<Bye />} />
             <Route path="/editinfo" element={<EditUserInfo />} />
-            <Route path="/ranking" element={<Ranking userInfo={userInfo} />} />
-            <Route
-              path="/mypage"
-              element={
-                <MyPage
-                  userInfo={userInfo}
-                  setUserInfo={setUserInfo}
-                  playlist={playlist}
-                  setPlaylist={setPlaylist}
-                />
-              }
-            />
+            <Route path="/ranking" element={<Ranking />} />
+            <Route path="/mypage" element={<MyPage />} />
           </Route>
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
