@@ -83,8 +83,6 @@ const {
   sequelizeError,
 } = require('./error/error');
 const checkEmaliCertification = (req, res) => {
-  // 인증 token Error - 401 토큰의 key 값 확인
-  // salt 값은 확인을 안합니다.
   const path = `/api/mails POST`;
   const stub = `checkEmaliCertification`;
   console.log(`[stub] ${path} ${stub}`);
