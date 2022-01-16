@@ -63,8 +63,6 @@ const confirmEmailAddress = async (req, res) => {
     apiUrl: process.env.GMAIL_AUTHMAIL,
   });
 
-  console.log('emailTemplate: ', emailTemplate);
-
   const mailSubject = '[POMODORO] 회원 인증 메일입니다.';
   const mailOption = {
     from: process.env.GMAIL_USER,
@@ -95,7 +93,6 @@ const checkEmaliCertification = (req, res) => {
     pendingValidValueCheck(res, pending);
     User.update({ pending: false }, { where: { user_id: auth_id } })
       .then((data) => {
-        console.log(data);
         if (data[0] === 0) {
           return res.status(400).send('no pending update. (no user_id)');
         }
