@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FormContainer } from '../../styles/FormContainer.styled';
 import { Form } from '../../styles/Form.styled';
@@ -10,6 +10,7 @@ import { FormErrorMsg } from '../../styles/FormErrorMsg.styled';
 import { ReactComponent as Logo } from '../../images/logo.svg';
 import styled from 'styled-components';
 import axios from 'axios';
+import { UserContext } from '../../App';
 
 const StyledLogo = styled.div`
   width: 100%;
@@ -36,6 +37,7 @@ const Login = () => {
   const [errMsg, setErrMsg] = useState('');
   const nicknameRef = useRef(null);
   const pwRef = useRef(null);
+  let token = '';
 
   useEffect(() => {
     nicknameRef.current.focus();
@@ -56,7 +58,7 @@ const Login = () => {
         password,
       })
       .then((res) => {
-        const token = res.data.token;
+        token = res.data.token;
         localStorage.setItem('Token', token);
         navigate('/');
       })
