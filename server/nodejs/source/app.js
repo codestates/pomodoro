@@ -4,6 +4,7 @@ const helmet = require('helmet');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const { tokenParser } = require('./app/controller/utils/tokenFunctions');
+const methodOverride = require('method-override');
 let app, readFileSync, http2Express, http2, options;
 
 //=========================================================
@@ -37,6 +38,17 @@ app.use(tokenParser());
 app.use(cookieParser());
 app.use(express.json({ limit: '100mb' })); //{ "message" : "ok" }
 app.use(express.urlencoded({ limit: '100mb', extended: true })); //message=ok
+// html form method Parser (PATCH , DELETE , PUT)
+app.use(
+  methodOverride(function (req, res) {
+    if (req.body && typeof req.body === 'object' && '_method' in req.body) {
+      // look in urlencoded POST bodies and delete it
+      var method = req.body._method;
+      delete req.body._method;
+      return method;
+    }
+  })
+);
 
 //=========================================================
 // Main Logger
