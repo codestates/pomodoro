@@ -7,12 +7,13 @@ import 'swiper/css';
 SwiperCore.use([Mousewheel]);
 
 const TagButtons = styled.div`
-  max-width: 80.4rem;
+  justify-self: center;
+  align-self: center;
   margin: auto;
-  padding: 0 2.1rem;
+  padding: 0 2%;
 
   & .swiper-slide {
-    min-height: 3.8rem;
+    min-height: calc(14px + 4vw);
     background-color: #ffbd6f;
     display: flex;
     justify-content: center;
@@ -21,8 +22,8 @@ const TagButtons = styled.div`
     box-shadow: 3px 4px 4px rgba(0, 0, 0, 0.25);
     font-style: normal;
     font-weight: bold;
-    font-size: 2.2rem;
-    line-height: 2.2rem;
+    font-size: calc(12px + 1.5vw);
+    line-height: 2rem;
     color: rgba(13, 24, 37, 0.8);
   }
 
@@ -32,12 +33,18 @@ const TagButtons = styled.div`
   }
 `;
 
+const torem = (rem) => {
+  return rem * parseFloat(getComputedStyle(document.documentElement).fontSize);
+};
+
 const calculateTagWidth = (s) => {
-  const lowerCase = (s.match(/([a-z])/g)?.length || 0) * 1.8;
-  const upperCase = (s.match(/([A-Z])/g)?.length || 0) * 2.8;
+  const lowerCase = (s.match(/([a-z])/g)?.length || 0) * 1.6;
+  const upperCase = (s.match(/([A-Z])/g)?.length || 0) * 2.4;
   const cjkLetter =
-    (new TextEncoder('utf-16').encode(s).length - s.length || 0) * 1.35;
-  return lowerCase + upperCase + cjkLetter;
+    (new TextEncoder('utf-16').encode(s).length - s.length || 0) * 1.2;
+  const sum = lowerCase + upperCase + cjkLetter;
+  const ratio = window.screen.width / window.screen.height;
+  return sum * torem(0.21) * ratio;
 };
 
 const MusicTags = ({ tags, currentTagIndex, setCurrentTagIndex }) => {
@@ -45,7 +52,7 @@ const MusicTags = ({ tags, currentTagIndex, setCurrentTagIndex }) => {
     <TagButtons>
       <Swiper
         className="tagSwiper"
-        spaceBetween={18}
+        spaceBetween={12}
         slidesPerView={'auto'}
         mousewheel={true}
       >

@@ -16,20 +16,19 @@ import { ReactComponent as Loading } from '../../images/loading.svg';
 SwiperCore.use([EffectCoverflow, Pagination, Mousewheel, Keyboard]);
 
 const SwiperContainer = styled.div`
-  margin-top: 3rem;
-  margin-bottom: 2rem;
-  padding-left: 3.2rem;
-  padding-right: 3.2rem;
-
+  display: flex;
+  align-items: center;
+  width: 100vw;
   & .swiper-slide {
     background-position: center;
     background-size: cover;
+    left: 10vw;
   }
   & .swiper-slide img,
   & .swiper-slide .loading-placeholder {
     border-radius: 2rem;
-    width: 41.1rem;
-    height: 29.1rem;
+    width: 80%;
+    height: 100%;
     object-fit: fill;
   }
 
@@ -45,11 +44,16 @@ const LoadingPlaceHolder = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 70%;
 
   background: linear-gradient(lightgray, var(--color-background), lightgray);
 `;
 
-const SwiperMusic = ({ searchResult, currentTagIndex, setCurrentMusic }) => {
+const SwiperMusicMobile = ({
+  searchResult,
+  currentTagIndex,
+  setCurrentMusic,
+}) => {
   const StoreSlideInfo = (swiper) => {
     const data = swiper.slides[swiper.activeIndex].dataset;
     setCurrentMusic(data);
@@ -61,8 +65,8 @@ const SwiperMusic = ({ searchResult, currentTagIndex, setCurrentMusic }) => {
         effect="coverflow"
         grabCursor={true}
         centeredSlides={true}
-        spaceBetween={0}
-        slidesPerView={3}
+        spaceBetween={-100}
+        slidesPerView={1}
         slidesPerGroup={1}
         mousewheel={true}
         keyboard={true}
@@ -97,11 +101,15 @@ const SwiperMusic = ({ searchResult, currentTagIndex, setCurrentMusic }) => {
                 </SwiperSlide>
               );
             })
-          : Array({ len: 7 }).map((item, index) => {
+          : Array({ len: 3 }).map((item, index) => {
               return (
                 <SwiperSlide key={index}>
                   <LoadingPlaceHolder className="loading-placeholder">
-                    <Loading width="15rem" height="15rem" />
+                    <Loading
+                      style={{ margin: '25% 0' }}
+                      width="8rem"
+                      height="8rem"
+                    />
                   </LoadingPlaceHolder>
                 </SwiperSlide>
               );
@@ -111,4 +119,4 @@ const SwiperMusic = ({ searchResult, currentTagIndex, setCurrentMusic }) => {
   );
 };
 
-export default SwiperMusic;
+export default SwiperMusicMobile;
