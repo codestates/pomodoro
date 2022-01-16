@@ -111,7 +111,9 @@ const ChooseMusic = ({ tags, setTags }) => {
     <MainContainer>
       {screenShouldShrink ? (
         <>
-          <PlaylistSelectLabel style={{ marginLeft: '6.5rem' }}>
+          <PlaylistSelectLabel
+            style={{ marginLeft: '6.5rem', marginTop: '1.5rem' }}
+          >
             플레이리스트 선택
           </PlaylistSelectLabel>
           <ShrinkFlexBox>
