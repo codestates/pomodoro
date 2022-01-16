@@ -29,9 +29,19 @@ const createToken = (payload, period) => {
   return jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: period });
 };
 
+const verifyToken = (token) => {
+  try {
+    return jwt.verify(token, process.env.JWT_SECRET);
+  } catch (e) {
+    console.error(e);
+    return null;
+  }
+};
+
 module.exports = {
   tokenParser: function () {
     return tokenParser;
   },
   createToken,
+  verifyToken,
 };
