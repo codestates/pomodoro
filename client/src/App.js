@@ -10,6 +10,7 @@ import ForgotPassword from './pages/desktop/ForgotPassword';
 import EditUserInfo from './pages/desktop/EditUserInfo';
 import Bye from './pages/desktop/Bye';
 import MusicSelection from './pages/desktop/MusicSelection';
+import MusicSelectionMobile from './pages/mobile/MusicSelectionMobile';
 import LandingPage from './pages/desktop/LandingPage';
 import LandingPageMobile from './pages/mobile/LandingPageMobile';
 import LayoutWithHeader from './pages/desktop/LayoutWithHeader';
@@ -94,7 +95,10 @@ const App = () => {
           <Routes>
             <Route element={<LayoutMobileWithHeader />}>
               <Route path="/" element={<LandingPageMobile />} />
-              <Route path="/music" element={<MusicSelection tags={tags} />} />
+              <Route
+                path="/music"
+                element={<MusicSelectionMobile tags={tags} />}
+              />
               <Route path="/editinfo" element={<EditUserInfo />} />
               <Route path="/delete" element={<Bye />} />
               <Route path="/mypage" element={<MyPage />} />
