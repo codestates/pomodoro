@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
+import { UserContext } from '../../App';
 
 const Container = styled.ul`
   display: flex;
@@ -38,14 +39,16 @@ const Score = styled.div`
   margin-right: 13px;
 `;
 
-const MyRank = ({ rank, nickname, pomo }) => {
+const MyRank = () => {
+  const { userInfo } = useContext(UserContext);
+
   return (
     <Container>
       <RanknName>
-        <Rank>{rank}</Rank>
-        <Name>{nickname}</Name>
+        <Rank>{userInfo.rank}</Rank>
+        <Name>{userInfo.nickname}</Name>
       </RanknName>
-      <Score>{pomo}&nbsp;뽀모</Score>
+      <Score>{userInfo.pomo}&nbsp;뽀모</Score>
     </Container>
   );
 };

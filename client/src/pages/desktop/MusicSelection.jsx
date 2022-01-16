@@ -103,6 +103,7 @@ export const CurrentPlaylistInfo = createContext({
 
 const ChooseMusic = ({ tags, setTags }) => {
   const screenShouldShrink = useMediaQuery({ query: '(max-width: 1065px)' });
+  const [currentTagIndex, setCurrentTagIndex] = useState(0);
   const [currentMusic, setCurrentMusic] = useState({});
   const [currentPlaylist, setCurrentPlaylist] = useState(null);
 
@@ -120,7 +121,11 @@ const ChooseMusic = ({ tags, setTags }) => {
               </SearchButton>
             </SearchButtonWrapper>
             <TagWrapper>
-              <MusicTags tags={tags} />
+              <MusicTags
+                tags={tags}
+                currentTagIndex={currentTagIndex}
+                setCurrentTagIndex={setCurrentTagIndex}
+              />
             </TagWrapper>
           </ShrinkFlexBox>
         </>
@@ -134,11 +139,19 @@ const ChooseMusic = ({ tags, setTags }) => {
             </SearchButton>
           </SearchButtonWrapper>
           <TagWrapper>
-            <MusicTags tags={tags} />
+            <MusicTags
+              tags={tags}
+              currentTagIndex={currentTagIndex}
+              setCurrentTagIndex={setCurrentTagIndex}
+            />
           </TagWrapper>
         </PlaylistSelectFlexBox>
       )}
-      <SwiperMusic searchResult={tags} setCurrentMusic={setCurrentMusic} />
+      <SwiperMusic
+        searchResult={tags}
+        currentTagIndex={currentTagIndex}
+        setCurrentMusic={setCurrentMusic}
+      />
       <Metadata currentMusic={currentMusic} />
       <PlaylistContainer>
         <MenuForPlaylist

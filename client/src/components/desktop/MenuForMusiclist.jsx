@@ -9,7 +9,7 @@ import { ReactComponent as DeleteIcon } from '../../images/delete.svg';
 import { UserContext } from '../../App';
 
 const MusicListContainer = styled.div`
-  flex: 817 817 auto;
+  flex: 817 817 auto;2022-01-16 04:32:43
   max-width: 81.7rem;
   background: rgba(242, 231, 218, 0.6);
   box-shadow: 0.3rem 0.3rem 0.4rem rgba(0, 0, 0, 0.25);
@@ -169,21 +169,7 @@ const MenuForMusiclist = ({ currentPlaylist }) => {
       });
   };
 
-  useEffect(() => {
-    if (!currentPlaylist || !userInfo) return;
-    getMusicList();
-  }, [userInfo, currentPlaylist]);
-
-  const reorderList = (result) => {
-    if (!result.destination) return;
-    if (result.source.index === result.destination.index) return;
-
-    const items = reorder(
-      musicList,
-      result.source.index,
-      result.destination.index
-    );
-
+  const sendMusicList = (items = musicList) => {
     const endpoint = `https://final.eax.kr/api/playlists/${currentPlaylist}`;
     const token = localStorage.getItem('Token');
     const headers = {
@@ -197,7 +183,45 @@ const MenuForMusiclist = ({ currentPlaylist }) => {
         console.log(err);
         setMusicList(musicList);
       });
+  };
+
+  useEffect(() => {
+    if (!currentPlaylist || !userInfo) {
+      setMusicList([]);
+      return;
+    }
+    getMusicList();
+  }, [userInfo, currentPlaylist]);
+
+  const reorderList = (result) => {
+    if (!result.destination) return;
+    if (result.source.index === result.destination.index) return;
+
+    const items = reorder(
+      musicList,
+      result.source.index,
+      result.destination.index
+    );
+    sendMusicList(items);
     setMusicList(items);
+  };
+
+  const removeMusic = (e) => {
+    const endpoint = `https://final.eax.kr/api/playlists/${currentPlaylist}/${e.currentTarget.dataset.musicid}`;
+    const token = localStorage.getItem('Token');
+    const headers = {
+      authorization: `Bearer ${token}`,
+    };
+    const removedList = [...musicList];
+    removedList.splice(e.currentTarget.dataset.id, 1);
+    axios
+      .delete(endpoint, { headers })
+      .then(() => {})
+      .catch((err) => {
+        console.log(err);
+        setMusicList(musicList);
+      });
+    setMusicList(removedList);
   };
 
   return (
@@ -243,7 +267,13 @@ const MenuForMusiclist = ({ currentPlaylist }) => {
                             {music_time ? musicTimeFormat(music_time) : '--:--'}
                           </TotalTimeDiv>
                           <DeleteDiv>
-                            <DeleteIcon width={26} height={26} />
+                            <DeleteIcon
+                              width={26}
+                              height={26}
+                              data-id={index}
+                              data-musicid={music_id}
+                              onClick={removeMusic}
+                            />
                           </DeleteDiv>
                         </DragItem>
                       )}
