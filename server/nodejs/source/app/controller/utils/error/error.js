@@ -8,7 +8,7 @@ const checkInputData = (res, dataArr) => {
     }
   } else {
     console.log('[ERROR] /api/users POST -> 400 : no dataArr');
-    return res.status(400).send('there are no token');
+    return res.status(400).send('no dataArr');
   }
 };
 
