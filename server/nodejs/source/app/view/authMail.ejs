@@ -1,0 +1,24 @@
+<html>
+  <body style="margin: 0 auto; padding: 0; width: 450px;">
+    <form action="<%=apiUrl%>" method="post">
+      <input type="hidden" name="_method" value="post" />
+      <input name="token" type="hidden" value="<%=code%>">
+
+      <img
+        style="width: 450px"
+        src="https://github.com/krim45/img-container/blob/main/pomodoro/logo/original.png?raw=true"
+        alt=""
+      />
+      <div style="text-align: center;font-size: 20px; margin:10 0 10 0">
+        회원가입 인증 메일
+      </div>
+      <div style="height: 60px; font-size: 13px; margin: 0 auto; padding: 20px; text-align: center; background-color: #F5F5F5; border: 1px solid gray; border-top: 2px solid black;">
+        본 이메일 인증은 뽀모도로 회원가입을 위한 필수 사항입니다.<br>
+        아래 <p style="display: inline; color: blue;">[이메일 인증하기]</p> 버튼을 클릭 한 후 홈페이지에서 남은 회원가입 절차를 완료 하여 주시기 바랍니다.
+      </div>
+      <div style="text-align: center; margin-top: 10px;">
+        <button type="submit" style="width: 150px; height: 30px;background-color: #EC5E3A; border: 0; border-radius: 10px; color: white; font-size: 15px; font-weight: 400;">이메일 인증하기</button>
+      </div>
+    </form>
+  </body>
+</html>
