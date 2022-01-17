@@ -103,7 +103,11 @@ const ChooseMusicMobile = ({ tags, setTags }) => {
       />
       <MetadataMobile currentMusic={currentMusic} />
       <ButtonsMobile>
-        <MenuForPlaylistMobile />
+        <MenuForPlaylistMobile
+          size={size}
+          currentPlaylist={currentPlaylist}
+          setCurrentPlaylist={setCurrentPlaylist}
+        />
         <TomatoPlayIcon
           style={{
             filter: 'drop-shadow(20px 20px 10px rgba(0, 0, 0, 0.12))',
@@ -111,7 +115,7 @@ const ChooseMusicMobile = ({ tags, setTags }) => {
           width="16vw"
           height="16vw"
         />
-        <MenuForMusiclistMobile />
+        <MenuForMusiclistMobile size={size} currentPlaylist={currentPlaylist} />
       </ButtonsMobile>
     </MobileContainer>
   );
