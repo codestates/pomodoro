@@ -58,7 +58,7 @@ const changeUserPassword = async (req, res) => {
   User.findOne({ where: { user_id: auth_id } }).then((user) => {
     findUserInfomation(res, user);
     const user_id = user.getDataValue('user_id');
-
+    const email = user.getDataValue('email');
     const salt = crypto.randomBytes(16).toString('hex');
     // [a-z][0-9]
     const random_pwd = Math.random().toString(36).substring(2);
