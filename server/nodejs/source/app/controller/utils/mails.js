@@ -39,13 +39,74 @@ const checkIfEmailAlreadyExists = (req, res) => {
     });
 };
 
+require('dotenv').config();
+const crypto = require('crypto');
+const { createToken } = require('./tokenFunctions');
+const { ejsRenderFile, mailSendFunction } = require('./mailFunctions');
+
 const confirmEmailAddress = async (req, res) => {
-  const stub = `[stub] /api/mails POST`;
-  console.log(stub);
-  res.status(200).send(stub);
+  const { id, email } = req.token;
+  const rand = crypto.randomBytes(64).toString('hex');
+  // dummydata 를 집어 넣어 payload 값을 길게 만들어 브루트포스 공격 방지
+  const payload = {
+    auth_id: id,
+    salt: rand,
+  };
+
+  const authToken__1h = createToken(payload, '1h');
+
+  const path = '/source/app/view/authMail.ejs';
+  const purpose = 'emailAuth';
+  const emailTemplate = ejsRenderFile(res, purpose, path, {
+    email: email,
+    code: authToken__1h,
+    apiUrl: process.env.GMAIL_AUTHMAIL,
+  });
+
+  const mailSubject = '[POMODORO] 회원 인증 메일입니다.';
+  const mailOption = {
+    from: process.env.GMAIL_USER,
+    to: email,
+    subject: mailSubject,
+    html: emailTemplate,
+  };
+
+  const mailSend = mailSendFunction(res, mailOption, authToken__1h);
+};
+
+const { verifyToken } = require('./tokenFunctions');
+const {
+  findUserInfomation,
+  pendingValidValueCheck,
+  sequelizeError,
+} = require('./error/error');
+const checkEmaliCertification = (req, res) => {
+  const path = `/api/mails POST`;
+  const stub = `checkEmaliCertification`;
+  console.log(`[stub] ${path} ${stub}`);
+  const token = req.body['token'];
+  const userInfo = verifyToken(token);
+  const { auth_id } = userInfo;
+  User.findOne({ where: { user_id: auth_id } }).then((user) => {
+    findUserInfomation(res, user);
+    const pending = user.getDataValue('pending');
+    pendingValidValueCheck(res, pending);
+    User.update({ pending: false }, { where: { user_id: auth_id } })
+      .then((data) => {
+        if (data[0] === 0) {
+          return res.status(400).send('no pending update. (no user_id)');
+        }
+        return res.status(301);
+      })
+      .catch((err) => {
+        const message = 'pendingUpdate Error';
+        sequelizeError(res, err, path, message);
+      });
+  });
 };
 
 module.exports = {
   get: checkIfEmailAlreadyExists,
   post: confirmEmailAddress,
+  patch: checkEmaliCertification,
 };
