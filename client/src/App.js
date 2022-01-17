@@ -16,6 +16,7 @@ import LandingPageMobile from './pages/mobile/LandingPageMobile';
 import LayoutWithHeader from './pages/desktop/LayoutWithHeader';
 import LayoutMobileWithHeader from './pages/mobile/LayoutMobileWithHeader';
 import TabBarMobile from './components/mobile/TabBarMobile';
+import PomodoroPage from './pages/desktop/PomodoroPage';
 import axios from 'axios';
 import './App.css';
 
@@ -116,6 +117,10 @@ const App = () => {
               <Route path="/delete" element={<Bye />} />
               <Route path="/mypage" element={<MyPage />} />
               <Route path="/ranking" element={<Ranking />} />
+              <Route
+                path="/pomodoro"
+                element={<PomodoroPage isMobile={isMobile} />}
+              />
             </Route>
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<SignUp />} />
@@ -151,6 +156,10 @@ const App = () => {
             <Route path="/editinfo" element={<EditUserInfo />} />
             <Route path="/ranking" element={<Ranking />} />
             <Route path="/mypage" element={<MyPage />} />
+            <Route
+              path="/pomodoro"
+              element={<PomodoroPage isMobile={isMobile} />}
+            />
           </Route>
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
