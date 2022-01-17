@@ -12,11 +12,9 @@ const checkInputData = (res, dataArr) => {
   }
 };
 
-const findUserInfomation = (res, user) => {
+const findUserInfomation = (res, path, user) => {
   if (!user) {
-    console.log(
-      '[ERROR] /api/mails/:token POST -> 401 : find not user infomation'
-    );
+    console.log(`[ERROR] ${path} -> 401 : find not user infomation`);
     return res.status(401).send('find not user infomation');
   }
 };
