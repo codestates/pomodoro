@@ -150,8 +150,8 @@ const reorder = (list, startIndex, endIndex) => {
 };
 
 const MenuForMusiclist = ({ currentPlaylist }) => {
-  const { userInfo, requestUserInfo } = useContext(UserContext);
-  const [musicList, setMusicList] = useState([]);
+  const { userInfo, musicList, setMusicList, requestUserInfo } =
+    useContext(UserContext);
 
   const getMusicList = () => {
     const endpoint = `https://final.eax.kr/api/playlists/${currentPlaylist}`;
