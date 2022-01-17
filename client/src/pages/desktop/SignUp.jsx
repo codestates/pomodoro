@@ -127,9 +127,13 @@ const SignUp = () => {
   };
 
   const sendAuthMail = async (token) => {
-    await axios.post('https://final.eax.kr/api/mails', {
-      headers: { authorization: `Bearer ${token}` },
-    });
+    await axios.post(
+      'https://final.eax.kr/api/mails',
+      {},
+      {
+        headers: { authorization: `Bearer ${token}` },
+      }
+    );
   };
 
   const handleSignUpBtn = async () => {
@@ -157,7 +161,7 @@ const SignUp = () => {
         navigate('/login');
       })
       .catch((error) => {
-        return;
+        console.log(error);
       });
   };
 
