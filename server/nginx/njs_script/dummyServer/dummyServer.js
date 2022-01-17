@@ -1,5 +1,6 @@
 import bodyParser from './utils/bodyParser.js';
 import dummyDB from './dummies.js';
+const fs = require('fs');
 
 const dummy = (req, res) => {
   // ======================================================
@@ -73,6 +74,71 @@ const dummy = (req, res) => {
     res.append('Access-Control-Allow-Headers', 'content-type');
     res.append('Access-Control-Max-Age', '86400');
     return res.status(204).send();
+  }
+
+  if (req.method === 'GET' && req.url.split('/')[2] === 'Youtube') {
+    const parsed = req.url.split('/');
+    const id = parsed[3];
+    const API_KEY = process_env.YOUTUBE_API_KEY;
+    const endpoint = `https://www.googleapis.com/youtube/v3/videos?part=snippet,contentDetails&id=${id}&key=${API_KEY}`;
+    const options = {
+      headers: {
+        origin: 'https://final.eax.kr',
+        referer: 'https://final.eax.kr/',
+      },
+      verify: false,
+      buffer_size: 8588608,
+      max_response_body_size: 8388608,
+    };
+    ngx
+      .fetch(endpoint, options)
+      .then((response) => response.json())
+      .then((data) => {
+        const thumbnailOrder = [
+          'high',
+          'medium',
+          'maxres',
+          'standard',
+          'default',
+        ];
+        let thumbnailURL;
+        thumbnailOrder.some((type) => {
+          if (data.items[0].snippet.thumbnails[type]) {
+            thumbnailURL = data.items[0].snippet.thumbnails[type].url;
+            return true;
+          }
+        });
+        let duration = data.items[0].contentDetails.duration
+          .slice(2)
+          .replace(/[HM]/g, ':')
+          .replace(/S/g, '');
+        //convert duration to seconds
+        duration = duration.split(':').reduce((acc, cur, idx, arr) => {
+          return acc + Number(cur) * 60 ** (arr.length - 1 - idx);
+        }, 0);
+        const SQL = `INSERT INTO pomodoro.Music ( playlist_id, music_name, music_address, music_length ) VALUES ( '12', '${data.items[0].snippet.title}', '${id}', '${duration}' );`;
+        fs.appendFileSync(
+          `${process_env.YOUTUBE_IMAGE_STORE}/SQL.txt`,
+          `${SQL}\n`
+        );
+        return ngx.fetch(thumbnailURL, options);
+      })
+      .then((response) => response.arrayBuffer())
+      .then((image) => {
+        /* btoa(
+          String.fromCharCode(...new Uint8Array(image.data))
+        ); */
+        fs.writeFileSync(
+          `${process_env.YOUTUBE_IMAGE_STORE}/${id}.jpg`,
+          Buffer.from(image)
+        );
+        res.status(200).send('OK');
+      })
+      .catch((err) => {
+        console.log(err);
+        res.status(500).send(err);
+      });
+    return;
   }
 
   const PREFIX = '/' + req.url.split('/')[1]; //or '/dummy'

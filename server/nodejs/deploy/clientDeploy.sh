@@ -48,6 +48,10 @@ do
   echo "** (3/4) Building packages... **"
   npm run build
   rm -rf $TARGET_FOLDER/static
+  rm -f $TARGET_FOLDER/index.html
+  rm -f $TARGET_FOLDER/favicon.ico
+  rm -f $TARGET_FOLDER/robots.txt
+  rm -f $TARGET_FOLDER/asset-manifest.json
   mv -f build/* $TARGET_FOLDER
 
   # remove files after finish
