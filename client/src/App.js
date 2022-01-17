@@ -24,6 +24,7 @@ export const UserContext = createContext({
   userInfo: '',
   rankingList: [],
   playlist: [],
+  setPlaylist: () => {},
   requestUserInfo: () => {},
   tags: null,
   setTags: () => {},
@@ -98,6 +99,7 @@ const App = () => {
         value={{
           userInfo,
           playlist,
+          setPlaylist,
           requestUserInfo,
           tags,
           setTags,
@@ -137,6 +139,7 @@ const App = () => {
       value={{
         userInfo,
         playlist,
+        setPlaylis,
         requestUserInfo,
         tags,
         setTags,
