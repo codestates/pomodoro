@@ -87,7 +87,7 @@ app.use(cors(corsOptions));
 //=========================================================
 // Current SERVER MODE
 //=========================================================
-const PREFIX = '/dev'; // 'api' or 'dev'
+const PREFIX = '/api'; // 'api' or 'dev'
 const point = (URL) => `${PREFIX}${URL}`;
 
 //=========================================================
@@ -102,6 +102,8 @@ const playlist = require('./app/router/playlists');
 const music = require('./app/router/music');
 const pomodoro = require('./app/router/pomodoro');
 const rank = require('./app/router/ranks');
+const search = require('./app/router/search');
+const tags = require('./app/router/tags');
 
 app.use(point('/auth'), auth);
 app.use(point('/users'), users);
@@ -112,6 +114,9 @@ app.use(point('/playlists'), playlist);
 app.use(point('/playlists/:playlist_id'), music);
 app.use(point('/pomodoro'), pomodoro);
 app.use(point('/ranks'), rank);
+app.use(point('/search'), search);
+app.use(point('/tags'), tags);
+
 //=========================================================
 //Not Found : show Available routes
 //=========================================================

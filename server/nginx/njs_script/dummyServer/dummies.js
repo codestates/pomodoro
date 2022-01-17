@@ -8,7 +8,10 @@ const dummyDB = [
       'Authorization',
       'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjozMCwibmlja25hbWUiOiJEdW1teSBEb2UiLCJpYXQiOjE1MTYyMzkwMjIsImV4cCI6MTY1NjI1OTAyMn0.Up4hkbXB2eSRagvfB689puO3HxFyPGADmO3mIFDm7qQ',
     ],
-    null,
+    {
+      token:
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJuZXduaWNrIiwiZW1haWwiOiJ5ZWFoQHllYWguY29tIiwidHlwZSI6MSwicGVuZGluZyI6dHJ1ZSwiaWF0IjoxNjQxODEwNjk0LCJleHAiOjE2NDE4MjE0OTR9.3jHWfE3QRWHNk4_E2Owc_553syu3fuo-u6twEjXUa94',
+    },
   ],
   [
     'GET',
@@ -20,6 +23,7 @@ const dummyDB = [
       nickname: 'kimchi1234',
       pomo: 4,
       rank: 30,
+      pending: true,
     },
   ],
   [
@@ -30,7 +34,10 @@ const dummyDB = [
       'Authorization',
       'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjozMCwibmlja25hbWUiOiJEdW1teSBEb2UiLCJpYXQiOjE1MTYyMzkwMjIsImV4cCI6MTY1NjI1OTAyMn0.Up4hkbXB2eSRagvfB689puO3HxFyPGADmO3mIFDm7qQ',
     ],
-    null,
+    {
+      token:
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJuZXduaWNrIiwiZW1haWwiOiJ5ZWFoQHllYWguY29tIiwidHlwZSI6MSwicGVuZGluZyI6dHJ1ZSwiaWF0IjoxNjQxODEwNjk0LCJleHAiOjE2NDE4MjE0OTR9.3jHWfE3QRWHNk4_E2Owc_553syu3fuo-u6twEjXUa94',
+    },
   ],
   ['PATCH', '/users', 204, null, null],
   ['DELETE', '/users', 204, null, null],
@@ -43,8 +50,18 @@ const dummyDB = [
       result: [
         {
           playlist_id: 1,
-          playlist_name: '잔잔한 빗소리',
-          playlist_time: '',
+          playlist_name: '잔잔한 빗소리1',
+          playlist_time: 150,
+        },
+        {
+          playlist_id: 2,
+          playlist_name: '잔잔한 빗소리2',
+          playlist_time: 200,
+        },
+        {
+          playlist_id: 3,
+          playlist_name: '잔잔한 빗소리3',
+          playlist_time: 250,
         },
       ],
     },
@@ -68,6 +85,16 @@ const dummyDB = [
   ['PATCH', '/playlists/8', 204, null, null],
   ['PATCH', '/playlists/9', 204, null, null],
   ['PATCH', '/playlists/10', 204, null, null],
+  ['PUT', '/playlists/1', 204, null, null],
+  ['PUT', '/playlists/2', 204, null, null],
+  ['PUT', '/playlists/3', 204, null, null],
+  ['PUT', '/playlists/4', 204, null, null],
+  ['PUT', '/playlists/5', 204, null, null],
+  ['PUT', '/playlists/6', 204, null, null],
+  ['PUT', '/playlists/7', 204, null, null],
+  ['PUT', '/playlists/8', 204, null, null],
+  ['PUT', '/playlists/9', 204, null, null],
+  ['PUT', '/playlists/10', 204, null, null],
   ['DELETE', '/playlists/1', 204, null, null],
   ['DELETE', '/playlists/2', 204, null, null],
   ['DELETE', '/playlists/3', 204, null, null],
@@ -92,7 +119,7 @@ const dummyDB = [
           music_time: 180,
         },
         {
-          music_id: 1,
+          music_id: 2,
           music_name: 'YouTube Data API v3 Tutorial : 1-2',
           music_url: 'TE66McLMMEw',
           music_time: 180,
@@ -108,13 +135,13 @@ const dummyDB = [
     {
       result: [
         {
-          music_id: 1,
+          music_id: 3,
           music_name: 'YouTube Data API v3 Tutorial : 2-1',
           music_url: 'TE66McLMMEw',
           music_time: 180,
         },
         {
-          music_id: 1,
+          music_id: 4,
           music_name: 'YouTube Data API v3 Tutorial : 2-2',
           music_url: 'TE66McLMMEw',
           music_time: 180,
@@ -318,6 +345,16 @@ const dummyDB = [
   ['PATCH', '/playlists/8/1', 204, null, null],
   ['PATCH', '/playlists/9/1', 204, null, null],
   ['PATCH', '/playlists/10/1', 204, null, null],
+  ['PUT', '/playlists/1/1', 204, null, null],
+  ['PUT', '/playlists/2/1', 204, null, null],
+  ['PUT', '/playlists/3/1', 204, null, null],
+  ['PUT', '/playlists/4/1', 204, null, null],
+  ['PUT', '/playlists/5/1', 204, null, null],
+  ['PUT', '/playlists/6/1', 204, null, null],
+  ['PUT', '/playlists/7/1', 204, null, null],
+  ['PUT', '/playlists/8/1', 204, null, null],
+  ['PUT', '/playlists/9/1', 204, null, null],
+  ['PUT', '/playlists/10/1', 204, null, null],
   ['DELETE', '/playlists/1/1', 204, null, null],
   ['DELETE', '/playlists/2/1', 204, null, null],
   ['DELETE', '/playlists/3/1', 204, null, null],
@@ -334,14 +371,33 @@ const dummyDB = [
     200,
     null,
     {
-      rank: 1,
-      nickname: 'goldmedal',
-      score: 1278,
-    },
-    {
-      rank: 2,
-      nickname: '2thman',
-      score: 1000,
+      result: [
+        {
+          rank: 1,
+          nickname: 'goldmedal',
+          score: 1278,
+        },
+        {
+          rank: 2,
+          nickname: '2ndman',
+          score: 1000,
+        },
+        {
+          rank: 3,
+          nickname: '3rdman',
+          score: 900,
+        },
+        {
+          rank: 4,
+          nickname: '4thman',
+          score: 800,
+        },
+        {
+          rank: 5,
+          nickname: '5thman',
+          score: 700,
+        },
+      ],
     },
   ],
   [
@@ -352,7 +408,10 @@ const dummyDB = [
       'Authorization',
       'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjozMCwibmlja25hbWUiOiJEdW1teSBEb2UiLCJpYXQiOjE1MTYyMzkwMjIsImV4cCI6MTY1NjI1OTAyMn0.Up4hkbXB2eSRagvfB689puO3HxFyPGADmO3mIFDm7qQ',
     ],
-    null,
+    {
+      newToken:
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJuZXduaWNrIiwiZW1haWwiOiJ5ZWFoQHllYWguY29tIiwidHlwZSI6MSwicGVuZGluZyI6dHJ1ZSwiaWF0IjoxNjQxODEyOTE4LCJleHAiOjE2NDE4MjM3MTh9.hlO9uAH3xCF03p3V0iDSmrwP7JeHAyzZCtuO2sO2hCU',
+    },
   ],
   [
     'PATCH',

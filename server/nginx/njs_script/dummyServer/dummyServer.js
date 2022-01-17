@@ -58,6 +58,23 @@ const dummy = (req, res) => {
   if (Object.keys(req['query']).length) console.dir(req.query);
   if (Object.keys(req['body']).length) console.dir(req.body);
 
+  let referrer = req.header('origin');
+  // let referrer = req.header('Referer');
+  // if (referrer && referrer[referrer.length - 1] === '/')
+  //   referrer = referrer.slice(0, -1);
+
+  if (req.method === 'OPTIONS') {
+    res.append('Access-Control-Allow-Origin', referrer);
+    res.append(
+      'Access-Control-Allow-Methods',
+      'GET,POST,PUT,PATCH,DELETE,OPTIONS'
+    );
+    res.append('access-control-allow-credentials', 'true');
+    res.append('Access-Control-Allow-Headers', 'content-type');
+    res.append('Access-Control-Max-Age', '86400');
+    return res.status(204).send();
+  }
+
   const PREFIX = '/' + req.url.split('/')[1]; //or '/dummy'
   if (
     !dummyDB.some((dummyInfo) => {
@@ -69,12 +86,16 @@ const dummy = (req, res) => {
       if (PREFIX + PATH === req.path && METHOD === req.method) {
         console.log(`[DUMMY] caught ${METHOD} ${PATH}. sent ${STATUSCODE}`);
         if (HEADER) res.append(HEADER[0], HEADER[1]);
+        res.append('Access-Control-Allow-Origin', referrer);
+        res.append('access-control-allow-credentials', 'true');
         res.status(STATUSCODE).json(RETURN);
         return true;
       }
     })
-  )
+  ) {
+    res.append('Access-Control-Allow-Origin', referrer);
     res.status(404).send('Dummy : Not found');
+  }
 };
 
 export default { dummy };

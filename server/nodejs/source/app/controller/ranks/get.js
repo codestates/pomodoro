@@ -18,7 +18,7 @@ const getRanks = async (req, res) => {
   }
 
   console.log(`[SUCCESS] /api/ranks GET -> 200 : ranks sent`);
-  return res.status(200).json(ranks);
+  return res.status(200).json({ result: ranks });
 };
 
 module.exports = getRanks;

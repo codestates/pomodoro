@@ -47,7 +47,9 @@ services:
       - .store/nginx.conf:/etc/nginx/nginx.conf
       - ./nginx/njs_script:/etc/nginx/script
       - ./nginx/html:/usr/share/nginx/html
+      - ./nginx/html:/etc/nginx/html
       - ./nginx/html2:/usr/share/nginx/html2
+      - ./nginx/html2:/etc/nginx/html2
       - ./nginx/logs:/etc/nginx/logs
       - ./nodejs/deploy:/usr/share/nginx/node
       - .store/cert:/etc/nginx/cert:ro

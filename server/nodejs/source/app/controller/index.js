@@ -40,5 +40,10 @@ module.exports = {
   ranks: {
     info: require('./ranks/get'),
   },
-  youtube: {},
+  search: {
+    get: require('./search/get'),
+  },
+  tags: {
+    get: require('./tags/get'),
+  },
 };
