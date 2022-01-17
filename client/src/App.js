@@ -139,7 +139,7 @@ const App = () => {
       value={{
         userInfo,
         playlist,
-        setPlaylis,
+        setPlaylist,
         requestUserInfo,
         tags,
         setTags,
