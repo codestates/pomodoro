@@ -134,6 +134,7 @@ const App = () => {
         playlist,
         requestUserInfo,
         tags,
+        setTags,
         musicList,
         setMusicList,
       }}
