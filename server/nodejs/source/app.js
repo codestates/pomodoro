@@ -117,7 +117,7 @@ app.use(point('/pomodoro'), pomodoro);
 app.use(point('/ranks'), rank);
 app.use(point('/search'), search);
 app.use(point('/tags'), tags);
-app.use(point('/youtube'), tags);
+app.use(point('/youtube'), youtube);
 
 //=========================================================
 //Not Found : show Available routes
