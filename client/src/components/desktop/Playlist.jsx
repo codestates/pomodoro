@@ -1,6 +1,5 @@
 import React, { useRef, useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
-import { YesOrNoModal } from '../../components/desktop/YesOrNoModal';
 import { ReactComponent as Edit } from '../../images/edit.svg';
 import { ReactComponent as Delete } from '../../images/delete.svg';
 import axios from 'axios';
@@ -44,8 +43,6 @@ const StyledDelete = styled(StyledEdit)`
 const Playlist = ({ order, name, id, index }) => {
   const [editMode, setEditMode] = useState(false);
   const [title, setTitle] = useState(name);
-  const [open, setOpen] = useState(false);
-  const [confirmDelete, setConfirmDelete] = useState(false);
   const [edited, setEdited] = useState(false);
   const inputRef = useRef(null);
   const { playlist, setPlaylist } = useContext(UserContext);
@@ -93,8 +90,6 @@ const Playlist = ({ order, name, id, index }) => {
   };
 
   const handleDelete = async () => {
-    setOpen(true);
-    if (!confirmDelete) return;
     await axios
       .delete(`https://final.eax.kr/api/playlists/${id}`, {
         headers: { authorization: `Bearer ${localStorage.getItem('Token')}` },
@@ -108,15 +103,6 @@ const Playlist = ({ order, name, id, index }) => {
   };
   return (
     <Container>
-      {open ? (
-        <YesOrNoModal
-          text="플레이리스트를 삭제하시겠습니까?"
-          handleModal={setOpen}
-          setYes={setConfirmDelete}
-        />
-      ) : (
-        <></>
-      )}
       {editMode ? (
         <EditMode
           placeholder="플레이라스트 이름"
