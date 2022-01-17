@@ -89,7 +89,7 @@ const App = () => {
   if (isMobile) {
     return (
       <UserContext.Provider
-        value={{ userInfo, playlist, requestUserInfo, tags }}
+        value={{ userInfo, playlist, setPlaylist, requestUserInfo, tags }}
       >
         <Router>
           <Routes>
@@ -115,7 +115,9 @@ const App = () => {
   }
 
   return (
-    <UserContext.Provider value={{ userInfo, playlist, requestUserInfo, tags }}>
+    <UserContext.Provider
+      value={{ userInfo, playlist, setPlaylist, requestUserInfo, tags }}
+    >
       <Router>
         <Routes>
           <Route element={<LayoutWithHeader />}>
