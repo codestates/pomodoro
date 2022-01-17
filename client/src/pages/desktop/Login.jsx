@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState, useContext } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FormContainer } from '../../styles/FormContainer.styled';
 import { Form } from '../../styles/Form.styled';
@@ -10,7 +10,6 @@ import { FormErrorMsg } from '../../styles/FormErrorMsg.styled';
 import { ReactComponent as Logo } from '../../images/logo.svg';
 import styled from 'styled-components';
 import axios from 'axios';
-import { UserContext } from '../../App';
 
 const StyledLogo = styled.div`
   width: 100%;
