@@ -1,5 +1,6 @@
 import React, { useRef, useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
+import { YesOrNoModal } from '../../components/desktop/YesOrNoModal';
 import { ReactComponent as Edit } from '../../images/edit.svg';
 import { ReactComponent as Delete } from '../../images/delete.svg';
 import axios from 'axios';
@@ -44,6 +45,8 @@ const Playlist = ({ order, name, id, index }) => {
   const [editMode, setEditMode] = useState(false);
   const [title, setTitle] = useState(name);
   const [open, setOpen] = useState(false);
+  const [confirmDelete, setConfirmDelete] = useState(false);
+  const [edited, setEdited] = useState(false);
   const inputRef = useRef(null);
   const { playlist, setPlaylist } = useContext(UserContext);
 
@@ -55,11 +58,12 @@ const Playlist = ({ order, name, id, index }) => {
 
   const handleBlur = async () => {
     setEditMode(false);
+    if (!edited) return;
     await axios
       .patch(
         `https://final.eax.kr/api/playlists/${id}`,
         {
-          playlist_name: inputRef.current.value,
+          playlist_name: title,
         },
         {
           headers: {
@@ -71,13 +75,17 @@ const Playlist = ({ order, name, id, index }) => {
         const list = [...playlist];
         list[index].playlist_name = title;
         setPlaylist(list);
+        setEdited(false);
       })
       .catch((error) => console.log(error));
   };
 
   const handleEditMode = () => {
     const newTitle = inputRef.current.value;
-    setTitle(newTitle);
+    if (newTitle !== title) {
+      setEdited(true);
+      setTitle(newTitle);
+    }
   };
 
   const handleEdit = () => {
@@ -85,6 +93,8 @@ const Playlist = ({ order, name, id, index }) => {
   };
 
   const handleDelete = async () => {
+    setOpen(true);
+    if (!confirmDelete) return;
     await axios
       .delete(`https://final.eax.kr/api/playlists/${id}`, {
         headers: { authorization: `Bearer ${localStorage.getItem('Token')}` },
@@ -98,6 +108,15 @@ const Playlist = ({ order, name, id, index }) => {
   };
   return (
     <Container>
+      {open ? (
+        <YesOrNoModal
+          text="플레이리스트를 삭제하시겠습니까?"
+          handleModal={setOpen}
+          setYes={setConfirmDelete}
+        />
+      ) : (
+        <></>
+      )}
       {editMode ? (
         <EditMode
           placeholder="플레이라스트 이름"
