@@ -126,6 +126,16 @@ const SignUp = () => {
     }
   };
 
+  const sendAuthMail = async (token) => {
+    await axios.post(
+      'https://final.eax.kr/api/mails',
+      {},
+      {
+        headers: { authorization: `Bearer ${token}` },
+      }
+    );
+  };
+
   const handleSignUpBtn = async () => {
     const nickname = nicknameRef.current.value;
     const email = emailRef.current.value;
@@ -146,10 +156,12 @@ const SignUp = () => {
         password,
       })
       .then((res) => {
+        const token = res.data.token;
+        sendAuthMail(token);
         navigate('/login');
       })
       .catch((error) => {
-        return;
+        console.log(error);
       });
   };
 
