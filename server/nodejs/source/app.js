@@ -111,7 +111,7 @@ app.use(point('/passwords'), password);
 app.use(point('/nicknames'), nickname);
 app.use(point('/mails'), mail);
 app.use(point('/playlists'), playlist);
-app.use(point('/playlists/:playlist_id'), music);
+app.use(point('/playlists'), music);
 app.use(point('/pomodoro'), pomodoro);
 app.use(point('/ranks'), rank);
 app.use(point('/search'), search);

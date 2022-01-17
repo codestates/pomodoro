@@ -88,7 +88,7 @@ const checkEmaliCertification = (req, res) => {
   const userInfo = verifyToken(token);
   const { auth_id } = userInfo;
   User.findOne({ where: { user_id: auth_id } }).then((user) => {
-    findUserInfomation(res, user);
+    findUserInfomation(res, path, user);
     const pending = user.getDataValue('pending');
     pendingValidValueCheck(res, pending);
     User.update({ pending: false }, { where: { user_id: auth_id } })
