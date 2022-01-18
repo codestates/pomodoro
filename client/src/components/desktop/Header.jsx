@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useContext } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { UserContext } from '../../App';
 import logo from '../../images/original.svg';
 
 const Head = styled.header`
@@ -54,11 +55,13 @@ const Head = styled.header`
 `;
 
 const Header = () => {
-  const [isLogin, setIsLogin] = useState(localStorage.getItem('Token'));
+  const { userInfo, clearStates } = useContext(UserContext);
+  const navigate = useNavigate();
 
   const signOut = () => {
     localStorage.removeItem('Token');
-    setIsLogin(false);
+    clearStates();
+    navigate('/');
   };
 
   return (
@@ -76,7 +79,7 @@ const Header = () => {
           <Link to="/ranking">Ranking</Link>
         </div>
       </nav>
-      {isLogin ? (
+      {userInfo ? (
         <div>
           <Link to="/mypage">
             <button>My page</button>
