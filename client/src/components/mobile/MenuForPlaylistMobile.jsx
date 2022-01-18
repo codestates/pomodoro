@@ -1,6 +1,7 @@
 import { useState, useRef, useContext } from 'react';
 import styled from 'styled-components';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
+import axios from 'axios';
 
 import { ReactComponent as PlaylistIcon } from '../../images/playlists.svg';
 import { ReactComponent as SelectedIcon } from '../../images/select.svg';
@@ -97,6 +98,8 @@ const DropZone = styled.div`
   font-style: normal;
   font-weight: bold;
   font-size: 2.3rem; //TODO
+  height: ${({ posY, size }) => size.end - posY?.top}px;
+  overflow-y: auto;
 `;
 
 const DragItem = styled.div`
@@ -108,7 +111,7 @@ const DragItem = styled.div`
 const GhostDiv = styled.div``;
 
 const CheckBoxDiv = styled.div`
-  justify-items: center;
+  justify-self: center;
   align-self: center;
 `;
 
@@ -120,13 +123,14 @@ const TitleDiv = styled.div`
 `;
 
 const TotalTimeDiv = styled.div`
+  justify-self: left;
   align-self: center;
   font-size: 2.2rem;
   color: rgba(0, 0, 0, 0.5);
 `;
 
 const DeleteDiv = styled.div`
-  justify-items: center;
+  justify-self: center;
   align-self: center;
 `;
 
@@ -145,13 +149,30 @@ const MenuForPlaylistMobile = ({
   const [expandPlaylist, setExpandPlaylist] = useState(false);
   const [fadeOut, setFadeOut] = useState(false);
   const playlistRef = useRef(null);
+  const scrollRef = useRef(null);
 
   const reorderList = (result) => {
     console.dir(result);
   };
 
   const removePlaylist = (e) => {
-    console.log('removePlaylist');
+    const { id, playlistid } = e.currentTarget.dataset;
+    const endpoint = `https://final.eax.kr/api/playlists/${playlistid}`;
+    const token = localStorage.getItem('Token');
+    const headers = {
+      authorization: `Bearer ${token}`,
+    };
+    const removedList = [...playlist];
+    removedList.splice(id, 1);
+    axios
+      .delete(endpoint, { headers })
+      .then(() => {
+        if (currentPlaylist == playlistid) setCurrentPlaylist(0);
+        requestUserInfo(1);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   const fadeOutHandler = () => {
@@ -184,7 +205,7 @@ const MenuForPlaylistMobile = ({
         >
           <PlaylistIcon width="8vw" height="8vw" />
         </PlaylistIconCircle>
-        <EmptyPlaylistWrapper>
+        <EmptyPlaylistWrapper ref={scrollRef}>
           <GhostDiv />
           <CheckBoxDiv>
             {!currentPlaylist && <SelectedIcon width={24} height={24} />}
@@ -204,6 +225,11 @@ const MenuForPlaylistMobile = ({
                 {...provided.droppableProps}
                 ref={provided.innerRef}
                 drag={snapshot.isDraggingOver}
+                posY={
+                  scrollRef.current &&
+                  scrollRef.current.nextElementSibling.getBoundingClientRect()
+                }
+                size={size}
               >
                 {playlist?.map(
                   ({ playlist_id, playlist_name, playlist_time }, index) => (
