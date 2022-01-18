@@ -17,7 +17,6 @@ const MainContainer = styled.div`
 `;
 
 const PlaylistSelectFlexBox = styled.div`
-  margin-top: 3.5rem;
   display: flex;
   justify-content: baseline;
   align-items: center;
@@ -81,7 +80,6 @@ const SearchBarContainer = styled.div`
   left: ${({ posX }) => posX?.offsetLeft}px;
   width: ${({ size, posX }) => size?.offsetWidth + posX?.offsetWidth}px;
   height: 7rem;
-  border-radius: 0.5rem;
   background: #f5f5f5;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 30px;
@@ -205,6 +203,7 @@ const ChooseMusic = ({ tags, setTags }) => {
         newTags.unshift(payload);
         setTags(newTags);
         setCurrentPlaylist(tag_id);
+        fadeOutHandler();
       })
       .catch((err) => {
         console.dir(err);

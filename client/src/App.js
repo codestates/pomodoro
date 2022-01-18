@@ -94,6 +94,7 @@ const App = () => {
     setUserInfo('');
     setPlaylist([]);
     setMusicList([]);
+    sessionStorage.removeItem('musicList');
   };
 
   //로드시 각종 State에 넣을 값을 최초 1회 요청
