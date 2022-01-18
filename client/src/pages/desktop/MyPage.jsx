@@ -8,26 +8,25 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   width: 100vw;
-  height: 80vh;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   color: #945151;
   user-select: none;
-  z-index: 100;
+  padding: 50px 0 100px;
 
   @media screen and (max-width: 900px) {
     height: auto;
-    margin-top: 100px;
-    margin-bottom: 100px;
+    margin-top: 80px;
+    margin-bottom: 80px;
   }
 `;
 
-const MyPage = ({ userInfo, playlist, setPlaylist }) => {
+const MyPage = () => {
   return (
     <Container>
-      <MyStatus userInfo={userInfo} />
-      <MyPlaylist playlist={playlist} setPlaylist={setPlaylist} />
+      <MyStatus />
+      <MyPlaylist />
     </Container>
   );
 };

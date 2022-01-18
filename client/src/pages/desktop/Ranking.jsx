@@ -82,7 +82,7 @@ const Ranking = () => {
         {token ? <MyRank /> : <></>}
         <TopTwentyContainer>
           <TopTwenty>
-            {rankingList?.map((item) => (
+            {rankingList.map((item) => (
               <Rank
                 key={item.rank}
                 rank={item.rank}
