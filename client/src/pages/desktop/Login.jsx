@@ -45,7 +45,6 @@ const Login = () => {
   }, []);
 
   const getUserInfo = async () => {
-    if (!token) return;
     await axios
       .get('https://final.eax.kr/api/users', {
         headers: { authorization: `Bearer ${token}` },
@@ -55,7 +54,6 @@ const Login = () => {
   };
 
   const getUserPlaylist = async () => {
-    if (!token) return;
     await axios
       .get('https://final.eax.kr/api/playlists', {
         headers: { authorization: `Bearer ${token}` },
