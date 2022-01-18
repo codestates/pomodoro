@@ -144,6 +144,7 @@ const NewPlaylistWrapper = styled.div`
   -moz-user-select: none;
   -webkit-user-select: none;
   -ms-user-select: none;
+  cursor: pointer;
 `;
 
 const PlusButton = styled.div`
