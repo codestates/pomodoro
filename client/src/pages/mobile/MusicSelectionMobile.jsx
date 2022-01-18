@@ -225,7 +225,10 @@ const ChooseMusicMobile = ({ tags, setTags }) => {
         currentTagIndex={currentTagIndex}
         setCurrentMusic={setCurrentMusic}
       />
-      <MetadataMobile currentMusic={currentMusic} />
+      <MetadataMobile
+        currentMusic={currentMusic}
+        currentPlaylist={currentPlaylist}
+      />
       <ButtonsMobile>
         <MenuForPlaylistMobile
           size={size}
