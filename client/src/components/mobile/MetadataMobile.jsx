@@ -1,5 +1,6 @@
 import { useContext } from 'react';
 import styled from 'styled-components';
+import axios from 'axios';
 
 import { UserContext } from '../../App';
 
@@ -76,12 +77,69 @@ const musicTimeFormat = (time) => {
   return `${minutes}:${seconds < 10 ? `0${seconds}` : seconds}`;
 };
 
-const MetadataMobile = ({ currentMusic }) => {
-  const { requestUserInfo } = useContext(UserContext);
+const MetadataMobile = ({ currentMusic, currentPlaylist }) => {
+  const { userInfo, musicList, setMusicList, requestUserInfo } =
+    useContext(UserContext);
+
+  const sendMusicList = (items = musicList) => {
+    const endpoint = `https://final.eax.kr/api/playlists/${currentPlaylist}`;
+    const token = localStorage.getItem('Token');
+    const headers = {
+      authorization: `Bearer ${token}`,
+    };
+    const music_order = items.map(({ music_id }) => music_id);
+    axios
+      .put(endpoint, { music_order }, { headers })
+      .then(() => {})
+      .catch((err) => {
+        console.log(err);
+        setMusicList(musicList);
+        sessionStorage.setItem('musicList', JSON.stringify(musicList));
+      });
+  };
 
   const addToPlaylist = (e) => {
-    requestUserInfo();
-    e.preventDefault();
+    if (!currentMusic['music_id']) {
+      alert('먼저 음악을 선택해 주세요.');
+      return;
+    }
+    if (!currentPlaylist) {
+      alert('먼저 재생목록을 선택해 주세요.');
+      return;
+    }
+
+    if (!userInfo) {
+      const newMusicList = [...musicList];
+      const newCurrentMusic = { ...currentMusic };
+      newCurrentMusic.music_id = Math.floor(Math.random() * 1000000);
+      newMusicList.push(newCurrentMusic);
+      setMusicList(newMusicList);
+      sessionStorage.setItem('musicList', JSON.stringify(newMusicList));
+      return;
+    }
+
+    const endpoint = `https://final.eax.kr/api/playlists/${currentPlaylist}`;
+    const token = localStorage.getItem('Token');
+    const headers = {
+      authorization: `Bearer ${token}`,
+    };
+    axios
+      .post(endpoint, currentMusic, { headers })
+      .then((res) => {
+        const newMusicList = [...musicList];
+        const newCurrentMusic = { ...currentMusic };
+        newCurrentMusic.music_id = res.data.music_id;
+        newMusicList.push(newCurrentMusic);
+        setMusicList(newMusicList);
+        sessionStorage.setItem('musicList', JSON.stringify(newMusicList));
+        sendMusicList(newMusicList);
+      })
+      .catch((err) => {
+        console.dir(err);
+      });
+    // console.dir(currentMusic);
+    // console.dir(userInfo);
+    // console.dir(currentPlaylist);
   };
 
   return (
