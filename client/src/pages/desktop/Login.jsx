@@ -37,29 +37,11 @@ const Login = () => {
   const [errMsg, setErrMsg] = useState('');
   const nicknameRef = useRef(null);
   const pwRef = useRef(null);
-  const { setUserInfo, setPlaylist } = useContext(UserContext);
+  const { requestUserInfo } = useContext(UserContext);
 
   useEffect(() => {
     nicknameRef.current.focus();
   }, []);
-
-  const getUserInfo = async (token) => {
-    await axios
-      .get('https://final.eax.kr/api/users', {
-        headers: { authorization: `Bearer ${token}` },
-      })
-      .then((res) => setUserInfo(res.data))
-      .catch((error) => console.log(error));
-  };
-
-  const getUserPlaylist = async (token) => {
-    await axios
-      .get('https://final.eax.kr/api/playlists', {
-        headers: { authorization: `Bearer ${token}` },
-      })
-      .then((res) => setPlaylist(res.data.result))
-      .catch((error) => console.log(error));
-  };
 
   const handleLoginBtn = async () => {
     const nickname = nicknameRef.current.value;
@@ -78,8 +60,7 @@ const Login = () => {
       .then((res) => {
         const token = res.data.token;
         localStorage.setItem('Token', token);
-        getUserInfo(token);
-        getUserPlaylist(token);
+        requestUserInfo();
         navigate('/');
       })
       .catch((error) => {
