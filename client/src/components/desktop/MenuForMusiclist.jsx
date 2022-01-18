@@ -165,6 +165,7 @@ const MenuForMusiclist = ({ currentPlaylist }) => {
       .get(endpoint, { headers })
       .then((res) => {
         setMusicList(res.data.result);
+        sessionStorage.setItem('musicList', JSON.stringify(res.data.result));
       })
       .catch((err) => {
         console.log(err);
@@ -184,12 +185,14 @@ const MenuForMusiclist = ({ currentPlaylist }) => {
       .catch((err) => {
         console.log(err);
         setMusicList(musicList);
+        sessionStorage.setItem('musicList', JSON.stringify(musicList));
       });
   };
 
   useEffect(() => {
     if (!currentPlaylist || !userInfo) {
       setMusicList([]);
+      sessionStorage.setItem('musicList', JSON.stringify([]));
       return;
     }
     getMusicList();
@@ -206,6 +209,7 @@ const MenuForMusiclist = ({ currentPlaylist }) => {
     );
     sendMusicList(items);
     setMusicList(items);
+    sessionStorage.setItem('musicList', JSON.stringify(items));
   };
 
   const removeMusic = (e) => {
@@ -222,8 +226,10 @@ const MenuForMusiclist = ({ currentPlaylist }) => {
       .catch((err) => {
         console.log(err);
         setMusicList(musicList);
+        sessionStorage.setItem('musicList', JSON.stringify(musicList));
       });
     setMusicList(removedList);
+    sessionStorage.setItem('musicList', JSON.stringify(removedList));
   };
 
   return (
