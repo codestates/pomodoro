@@ -11,6 +11,8 @@ import { UserContext } from '../../App';
 const MusicListContainer = styled.div`
   flex: 817 817 auto;2022-01-16 04:32:43
   max-width: 81.7rem;
+  max-height: 50vh;
+  overflow-y: auto;
   background: rgba(242, 231, 218, 0.6);
   box-shadow: 0.3rem 0.3rem 0.4rem rgba(0, 0, 0, 0.25);
   border-radius: 1rem;
