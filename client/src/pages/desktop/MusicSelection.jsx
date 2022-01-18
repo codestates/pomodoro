@@ -96,9 +96,10 @@ const SearchBarContainer = styled.div`
   }
 
   transform-origin: top left;
-  animation: ${({ fadeOut }) => (fadeOut ? 'fadeout 1s' : 'fadein 1s')};
+  animation: ${({ fadeOut }) =>
+    fadeOut ? 'fadeoutSearchBar 1s' : 'fadeinSearchBar 1s'};
 
-  @keyframes fadein {
+  @keyframes fadeinSearchBar {
     from {
       opacity: 0;
       transform: scaleX(0.1);
@@ -109,7 +110,7 @@ const SearchBarContainer = styled.div`
     }
   }
 
-  @keyframes fadeout {
+  @keyframes fadeoutSearchBar {
     from {
       opacity: 1;
       transform: scaleX(1);
