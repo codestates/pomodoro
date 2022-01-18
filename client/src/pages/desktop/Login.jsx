@@ -37,7 +37,7 @@ const Login = () => {
   const [errMsg, setErrMsg] = useState('');
   const nicknameRef = useRef(null);
   const pwRef = useRef(null);
-  let token = '';
+  const { requestUserInfo } = useContext(UserContext);
 
   useEffect(() => {
     nicknameRef.current.focus();
@@ -58,8 +58,9 @@ const Login = () => {
         password,
       })
       .then((res) => {
-        token = res.data.token;
+        const token = res.data.token;
         localStorage.setItem('Token', token);
+        requestUserInfo();
         navigate('/');
       })
       .catch((error) => {

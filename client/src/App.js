@@ -30,6 +30,7 @@ export const UserContext = createContext({
   setTags: () => {},
   musicList: [],
   setMusicList: () => {},
+  clearStates: () => {},
 });
 
 const App = () => {
@@ -88,6 +89,13 @@ const App = () => {
     }
   };
 
+  // 스테이츠 초기화
+  const clearStates = () => {
+    setUserInfo('');
+    setPlaylist([]);
+    setMusicList([]);
+  };
+
   //로드시 각종 State에 넣을 값을 최초 1회 요청
   useLayoutEffect(() => {
     requestUserInfo();
@@ -105,6 +113,7 @@ const App = () => {
           setTags,
           musicList,
           setMusicList,
+          clearStates,
         }}
       >
         <Router>
@@ -145,6 +154,7 @@ const App = () => {
         setTags,
         musicList,
         setMusicList,
+        clearStates,
       }}
     >
       <Router>

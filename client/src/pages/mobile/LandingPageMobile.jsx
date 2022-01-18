@@ -11,8 +11,6 @@ import ScrollToTop from '../../components/desktop/ScrollToTop';
 
 const Wrapper = styled.div`
   max-width: 1320px;
-  margin-top: 7.5rem;
-  margin-bottom: 7rem;
   padding: 1.5rem 0;
 `;
 
