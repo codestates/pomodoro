@@ -78,9 +78,9 @@ const addMusicsForPlaylist = async (req, res) => {
     utf8Length(req.body.music_url) > 128
   ) {
     console.log(
-      `[ERROR] /api/playlists/:playlist_id POST -> 400 : music_name or music_url is too long`
+      `[ERROR] /api/playlists/:playlist_id POST -> 400 : music_name or music_url is too long, stripping..`
     );
-    return res.status(400).send('music_name or music_url is too long');
+    //return res.status(400).send('music_name or music_url is too long, stripping ');
   }
 
   if (
