@@ -183,8 +183,6 @@ const ChooseMusicMobile = ({ tags, setTags }) => {
       end: thisRef.current.parentNode.nextElementSibling.offsetTop,
     };
     setSize(payload);
-    //console.dir(payload);
-    console.dir(thisRef);
   }, []);
 
   return (
