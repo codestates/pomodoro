@@ -43,7 +43,7 @@ const StyledDelete = styled(StyledEdit)`
 const Playlist = ({ order, name, id, index }) => {
   const [editMode, setEditMode] = useState(false);
   const [title, setTitle] = useState(name);
-  const [open, setOpen] = useState(false);
+  const [edited, setEdited] = useState(false);
   const inputRef = useRef(null);
   const { playlist, setPlaylist } = useContext(UserContext);
 
@@ -55,11 +55,12 @@ const Playlist = ({ order, name, id, index }) => {
 
   const handleBlur = async () => {
     setEditMode(false);
+    if (!edited) return;
     await axios
       .patch(
         `https://final.eax.kr/api/playlists/${id}`,
         {
-          playlist_name: inputRef.current.value,
+          playlist_name: title,
         },
         {
           headers: {
@@ -71,13 +72,17 @@ const Playlist = ({ order, name, id, index }) => {
         const list = [...playlist];
         list[index].playlist_name = title;
         setPlaylist(list);
+        setEdited(false);
       })
       .catch((error) => console.log(error));
   };
 
   const handleEditMode = () => {
     const newTitle = inputRef.current.value;
-    setTitle(newTitle);
+    if (newTitle !== title) {
+      setEdited(true);
+      setTitle(newTitle);
+    }
   };
 
   const handleEdit = () => {
