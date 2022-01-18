@@ -11,6 +11,8 @@ import { UserContext } from '../../App';
 const PlaylistContainer = styled.div`
   flex: 388 388 auto;
   max-width: 38.8rem;
+  max-height: 50vh;
+  overflow-y: auto;
   background: rgba(242, 231, 218, 0.6);
   box-shadow: 0.3rem 0.3rem 0.4rem rgba(0, 0, 0, 0.25);
   border-radius: 1rem;
