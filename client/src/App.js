@@ -16,6 +16,7 @@ import LandingPageMobile from './pages/mobile/LandingPageMobile';
 import LayoutWithHeader from './pages/desktop/LayoutWithHeader';
 import LayoutMobileWithHeader from './pages/mobile/LayoutMobileWithHeader';
 import TabBarMobile from './components/mobile/TabBarMobile';
+import PomodoroPage from './pages/desktop/PomodoroPage';
 import axios from 'axios';
 import './App.css';
 
@@ -23,30 +24,37 @@ export const UserContext = createContext({
   userInfo: '',
   rankingList: [],
   playlist: [],
+  setPlaylist: () => {},
   requestUserInfo: () => {},
   tags: null,
+  setTags: () => {},
+  musicList: [],
+  setMusicList: () => {},
+  clearStates: () => {},
 });
 
 const App = () => {
   const isMobile = useMediaQuery({ query: '(max-width: 900px)' });
-  const [userInfo, setUserInfo] = useState(null);
+  const [userInfo, setUserInfo] = useState('');
   const [playlist, setPlaylist] = useState([]);
   const [tags, setTags] = useState(false);
+  const [musicList, setMusicList] = useState([]);
 
   // 유저 정보 요청 함수
   const requestUserInfo = (specificRequest) => {
     const ENDPOINT = 0;
     const STATE_TO_STORE = 1;
-    const TOKEN_REQUIRED = 2;
+    const STATE_DEFAULT_VALUE = 2;
+    const TOKEN_REQUIRED = 3;
 
     const token = localStorage.getItem('Token');
     const headers = {
       authorization: `Bearer ${token}`,
     };
     const requestDictionary = [
-      ['https://final.eax.kr/api/users', setUserInfo, TOKEN_REQUIRED],
-      ['https://final.eax.kr/api/playlists', setPlaylist, TOKEN_REQUIRED],
-      ['https://final.eax.kr/api/tags', setTags],
+      ['https://final.eax.kr/api/users', setUserInfo, '', TOKEN_REQUIRED],
+      ['https://final.eax.kr/api/playlists', setPlaylist, [], TOKEN_REQUIRED],
+      ['https://final.eax.kr/api/tags', setTags, false],
     ];
     //특정요청만 다시 불러오는 경우 배열과 아닌경우를 분리하여 융통성 있개 배치
     let getRequests = [];
@@ -61,7 +69,7 @@ const App = () => {
     for (const request of getRequests) {
       //토큰 요구사항인데 값이 없으면 실행하지 않음
       if (request[TOKEN_REQUIRED] && !token) {
-        request[STATE_TO_STORE](null);
+        request[STATE_TO_STORE](request[STATE_DEFAULT_VALUE]);
         continue;
       }
       //axios 요청 후 결과값을 State에 저장
@@ -75,10 +83,17 @@ const App = () => {
           //오류 발생시 토큰관련 문제인 경우 토큰을 삭제
           if (request[TOKEN_REQUIRED] && err.response.data === 'unauthorized')
             localStorage.removeItem('Token');
-          request[STATE_TO_STORE](null);
+          request[STATE_TO_STORE](request[STATE_DEFAULT_VALUE]);
           console.dir(err);
         });
     }
+  };
+
+  // 스테이츠 초기화
+  const clearStates = () => {
+    setUserInfo('');
+    setPlaylist([]);
+    setMusicList([]);
   };
 
   //로드시 각종 State에 넣을 값을 최초 1회 요청
@@ -89,7 +104,17 @@ const App = () => {
   if (isMobile) {
     return (
       <UserContext.Provider
-        value={{ userInfo, playlist, setPlaylist, requestUserInfo, tags }}
+        value={{
+          userInfo,
+          playlist,
+          setPlaylist,
+          requestUserInfo,
+          tags,
+          setTags,
+          musicList,
+          setMusicList,
+          clearStates,
+        }}
       >
         <Router>
           <Routes>
@@ -97,12 +122,16 @@ const App = () => {
               <Route path="/" element={<LandingPageMobile />} />
               <Route
                 path="/music"
-                element={<MusicSelectionMobile tags={tags} />}
+                element={<MusicSelectionMobile tags={tags} setTags={setTags} />}
               />
               <Route path="/editinfo" element={<EditUserInfo />} />
               <Route path="/delete" element={<Bye />} />
               <Route path="/mypage" element={<MyPage />} />
               <Route path="/ranking" element={<Ranking />} />
+              <Route
+                path="/pomodoro"
+                element={<PomodoroPage isMobile={isMobile} />}
+              />
             </Route>
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<SignUp />} />
@@ -116,17 +145,34 @@ const App = () => {
 
   return (
     <UserContext.Provider
-      value={{ userInfo, playlist, setPlaylist, requestUserInfo, tags }}
+      value={{
+        userInfo,
+        playlist,
+        setPlaylist,
+        requestUserInfo,
+        tags,
+        setTags,
+        musicList,
+        setMusicList,
+        clearStates,
+      }}
     >
       <Router>
         <Routes>
           <Route element={<LayoutWithHeader />}>
             <Route path="/" element={<LandingPage />} />
-            <Route path="/music" element={<MusicSelection tags={tags} />} />
+            <Route
+              path="/music"
+              element={<MusicSelection tags={tags} setTags={setTags} />}
+            />
             <Route path="/delete" element={<Bye />} />
             <Route path="/editinfo" element={<EditUserInfo />} />
             <Route path="/ranking" element={<Ranking />} />
             <Route path="/mypage" element={<MyPage />} />
+            <Route
+              path="/pomodoro"
+              element={<PomodoroPage isMobile={isMobile} />}
+            />
           </Route>
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />

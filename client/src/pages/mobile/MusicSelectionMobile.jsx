@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 
 import { ReactComponent as SearchIcon } from '../../images/search.svg';
 import { ReactComponent as TomatoPlayIcon } from '../../images/TomatoPlay.svg';
@@ -65,6 +66,7 @@ const ButtonsMobile = styled.div`
 `;
 
 const ChooseMusicMobile = ({ tags, setTags }) => {
+  const navigate = useNavigate();
   const thisRef = useRef(null);
   const [size, setSize] = useState({ start: 0, end: 0 });
   const [currentTagIndex, setCurrentTagIndex] = useState(0);
@@ -103,15 +105,22 @@ const ChooseMusicMobile = ({ tags, setTags }) => {
       />
       <MetadataMobile currentMusic={currentMusic} />
       <ButtonsMobile>
-        <MenuForPlaylistMobile />
+        <MenuForPlaylistMobile
+          size={size}
+          currentPlaylist={currentPlaylist}
+          setCurrentPlaylist={setCurrentPlaylist}
+        />
         <TomatoPlayIcon
           style={{
             filter: 'drop-shadow(20px 20px 10px rgba(0, 0, 0, 0.12))',
           }}
           width="16vw"
           height="16vw"
+          onClick={() => {
+            navigate('/pomodoro');
+          }}
         />
-        <MenuForMusiclistMobile />
+        <MenuForMusiclistMobile size={size} currentPlaylist={currentPlaylist} />
       </ButtonsMobile>
     </MobileContainer>
   );

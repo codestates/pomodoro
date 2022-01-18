@@ -1,6 +1,7 @@
-import { useState, createContext } from 'react';
+import { useState, createContext, useRef } from 'react';
 import styled from 'styled-components';
 import { useMediaQuery } from 'react-responsive';
+import axios from 'axios';
 
 import SwiperMusic from '../../components/desktop/SwiperMusic';
 import { ReactComponent as Search } from '../../images/search.svg';
@@ -72,6 +73,67 @@ const SearchButton = styled.div`
   }
 `;
 
+const SearchBarContainer = styled.div`
+  visibility: ${({ expandSearchBar }) =>
+    expandSearchBar ? 'visible' : 'hidden'};
+  position: absolute;
+  max-width: 85.1rem;
+  left: ${({ posX }) => posX?.offsetLeft}px;
+  width: ${({ size, posX }) => size?.offsetWidth + posX?.offsetWidth}px;
+  height: 7rem;
+  border-radius: 0.5rem;
+  background: #f5f5f5;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 30px;
+
+  display: grid;
+  grid-template-columns: 1fr 1.5fr 0.5fr 32.4fr;
+
+  z-index: 10;
+
+  & svg {
+    width: 3.52rem;
+    height: 3.27rem;
+    align-self: center;
+  }
+
+  transform-origin: top left;
+  animation: ${({ fadeOut }) => (fadeOut ? 'fadeout 1s' : 'fadein 1s')};
+
+  @keyframes fadein {
+    from {
+      opacity: 0;
+      transform: scaleX(0.1);
+    }
+    to {
+      opacity: 1;
+      transform: scaleX(1);
+    }
+  }
+
+  @keyframes fadeout {
+    from {
+      opacity: 1;
+      transform: scaleX(1);
+    }
+    to {
+      opacity: 0;
+      transform: scaleX(0.1);
+    }
+  }
+`;
+
+const SearchText = styled.input`
+  align-self: center;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 2.7rem;
+  color: #7e7e7e;
+  background: #f5f5f5;
+`;
+
+const GhostDiv = styled.div``;
+
 const TagWrapper = styled.div`
   flex: 804 1 auto;
   max-width: 80.4rem;
@@ -106,6 +168,48 @@ const ChooseMusic = ({ tags, setTags }) => {
   const [currentTagIndex, setCurrentTagIndex] = useState(0);
   const [currentMusic, setCurrentMusic] = useState({});
   const [currentPlaylist, setCurrentPlaylist] = useState(null);
+  const [expandSearchBar, setExpandSearchBar] = useState(false);
+  const [fadeOut, setFadeOut] = useState(false);
+  const [searchText, setSearchText] = useState('');
+  const tagsRef = useRef(null);
+  const searchRef = useRef(null);
+  const focusRef = useRef(null);
+
+  const fadeOutHandler = () => {
+    setFadeOut(true);
+    setTimeout(() => {
+      setFadeOut(false);
+      setExpandSearchBar(false);
+    }, 500);
+  };
+
+  const searchHandler = (e) => {
+    if (e.code !== 'Enter') return;
+    const endpoint = `https://final.eax.kr/api/search?q=${searchText}`;
+    axios
+      .get(endpoint)
+      .then((res) => {
+        if (res.data.result.length === 0) {
+          alert('검색 결과가 없습니다.');
+          return;
+        }
+        const newTags = [...tags];
+        let tag_id;
+        if (newTags[0].tag_id < 0) tag_id = newTags[0].tag_id - 1;
+        else tag_id = -1;
+        const payload = {
+          tag_id,
+          tag_name: searchText,
+          Musics: res.data.result,
+        };
+        newTags.unshift(payload);
+        setTags(newTags);
+        setCurrentPlaylist(tag_id);
+      })
+      .catch((err) => {
+        console.dir(err);
+      });
+  };
 
   return (
     <MainContainer>
@@ -118,11 +222,38 @@ const ChooseMusic = ({ tags, setTags }) => {
           </PlaylistSelectLabel>
           <ShrinkFlexBox>
             <SearchButtonWrapper>
-              <SearchButton>
+              <SearchButton
+                ref={searchRef}
+                onClick={() => {
+                  setFadeOut(false);
+                  setExpandSearchBar(true);
+                  setTimeout(() => {
+                    focusRef.current.focus();
+                  }, 500);
+                }}
+              >
                 <Search />
               </SearchButton>
+              <SearchBarContainer
+                expandSearchBar={expandSearchBar}
+                fadeOut={fadeOut}
+                posX={searchRef?.current ? searchRef.current : null}
+                size={tagsRef?.current ? tagsRef.current : null}
+              >
+                <GhostDiv />
+                <Search onClick={fadeOutHandler} />
+                <GhostDiv />
+                <SearchText
+                  ref={focusRef}
+                  type="text"
+                  placeholder="검색어를 입력하세요 (혹은 Youtube 주소 입력)"
+                  value={searchText}
+                  onChange={(e) => setSearchText(e.target.value)}
+                  onKeyUp={searchHandler}
+                />
+              </SearchBarContainer>
             </SearchButtonWrapper>
-            <TagWrapper>
+            <TagWrapper ref={tagsRef}>
               <MusicTags
                 tags={tags}
                 currentTagIndex={currentTagIndex}
@@ -136,11 +267,38 @@ const ChooseMusic = ({ tags, setTags }) => {
           <PlaylistGhostDiv />
           <PlaylistSelectLabel>플레이리스트 선택</PlaylistSelectLabel>
           <SearchButtonWrapper>
-            <SearchButton>
+            <SearchButton
+              ref={searchRef}
+              onClick={() => {
+                setFadeOut(false);
+                setExpandSearchBar(true);
+                setTimeout(() => {
+                  focusRef.current.focus();
+                }, 500);
+              }}
+            >
               <Search />
             </SearchButton>
+            <SearchBarContainer
+              expandSearchBar={expandSearchBar}
+              fadeOut={fadeOut}
+              posX={searchRef?.current ? searchRef.current : null}
+              size={tagsRef?.current ? tagsRef.current : null}
+            >
+              <GhostDiv />
+              <Search onClick={fadeOutHandler} />
+              <GhostDiv />
+              <SearchText
+                ref={focusRef}
+                type="text"
+                placeholder="검색어를 입력하세요 (혹은 Youtube 주소 입력)"
+                value={searchText}
+                onChange={(e) => setSearchText(e.target.value)}
+                onKeyUp={searchHandler}
+              />
+            </SearchBarContainer>
           </SearchButtonWrapper>
-          <TagWrapper>
+          <TagWrapper ref={tagsRef}>
             <MusicTags
               tags={tags}
               currentTagIndex={currentTagIndex}

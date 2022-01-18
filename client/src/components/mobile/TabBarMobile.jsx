@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import React, { useContext } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { ReactComponent as Home } from '../../images/home.svg';
 import { ReactComponent as Clock } from '../../images/clock.svg';
 import { ReactComponent as Ranking } from '../../images/rank.svg';
@@ -8,6 +8,7 @@ import { ReactComponent as SignUp } from '../../images/signUp.svg';
 import { ReactComponent as SignOut } from '../../images/signOut.svg';
 import { ReactComponent as MyPage } from '../../images/myPage.svg';
 import styled from 'styled-components';
+import { UserContext } from '../../App';
 
 const Nav = styled.nav`
   background-color: var(--color-background);
@@ -49,18 +50,13 @@ const Span = styled.span`
 
 const TabBarMobile = () => {
   const { pathname } = useLocation();
-  const [isLogin, setIsLogin] = useState(localStorage.getItem('Token'));
-
-  useEffect(() => {
-    const token = localStorage.getItem('Token');
-    if (token) {
-      setIsLogin(true);
-    }
-  }, []);
+  const { userInfo, clearStates } = useContext(UserContext);
+  const navigate = useNavigate();
 
   const signOut = () => {
     localStorage.removeItem('Token');
-    setIsLogin(false);
+    clearStates();
+    navigate('/');
   };
 
   return (
@@ -96,7 +92,7 @@ const TabBarMobile = () => {
         </Button>
       </Link>
 
-      {isLogin ? (
+      {userInfo ? (
         <>
           <Link to="/mypage">
             <Button>

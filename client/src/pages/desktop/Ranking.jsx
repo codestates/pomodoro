@@ -23,11 +23,11 @@ const RankingSection = styled.section`
   position: relative;
   width: 900px;
   height: 500px;
-  z-index: -100;
 
   @media screen and (max-width: 900px) {
     width: 90%;
     height: auto;
+    z-index: -100;
   }
 `;
 
