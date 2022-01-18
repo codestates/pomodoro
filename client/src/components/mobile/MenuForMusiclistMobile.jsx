@@ -161,8 +161,14 @@ const reorder = (list, startIndex, endIndex) => {
 };
 
 const MenuForMusiclistMobile = ({ size, currentPlaylist }) => {
-  const { userInfo, musicList, playlist, setMusicList, requestUserInfo } =
-    useContext(UserContext);
+  const {
+    userInfo,
+    musicList,
+    playlist,
+    setPlaylist,
+    setMusicList,
+    requestUserInfo,
+  } = useContext(UserContext);
   const [expandPlaylist, setExpandPlaylist] = useState(false);
   const [fadeOut, setFadeOut] = useState(false);
   const [musicListStorage, setMusicListStorage] = useState({});
@@ -262,6 +268,15 @@ const MenuForMusiclistMobile = ({ size, currentPlaylist }) => {
         .delete(endpoint, { headers })
         .then(() => {
           sendMusicList(removedList);
+          if (playlist_idx === -1) return;
+          const playlistLength = removedList.reduce(
+            (acc, { music_time }) => acc + Number(music_time),
+            0
+          );
+          const newPlaylist = [...playlist];
+          newPlaylist[playlist_idx].playlist_time = playlistLength;
+          setPlaylist(newPlaylist);
+          return;
         })
         .catch((err) => {
           console.log(err);
@@ -270,6 +285,15 @@ const MenuForMusiclistMobile = ({ size, currentPlaylist }) => {
         });
     setMusicList(removedList);
     sessionStorage.setItem('musicList', JSON.stringify(removedList));
+    if (userInfo || playlist_idx === -1) return;
+    const playlistLength = removedList.reduce(
+      (acc, { music_time }) => acc + Number(music_time),
+      0
+    );
+    const newPlaylist = [...playlist];
+    newPlaylist[playlist_idx].playlist_time = playlistLength;
+    setPlaylist(newPlaylist);
+    return;
   };
 
   const fadeOutHandler = () => {
