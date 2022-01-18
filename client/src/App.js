@@ -22,6 +22,7 @@ import './App.css';
 
 export const UserContext = createContext({
   userInfo: '',
+  setUserInfo: () => {},
   rankingList: [],
   playlist: [],
   setPlaylist: () => {},
@@ -98,6 +99,7 @@ const App = () => {
       <UserContext.Provider
         value={{
           userInfo,
+          setUserInfo,
           playlist,
           setPlaylist,
           requestUserInfo,
@@ -138,6 +140,7 @@ const App = () => {
     <UserContext.Provider
       value={{
         userInfo,
+        setUserInfo,
         playlist,
         setPlaylist,
         requestUserInfo,
