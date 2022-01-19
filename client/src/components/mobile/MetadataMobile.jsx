@@ -217,6 +217,10 @@ const MetadataMobile = ({ currentMusic, currentPlaylist }) => {
         const newPlaylist = [...playlist];
         newPlaylist[playlist_idx].playlist_time = playlistLength;
         setPlaylist(newPlaylist);
+        setShowPopup(showPopup + 1);
+        setTimeout(() => {
+          setShowPopup(0);
+        }, 2000);
         return;
       })
       .catch((err) => {
