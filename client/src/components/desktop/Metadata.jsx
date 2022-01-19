@@ -168,6 +168,11 @@ const Metadata = ({ currentMusic, currentPlaylist }) => {
       return;
     }
 
+    if (musicList.length > 50) {
+      setDisplayModalMessage('재생목록은 50곡까지만 추가할 수 있습니다.');
+      return;
+    }
+
     if (!userInfo) {
       const newMusicList = [...musicList];
       const newCurrentMusic = { ...currentMusic };
