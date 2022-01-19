@@ -312,7 +312,7 @@ const ChooseMusic = ({ tags, setTags }) => {
         currentTagIndex={currentTagIndex}
         setCurrentMusic={setCurrentMusic}
       />
-      <Metadata currentMusic={currentMusic} />
+      <Metadata currentMusic={currentMusic} currentPlaylist={currentPlaylist} />
       <PlaylistContainer>
         <MenuForPlaylist
           currentPlaylist={currentPlaylist}

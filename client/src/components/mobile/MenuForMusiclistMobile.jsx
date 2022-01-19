@@ -165,8 +165,10 @@ const MenuForMusiclistMobile = ({ size, currentPlaylist }) => {
     useContext(UserContext);
   const [expandPlaylist, setExpandPlaylist] = useState(false);
   const [fadeOut, setFadeOut] = useState(false);
+  const [musicListStorage, setMusicListStorage] = useState({});
   const musiclistRef = useRef(null);
   const scrollRef = useRef(null);
+  const previousPlaylist = useRef(null);
 
   const playlist_idx = useMemo(() => {
     return playlist.findIndex(
@@ -209,12 +211,28 @@ const MenuForMusiclistMobile = ({ size, currentPlaylist }) => {
   };
 
   useEffect(() => {
-    if (!currentPlaylist || !userInfo) {
+    return () => (previousPlaylist.current = currentPlaylist);
+  }, [currentPlaylist]);
+
+  useEffect(() => {
+    if (!currentPlaylist) {
       setMusicList([]);
       sessionStorage.setItem('musicList', JSON.stringify([]));
       return;
     }
-    getMusicList();
+    if (userInfo) {
+      getMusicList();
+      return;
+    }
+    let listToChange = musicListStorage[String(currentPlaylist)];
+    listToChange = listToChange ? JSON.parse(listToChange) : [];
+    const newMusicStorage = { ...musicListStorage };
+    newMusicStorage[String(previousPlaylist.current)] =
+      JSON.stringify(musicList);
+    //console.log(`prev: ${previousPlaylist.current}, curr: ${currentPlaylist}`);
+    setMusicList(listToChange);
+    sessionStorage.setItem('musicList', JSON.stringify(listToChange));
+    setMusicListStorage(newMusicStorage);
   }, [userInfo, currentPlaylist]);
 
   const reorderList = (result) => {
@@ -226,7 +244,7 @@ const MenuForMusiclistMobile = ({ size, currentPlaylist }) => {
       result.source.index,
       result.destination.index
     );
-    sendMusicList(items);
+    if (userInfo) sendMusicList(items);
     setMusicList(items);
     sessionStorage.setItem('musicList', JSON.stringify(items));
   };
@@ -239,14 +257,17 @@ const MenuForMusiclistMobile = ({ size, currentPlaylist }) => {
     };
     const removedList = [...musicList];
     removedList.splice(e.currentTarget.dataset.id, 1);
-    axios
-      .delete(endpoint, { headers })
-      .then(() => {})
-      .catch((err) => {
-        console.log(err);
-        setMusicList(musicList);
-        sessionStorage.setItem('musicList', JSON.stringify(musicList));
-      });
+    if (userInfo)
+      axios
+        .delete(endpoint, { headers })
+        .then(() => {
+          sendMusicList(removedList);
+        })
+        .catch((err) => {
+          console.log(err);
+          setMusicList(musicList);
+          sessionStorage.setItem('musicList', JSON.stringify(musicList));
+        });
     setMusicList(removedList);
     sessionStorage.setItem('musicList', JSON.stringify(removedList));
   };
@@ -286,10 +307,10 @@ const MenuForMusiclistMobile = ({ size, currentPlaylist }) => {
             <MusicListNameWrapper ref={scrollRef}>
               <GhostDiv />
               <MusiclistName>
-                {playlist[playlist_idx].playlist_name}
+                {playlist[playlist_idx]?.playlist_name}
               </MusiclistName>
               <TotalTimeDiv>
-                {playlist[playlist_idx].playlist_time
+                {playlist[playlist_idx]?.playlist_time
                   ? musicTimeFormat(playlist[playlist_idx].playlist_time)
                   : '--:--'}
               </TotalTimeDiv>
