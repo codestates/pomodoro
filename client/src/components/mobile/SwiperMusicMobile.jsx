@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Swiper, SwiperSlide } from 'swiper/react';
+import { Swiper, SwiperSlide, useRef } from 'swiper/react';
 
 import SwiperCore, {
   EffectCoverflow,
@@ -16,8 +16,7 @@ import { ReactComponent as Loading } from '../../images/loading.svg';
 SwiperCore.use([EffectCoverflow, Pagination, Mousewheel, Keyboard]);
 
 const SwiperContainer = styled.div`
-  display: flex;
-  align-items: center;
+  align-self: center;
   width: 100vw;
   & .swiper-slide {
     background-position: center;
