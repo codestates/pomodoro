@@ -160,7 +160,6 @@ const MenuForMusiclist = ({ currentPlaylist }) => {
     setMusicList,
     requestUserInfo,
   } = useContext(UserContext);
-  const [musicListStorage, setMusicListStorage] = useState({});
   const previousPlaylist = useRef(null);
 
   const playlist_idx = useMemo(() => {
@@ -215,8 +214,11 @@ const MenuForMusiclist = ({ currentPlaylist }) => {
     }
     if (userInfo) {
       getMusicList();
+      sessionStorage.setItem('musicListStorage', JSON.stringify({}));
       return;
     }
+    let musicListStorage = sessionStorage.getItem('musicListStorage');
+    musicListStorage = musicListStorage ? JSON.parse(musicListStorage) : {};
     let listToChange = musicListStorage[String(currentPlaylist)];
     listToChange = listToChange ? JSON.parse(listToChange) : [];
     const newMusicStorage = { ...musicListStorage };
@@ -225,7 +227,7 @@ const MenuForMusiclist = ({ currentPlaylist }) => {
     //console.log(`prev: ${previousPlaylist.current}, curr: ${currentPlaylist}`);
     setMusicList(listToChange);
     sessionStorage.setItem('musicList', JSON.stringify(listToChange));
-    setMusicListStorage(newMusicStorage);
+    sessionStorage.setItem('musicListStorage', JSON.stringify(newMusicStorage));
   }, [userInfo, currentPlaylist]);
 
   const reorderList = (result) => {

@@ -171,7 +171,6 @@ const MenuForMusiclistMobile = ({ size, currentPlaylist }) => {
   } = useContext(UserContext);
   const [expandPlaylist, setExpandPlaylist] = useState(false);
   const [fadeOut, setFadeOut] = useState(false);
-  const [musicListStorage, setMusicListStorage] = useState({});
   const musiclistRef = useRef(null);
   const scrollRef = useRef(null);
   const previousPlaylist = useRef(null);
@@ -228,8 +227,11 @@ const MenuForMusiclistMobile = ({ size, currentPlaylist }) => {
     }
     if (userInfo) {
       getMusicList();
+      sessionStorage.setItem('musicListStorage', JSON.stringify({}));
       return;
     }
+    let musicListStorage = sessionStorage.getItem('musicListStorage');
+    musicListStorage = musicListStorage ? JSON.parse(musicListStorage) : {};
     let listToChange = musicListStorage[String(currentPlaylist)];
     listToChange = listToChange ? JSON.parse(listToChange) : [];
     const newMusicStorage = { ...musicListStorage };
@@ -238,7 +240,7 @@ const MenuForMusiclistMobile = ({ size, currentPlaylist }) => {
     //console.log(`prev: ${previousPlaylist.current}, curr: ${currentPlaylist}`);
     setMusicList(listToChange);
     sessionStorage.setItem('musicList', JSON.stringify(listToChange));
-    setMusicListStorage(newMusicStorage);
+    sessionStorage.setItem('musicListStorage', JSON.stringify(newMusicStorage));
   }, [userInfo, currentPlaylist]);
 
   const reorderList = (result) => {
