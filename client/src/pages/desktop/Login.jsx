@@ -55,7 +55,6 @@ const Login = () => {
     if (nickname === '' || password === '') {
       setShowErrMsg(true);
       setErrMsg('닉네임과 비밀번호를 입력해주세요.');
-      return;
     }
 
     await axios
