@@ -1,7 +1,8 @@
-import { useContext, useMemo } from 'react';
+import { useContext, useMemo, useState } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 
+import { ReactComponent as SelectedIcon } from '../../images/select.svg';
 import { UserContext } from '../../App';
 
 const MetadataContainer = styled.div`
@@ -71,6 +72,50 @@ const AddButton = styled.button`
   }
 `;
 
+const AddedToastPopup = styled.div`
+  position: absolute;
+  width: 50vw;
+  padding: 0.5rem;
+  background: #f2e7da;
+  border-radius: 35px;
+  left: 25vw;
+  top: 60vh;
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+  align-items: center;
+  justify-items: center;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+
+  animation: toast 2s;
+
+  @keyframes toast {
+    0% {
+      opacity: 0;
+      transform: translatey(20%); // scaleX(0);
+    }
+
+    30% {
+      opacity: 1;
+      transform: translatey(0%); // scaleX(1);
+    }
+
+    80% {
+      opacity: 1;
+      transform: translatey(0%); // scaleX(1);
+    }
+    100% {
+      opacity: 0;
+      transform: translatey(20%); // scaleX(0);
+    }
+  }
+`;
+
+const ToastText = styled.div`
+  font-style: normal;
+  font-weight: bold;
+  font-size: 2rem;
+`;
+
 const musicTimeFormat = (time) => {
   const minutes = Math.floor(time / 60);
   const seconds = Math.floor(time % 60);
@@ -86,6 +131,10 @@ const MetadataMobile = ({ currentMusic, currentPlaylist }) => {
     setMusicList,
     requestUserInfo,
   } = useContext(UserContext);
+
+  const [showPopup, setShowPopup] = useState(0);
+
+  const renderPopup = useMemo(() => showPopup > 0, [showPopup]);
 
   const playlist_idx = useMemo(() => {
     return playlist.findIndex(
@@ -136,6 +185,11 @@ const MetadataMobile = ({ currentMusic, currentPlaylist }) => {
       const newPlaylist = [...playlist];
       newPlaylist[playlist_idx].playlist_time = playlistLength;
       setPlaylist(newPlaylist);
+
+      setShowPopup(showPopup + 1);
+      setTimeout(() => {
+        setShowPopup(0);
+      }, 2000);
       return;
     }
 
@@ -189,6 +243,12 @@ const MetadataMobile = ({ currentMusic, currentPlaylist }) => {
         </MusicLength>
       </MusicNameWrapper>
       <AddButton onClick={addToPlaylist}>+</AddButton>
+      {renderPopup && (
+        <AddedToastPopup>
+          <SelectedIcon width="60%" />
+          <ToastText>추가되었습니다.</ToastText>
+        </AddedToastPopup>
+      )}
     </MetadataContainer>
   );
 };
