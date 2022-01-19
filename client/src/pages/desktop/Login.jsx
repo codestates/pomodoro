@@ -43,6 +43,12 @@ const Login = () => {
     nicknameRef.current.focus();
   }, []);
 
+  const handleClickEnter = (e) => {
+    if (e.key === 'Enter') {
+      handleLoginBtn();
+    }
+  };
+
   const handleLoginBtn = async () => {
     const nickname = nicknameRef.current.value;
     const password = pwRef.current.value;
@@ -79,7 +85,12 @@ const Login = () => {
           <FormInput type="text" ref={nicknameRef} placeholder="닉네임" />
         </FormWrapper>
         <FormWrapper>
-          <FormInput type="password" ref={pwRef} placeholder="비밀번호" />
+          <FormInput
+            type="password"
+            ref={pwRef}
+            placeholder="비밀번호"
+            onKeyDown={handleClickEnter}
+          />
         </FormWrapper>
         <FormErrorMsg show={showErrMsg}>{errMsg}</FormErrorMsg>
         <FormWrapper>
