@@ -20,7 +20,7 @@ const sendEmailToRetrievePassword = async (req, res) => {
   const { email } = req.body;
 
   const findUser = await User.findOne({ where: { email } }).then((user) => {
-    findUserInfomation(res, user);
+    findUserInfomation(res, path, user);
     const rand = crypto.randomBytes(64).toString('hex');
     const user_id = user.getDataValue('user_id');
     const payload = {
@@ -56,7 +56,7 @@ const changeUserPassword = async (req, res) => {
   const userInfo = verifyToken(token);
   const { auth_id } = userInfo;
   User.findOne({ where: { user_id: auth_id } }).then((user) => {
-    findUserInfomation(res, user);
+    findUserInfomation(res, path, user);
     const user_id = user.getDataValue('user_id');
     const email = user.getDataValue('email');
     const salt = crypto.randomBytes(16).toString('hex');
