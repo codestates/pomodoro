@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState, useRef } from 'react';
+import { useContext, useEffect, useState, useRef, useMemo } from 'react';
 import styled from 'styled-components';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import axios from 'axios';
@@ -152,10 +152,21 @@ const reorder = (list, startIndex, endIndex) => {
 };
 
 const MenuForMusiclist = ({ currentPlaylist }) => {
-  const { userInfo, musicList, setMusicList, requestUserInfo } =
-    useContext(UserContext);
-  const [musicListStorage, setMusicListStorage] = useState({});
+  const {
+    userInfo,
+    musicList,
+    playlist,
+    setPlaylist,
+    setMusicList,
+    requestUserInfo,
+  } = useContext(UserContext);
   const previousPlaylist = useRef(null);
+
+  const playlist_idx = useMemo(() => {
+    return playlist.findIndex(
+      (playlist) => playlist.playlist_id === currentPlaylist
+    );
+  }, [playlist, currentPlaylist]);
 
   const getMusicList = () => {
     const endpoint = `https://final.eax.kr/api/playlists/${currentPlaylist}`;
@@ -196,6 +207,19 @@ const MenuForMusiclist = ({ currentPlaylist }) => {
   }, [currentPlaylist]);
 
   useEffect(() => {
+    if (userInfo || !currentPlaylist) return;
+    return () => {
+      let musicListStorage = sessionStorage.getItem('musicListStorage');
+      musicListStorage = musicListStorage ? JSON.parse(musicListStorage) : {};
+      musicListStorage[String(currentPlaylist)] = musicList;
+      sessionStorage.setItem(
+        'musicListStorage',
+        JSON.stringify(musicListStorage)
+      );
+    };
+  }, [musicList, currentPlaylist]);
+
+  useEffect(() => {
     if (!currentPlaylist) {
       setMusicList([]);
       sessionStorage.setItem('musicList', JSON.stringify([]));
@@ -203,17 +227,18 @@ const MenuForMusiclist = ({ currentPlaylist }) => {
     }
     if (userInfo) {
       getMusicList();
+      sessionStorage.setItem('musicListStorage', JSON.stringify({}));
       return;
     }
-    let listToChange = musicListStorage[String(currentPlaylist)];
-    listToChange = listToChange ? JSON.parse(listToChange) : [];
+    let musicListStorage = sessionStorage.getItem('musicListStorage');
+    musicListStorage = musicListStorage ? JSON.parse(musicListStorage) : {};
+    const listToChange = musicListStorage[String(currentPlaylist)] || [];
     const newMusicStorage = { ...musicListStorage };
-    newMusicStorage[String(previousPlaylist.current)] =
-      JSON.stringify(musicList);
+    newMusicStorage[String(previousPlaylist.current)] = musicList;
     //console.log(`prev: ${previousPlaylist.current}, curr: ${currentPlaylist}`);
     setMusicList(listToChange);
     sessionStorage.setItem('musicList', JSON.stringify(listToChange));
-    setMusicListStorage(newMusicStorage);
+    sessionStorage.setItem('musicListStorage', JSON.stringify(newMusicStorage));
   }, [userInfo, currentPlaylist]);
 
   const reorderList = (result) => {
@@ -243,6 +268,15 @@ const MenuForMusiclist = ({ currentPlaylist }) => {
         .delete(endpoint, { headers })
         .then(() => {
           sendMusicList(removedList);
+          if (playlist_idx === -1) return;
+          const playlistLength = removedList.reduce(
+            (acc, { music_time }) => acc + Number(music_time),
+            0
+          );
+          const newPlaylist = [...playlist];
+          newPlaylist[playlist_idx].playlist_time = playlistLength;
+          setPlaylist(newPlaylist);
+          return;
         })
         .catch((err) => {
           console.log(err);
@@ -251,6 +285,15 @@ const MenuForMusiclist = ({ currentPlaylist }) => {
         });
     setMusicList(removedList);
     sessionStorage.setItem('musicList', JSON.stringify(removedList));
+    if (userInfo || playlist_idx === -1) return;
+    const playlistLength = removedList.reduce(
+      (acc, { music_time }) => acc + Number(music_time),
+      0
+    );
+    const newPlaylist = [...playlist];
+    newPlaylist[playlist_idx].playlist_time = playlistLength;
+    setPlaylist(newPlaylist);
+    return;
   };
 
   return (

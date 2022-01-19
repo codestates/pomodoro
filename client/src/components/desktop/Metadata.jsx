@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useMemo } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 
@@ -123,9 +123,21 @@ const musicTimeFormat = (time) => {
 };
 
 const Metadata = ({ currentMusic, currentPlaylist }) => {
-  const { userInfo, musicList, setMusicList, requestUserInfo } =
-    useContext(UserContext);
+  const {
+    userInfo,
+    musicList,
+    playlist,
+    setPlaylist,
+    setMusicList,
+    requestUserInfo,
+  } = useContext(UserContext);
   const navigate = useNavigate();
+
+  const playlist_idx = useMemo(() => {
+    return playlist.findIndex(
+      (playlist) => playlist.playlist_id === currentPlaylist
+    );
+  }, [playlist, currentPlaylist]);
 
   const sendMusicList = (items = musicList) => {
     const endpoint = `https://final.eax.kr/api/playlists/${currentPlaylist}`;
@@ -161,6 +173,15 @@ const Metadata = ({ currentMusic, currentPlaylist }) => {
       newMusicList.push(newCurrentMusic);
       setMusicList(newMusicList);
       sessionStorage.setItem('musicList', JSON.stringify(newMusicList));
+
+      if (playlist_idx === -1) return;
+      const playlistLength = newMusicList.reduce(
+        (acc, { music_time }) => acc + Number(music_time),
+        0
+      );
+      const newPlaylist = [...playlist];
+      newPlaylist[playlist_idx].playlist_time = playlistLength;
+      setPlaylist(newPlaylist);
       return;
     }
 
@@ -179,6 +200,16 @@ const Metadata = ({ currentMusic, currentPlaylist }) => {
         setMusicList(newMusicList);
         sessionStorage.setItem('musicList', JSON.stringify(newMusicList));
         sendMusicList(newMusicList);
+
+        if (playlist_idx === -1) return;
+        const playlistLength = newMusicList.reduce(
+          (acc, { music_time }) => acc + Number(music_time),
+          0
+        );
+        const newPlaylist = [...playlist];
+        newPlaylist[playlist_idx].playlist_time = playlistLength;
+        setPlaylist(newPlaylist);
+        return;
       })
       .catch((err) => {
         console.dir(err);

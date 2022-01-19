@@ -216,7 +216,10 @@ const MenuForPlaylist = ({ currentPlaylist, setCurrentPlaylist }) => {
           ...playlist.map(({ playlist_id }) => playlist_id)
         );
         playlist_id = lastPlaylist - 1;
-      } else playlist_id = -1;
+      } else {
+        playlist_id = -1;
+        sessionStorage.setItem('musicListStorage', JSON.stringify({}));
+      }
       const playlist_name = `임시 리스트 ${playlist_id * -1}`;
       const playlist_time = null;
       const newPlaylist = [...playlist];
