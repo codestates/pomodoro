@@ -1,4 +1,4 @@
-const { User, Music } = require('../../models/');
+const { User, Music, Playlist } = require('../../models/');
 const fetchVideoInfo = require('updated-youtube-info');
 const fs = require('fs');
 const request = require('request');
@@ -14,10 +14,12 @@ const saveMusicAndThumbnail = async (req, res) => {
   const stub = `saveYoutubeURL`;
   console.log(`[stub] ${path} ${stub}`);
   checkToken_400_401_404(res, path, req.token);
-  checkInputData(res, [req.body['video_id'], req.params['playlist_id']]);
+  checkInputData(res, [req.body['music_url'], req.params['playlist_id']]); // video_id -> music_url 로 다시 변경
+
+  // 호출 하기 전에 URL 을 체크
 
   // url search (youtube API)
-  await fetchVideoInfo(req.body['video_id'])
+  await fetchVideoInfo(req.body['music_url'])
     .then(async (videoInfo) => {
       if (videoInfo) {
         const {
@@ -28,9 +30,8 @@ const saveMusicAndThumbnail = async (req, res) => {
           thumbnailUrl,
           duration,
         } = videoInfo;
-        const { id: user_id } = req.token;
 
-        // 썸네일 다운로드
+        // 썸네일 다운로드 - readFile 체크로 하여 분기점
         imgUrlDownload(
           thumbnailUrl,
           `${process.env.IMAGE_PATH}${thumbnailFileName}.jpg`,
@@ -58,9 +59,12 @@ const saveMusicAndThumbnail = async (req, res) => {
         //     }
         //   );
 
+        const { id: user_id } = req.token;
         const { playlist_id } = req.params;
         await User.findOne({ where: { user_id } }).then(async (user) => {
           findUserInfomation(res, path, user);
+          // playlist_id 체크하기
+          await Playlist.findOne({ where: { playlist_id } });
           await Music.create({
             playlist_id,
             music_name: title,
@@ -68,7 +72,8 @@ const saveMusicAndThumbnail = async (req, res) => {
             music_length: duration,
           }).then((musicData) => {
             if (musicData) {
-              res.status(201).json({ music_id: videoId });
+              const { music_id } = musicData.dataValues;
+              res.status(201).json({ music_id });
             }
           });
         });
