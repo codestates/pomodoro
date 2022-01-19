@@ -12,6 +12,21 @@ const checkInputData = (res, dataArr) => {
   }
 };
 
+const checkToken_400_401_404 = (res, path, user) => {
+  if (user === 400) {
+    console.log(`[ERROR] ${path} -> 400 : Bad Reuqest`);
+    return res.status(400).send('Bad Reuqest');
+  }
+  if (user === 401) {
+    console.log(`[ERROR] ${path} -> 401 : Unauthorized`);
+    return res.status(401).send('Unauthorized');
+  }
+  if (user === 404) {
+    console.log(`[ERROR] ${path} -> 404 : Not found`);
+    return res.status(404).send('Not found');
+  }
+};
+
 const findUserInfomation = (res, path, user) => {
   if (!user) {
     console.log(`[ERROR] ${path} -> 401 : find not user infomation`);
@@ -37,6 +52,7 @@ const sequelizeError = (res, err, path, message) => {
 module.exports = {
   checkInputData,
   findUserInfomation,
+  checkToken_400_401_404,
   pendingValidValueCheck,
   sequelizeError,
 };

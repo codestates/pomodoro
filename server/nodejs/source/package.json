@@ -27,8 +27,10 @@
     "mysql2": "^2.3.3",
     "nodemailer": "^6.7.2",
     "nodemailer-smtp-transport": "^2.7.4",
+    "request": "^2.88.2",
     "sequelize": "^6.12.5",
     "sequelize-auto": "^0.8.8",
-    "sequelize-cli": "^6.3.0"
+    "sequelize-cli": "^6.3.0",
+    "updated-youtube-info": "^1.4.7"
   }
 }

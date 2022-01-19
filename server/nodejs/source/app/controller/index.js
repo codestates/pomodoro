@@ -46,4 +46,7 @@ module.exports = {
   tags: {
     get: require('./tags/get'),
   },
+  youtube: {
+    saveMusicAndThumbnail: require('./youtube/post'),
+  },
 };
