@@ -41,6 +41,12 @@ const ForgotPassword = () => {
     }
   };
 
+  const handleClickEnter = (e) => {
+    if (e.key === 'Enter') {
+      handleBtn();
+    }
+  };
+
   const handleBtn = async () => {
     const email = emailRef.current.value;
 
@@ -79,6 +85,7 @@ const ForgotPassword = () => {
             ref={emailRef}
             onFocus={handleEmailInput}
             onChange={handleEmailInput}
+            onKeyDown={handleClickEnter}
           />
           <FormErrorMsg show={showErrMsg}>
             올바른 이메일 형식이 아닙니다.
