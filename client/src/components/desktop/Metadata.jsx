@@ -1,7 +1,8 @@
-import { useContext, useMemo } from 'react';
+import { useContext, useMemo, useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 
+import { ConfirmModal } from '../../components/desktop/ConfirmModal';
 import { ReactComponent as PlayIcon } from '../../images/TomatoPlay.svg';
 import { UserContext } from '../../App';
 import axios from 'axios';
@@ -131,6 +132,7 @@ const Metadata = ({ currentMusic, currentPlaylist }) => {
     setMusicList,
     requestUserInfo,
   } = useContext(UserContext);
+  const [displayModalMessage, setDisplayModalMessage] = useState(null);
   const navigate = useNavigate();
 
   const playlist_idx = useMemo(() => {
@@ -158,11 +160,11 @@ const Metadata = ({ currentMusic, currentPlaylist }) => {
 
   const addToPlaylist = (e) => {
     if (!currentMusic['music_id']) {
-      alert('먼저 음악을 선택해 주세요.');
+      setDisplayModalMessage('먼저 음악을 선택해 주세요.');
       return;
     }
     if (!currentPlaylist) {
-      alert('먼저 재생목록을 선택해 주세요.');
+      setDisplayModalMessage('먼저 재생목록을 선택해 주세요.');
       return;
     }
 
@@ -221,6 +223,12 @@ const Metadata = ({ currentMusic, currentPlaylist }) => {
 
   return (
     <MetadataContainer>
+      {displayModalMessage && (
+        <ConfirmModal
+          text={displayModalMessage}
+          handleModal={() => setDisplayModalMessage(null)}
+        />
+      )}
       <MetadataWrapper>
         <GhostLeftDiv />
         <MusicNameWrapper>

@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { useMediaQuery } from 'react-responsive';
 import axios from 'axios';
 
+import { ConfirmModal } from '../../components/desktop/ConfirmModal';
 import SwiperMusic from '../../components/desktop/SwiperMusic';
 import { ReactComponent as Search } from '../../images/search.svg';
 import MusicTags from '../../components/desktop/MusicTags';
@@ -170,6 +171,7 @@ const ChooseMusic = ({ tags, setTags }) => {
   const [expandSearchBar, setExpandSearchBar] = useState(false);
   const [fadeOut, setFadeOut] = useState(false);
   const [searchText, setSearchText] = useState('');
+  const [displayModalMessage, setDisplayModalMessage] = useState(null);
   const tagsRef = useRef(null);
   const searchRef = useRef(null);
   const focusRef = useRef(null);
@@ -189,7 +191,7 @@ const ChooseMusic = ({ tags, setTags }) => {
       .get(endpoint)
       .then((res) => {
         if (res.data.result.length === 0) {
-          alert('검색 결과가 없습니다.');
+          setDisplayModalMessage('검색 결과가 없습니다.');
           return;
         }
         const newTags = [...tags];
@@ -213,6 +215,12 @@ const ChooseMusic = ({ tags, setTags }) => {
 
   return (
     <MainContainer>
+      {displayModalMessage && (
+        <ConfirmModal
+          text={displayModalMessage}
+          handleModal={() => setDisplayModalMessage(null)}
+        />
+      )}
       {screenShouldShrink ? (
         <>
           <PlaylistSelectLabel
