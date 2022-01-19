@@ -25,6 +25,8 @@ const TagButtons = styled.div`
     font-size: calc(12px + 1.5vw);
     line-height: 2rem;
     color: rgba(13, 24, 37, 0.8);
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
   }
 
   & .gray-loading-placeholder {

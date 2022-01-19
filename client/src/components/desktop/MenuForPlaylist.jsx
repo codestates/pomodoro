@@ -1,8 +1,9 @@
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import styled from 'styled-components';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import axios from 'axios';
 
+import { ConfirmModal } from '../../components/desktop/ConfirmModal';
 import { ReactComponent as PlaylistIcon } from '../../images/playlists.svg';
 import { ReactComponent as SelectedIcon } from '../../images/select.svg';
 import { ReactComponent as DeleteIcon } from '../../images/delete.svg';
@@ -170,6 +171,7 @@ const musicTimeFormat = (time) => {
 const MenuForPlaylist = ({ currentPlaylist, setCurrentPlaylist }) => {
   const { playlist, setPlaylist, userInfo, requestUserInfo } =
     useContext(UserContext);
+  const [displayModalMessage, setDisplayModalMessage] = useState(null);
 
   const reorderList = (result) => {
     //TODO : Advanced
@@ -206,7 +208,7 @@ const MenuForPlaylist = ({ currentPlaylist, setCurrentPlaylist }) => {
 
   const addPlaylistHandler = (e) => {
     if (playlist.length >= 10) {
-      alert('플레이리스트는 10개까지만 생성 가능합니다.');
+      setDisplayModalMessage('플레이리스트는 10개까지만 생성 가능합니다.');
       return;
     }
     if (!userInfo) {
@@ -246,6 +248,12 @@ const MenuForPlaylist = ({ currentPlaylist, setCurrentPlaylist }) => {
 
   return (
     <PlaylistContainer>
+      {displayModalMessage && (
+        <ConfirmModal
+          text={displayModalMessage}
+          handleModal={() => setDisplayModalMessage(null)}
+        />
+      )}
       <PlaylistMenuNav>
         <Circle>
           <PlaylistIcon width={34.4} height={34.4} />
