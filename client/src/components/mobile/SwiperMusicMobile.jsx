@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Swiper, SwiperSlide, useRef } from 'swiper/react';
+import { Swiper, SwiperSlide } from 'swiper/react';
 
 import SwiperCore, {
   EffectCoverflow,
