@@ -136,6 +136,12 @@ const SignUp = () => {
     );
   };
 
+  const handleClickEnter = (e) => {
+    if (e.key === 'Enter') {
+      handleSignUpBtn();
+    }
+  };
+
   const handleSignUpBtn = async () => {
     const nickname = nicknameRef.current.value;
     const email = emailRef.current.value;
@@ -210,6 +216,7 @@ const SignUp = () => {
             placeholder="비밀번호 재입력"
             onFocus={isMatchPassword}
             onChange={isMatchPassword}
+            onKeyDown={handleClickEnter}
           />
           <FormErrorMsg show={showErrMsg.confirmPassword}>
             비밀번호가 일치하지 않습니다.
