@@ -220,6 +220,19 @@ const MenuForMusiclistMobile = ({ size, currentPlaylist }) => {
   }, [currentPlaylist]);
 
   useEffect(() => {
+    if (userInfo || !currentPlaylist) return;
+    return () => {
+      let musicListStorage = sessionStorage.getItem('musicListStorage');
+      musicListStorage = musicListStorage ? JSON.parse(musicListStorage) : {};
+      musicListStorage[String(currentPlaylist)] = musicList;
+      sessionStorage.setItem(
+        'musicListStorage',
+        JSON.stringify(musicListStorage)
+      );
+    };
+  }, [musicList, currentPlaylist]);
+
+  useEffect(() => {
     if (!currentPlaylist) {
       setMusicList([]);
       sessionStorage.setItem('musicList', JSON.stringify([]));
@@ -232,11 +245,9 @@ const MenuForMusiclistMobile = ({ size, currentPlaylist }) => {
     }
     let musicListStorage = sessionStorage.getItem('musicListStorage');
     musicListStorage = musicListStorage ? JSON.parse(musicListStorage) : {};
-    let listToChange = musicListStorage[String(currentPlaylist)];
-    listToChange = listToChange ? JSON.parse(listToChange) : [];
+    const listToChange = musicListStorage[String(currentPlaylist)] || [];
     const newMusicStorage = { ...musicListStorage };
-    newMusicStorage[String(previousPlaylist.current)] =
-      JSON.stringify(musicList);
+    newMusicStorage[String(previousPlaylist.current)] = musicList;
     //console.log(`prev: ${previousPlaylist.current}, curr: ${currentPlaylist}`);
     setMusicList(listToChange);
     sessionStorage.setItem('musicList', JSON.stringify(listToChange));
