@@ -1,3 +1,5 @@
+const fs = require('fs');
+const request = require('request');
 const imgUrlDownload = (uri, filename, callback) => {
   request.head(uri, (err, res, body) => {
     if (err) throw err;
