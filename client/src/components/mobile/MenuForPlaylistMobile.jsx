@@ -134,6 +134,32 @@ const DeleteDiv = styled.div`
   align-self: center;
 `;
 
+const PlusButton = styled.div`
+  position: absolute;
+  float: right;
+  right: 5vw;
+  bottom: 2vh;
+  width: 12vw;
+  height: 12vw;
+  font-size: 10vw;
+  font-style: normal;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #f7f2ed;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+
+  color: #ff0000;
+  user-drag: none;
+  -webkit-user-drag: none;
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+`;
+
 const musicTimeFormat = (time) => {
   const minutes = Math.floor(time / 60);
   const seconds = Math.floor(time % 60);
@@ -145,17 +171,27 @@ const MenuForPlaylistMobile = ({
   currentPlaylist,
   setCurrentPlaylist,
 }) => {
-  const { playlist, requestUserInfo } = useContext(UserContext);
+  const { playlist, setPlaylist, userInfo, requestUserInfo } =
+    useContext(UserContext);
   const [expandPlaylist, setExpandPlaylist] = useState(false);
   const [fadeOut, setFadeOut] = useState(false);
   const playlistRef = useRef(null);
   const scrollRef = useRef(null);
 
   const reorderList = (result) => {
-    console.dir(result);
+    //TODO : Advanced
+    return;
   };
 
   const removePlaylist = (e) => {
+    if (!userInfo) {
+      const playlistidx = e.currentTarget.dataset.id;
+      const newPlaylist = [...playlist];
+      newPlaylist.splice(playlistidx, 1);
+      setPlaylist(newPlaylist);
+      return;
+    }
+
     const { id, playlistid } = e.currentTarget.dataset;
     const endpoint = `https://final.eax.kr/api/playlists/${playlistid}`;
     const token = localStorage.getItem('Token');
@@ -181,6 +217,46 @@ const MenuForPlaylistMobile = ({
       setFadeOut(false);
       setExpandPlaylist(false);
     }, 1000);
+  };
+
+  const addPlaylistHandler = (e) => {
+    if (playlist.length >= 10) {
+      alert('플레이리스트는 10개까지만 생성 가능합니다.');
+      return;
+    }
+    if (!userInfo) {
+      let playlist_id;
+      if (playlist?.length) {
+        const lastPlaylist = Math.min(
+          ...playlist.map(({ playlist_id }) => playlist_id)
+        );
+        playlist_id = lastPlaylist - 1;
+      } else {
+        playlist_id = -1;
+        sessionStorage.setItem('musicListStorage', JSON.stringify({}));
+      }
+      const playlist_name = `임시 리스트 ${playlist_id * -1}`;
+      const playlist_time = null;
+      const newPlaylist = [...playlist];
+      newPlaylist.push({ playlist_id, playlist_name, playlist_time });
+      setPlaylist(newPlaylist);
+      return;
+    }
+    const endpoint = `https://final.eax.kr/api/playlists`;
+    const token = localStorage.getItem('Token');
+    const headers = {
+      authorization: `Bearer ${token}`,
+    };
+    const playlist_name = '새 플레이리스트 ' + (playlist.length + 1);
+
+    axios
+      .post(endpoint, { playlist_name }, { headers })
+      .then((res) => {
+        requestUserInfo(1);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (
@@ -282,6 +358,7 @@ const MenuForPlaylistMobile = ({
             )}
           </Droppable>
         </DragDropContext>
+        <PlusButton onClick={addPlaylistHandler}>+</PlusButton>
       </PlaylistMenuContainer>
     </PlaylistContainer>
   );

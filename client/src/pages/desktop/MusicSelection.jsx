@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { useMediaQuery } from 'react-responsive';
 import axios from 'axios';
 
+import { ConfirmModal } from '../../components/desktop/ConfirmModal';
 import SwiperMusic from '../../components/desktop/SwiperMusic';
 import { ReactComponent as Search } from '../../images/search.svg';
 import MusicTags from '../../components/desktop/MusicTags';
@@ -17,7 +18,6 @@ const MainContainer = styled.div`
 `;
 
 const PlaylistSelectFlexBox = styled.div`
-  margin-top: 3.5rem;
   display: flex;
   justify-content: baseline;
   align-items: center;
@@ -81,7 +81,6 @@ const SearchBarContainer = styled.div`
   left: ${({ posX }) => posX?.offsetLeft}px;
   width: ${({ size, posX }) => size?.offsetWidth + posX?.offsetWidth}px;
   height: 7rem;
-  border-radius: 0.5rem;
   background: #f5f5f5;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 30px;
@@ -98,9 +97,10 @@ const SearchBarContainer = styled.div`
   }
 
   transform-origin: top left;
-  animation: ${({ fadeOut }) => (fadeOut ? 'fadeout 1s' : 'fadein 1s')};
+  animation: ${({ fadeOut }) =>
+    fadeOut ? 'fadeoutSearchBar 1s' : 'fadeinSearchBar 1s'};
 
-  @keyframes fadein {
+  @keyframes fadeinSearchBar {
     from {
       opacity: 0;
       transform: scaleX(0.1);
@@ -111,7 +111,7 @@ const SearchBarContainer = styled.div`
     }
   }
 
-  @keyframes fadeout {
+  @keyframes fadeoutSearchBar {
     from {
       opacity: 1;
       transform: scaleX(1);
@@ -171,6 +171,7 @@ const ChooseMusic = ({ tags, setTags }) => {
   const [expandSearchBar, setExpandSearchBar] = useState(false);
   const [fadeOut, setFadeOut] = useState(false);
   const [searchText, setSearchText] = useState('');
+  const [displayModalMessage, setDisplayModalMessage] = useState(null);
   const tagsRef = useRef(null);
   const searchRef = useRef(null);
   const focusRef = useRef(null);
@@ -190,7 +191,7 @@ const ChooseMusic = ({ tags, setTags }) => {
       .get(endpoint)
       .then((res) => {
         if (res.data.result.length === 0) {
-          alert('검색 결과가 없습니다.');
+          setDisplayModalMessage('검색 결과가 없습니다.');
           return;
         }
         const newTags = [...tags];
@@ -205,6 +206,7 @@ const ChooseMusic = ({ tags, setTags }) => {
         newTags.unshift(payload);
         setTags(newTags);
         setCurrentPlaylist(tag_id);
+        fadeOutHandler();
       })
       .catch((err) => {
         console.dir(err);
@@ -213,6 +215,12 @@ const ChooseMusic = ({ tags, setTags }) => {
 
   return (
     <MainContainer>
+      {displayModalMessage && (
+        <ConfirmModal
+          text={displayModalMessage}
+          handleModal={() => setDisplayModalMessage(null)}
+        />
+      )}
       {screenShouldShrink ? (
         <>
           <PlaylistSelectLabel
@@ -312,7 +320,7 @@ const ChooseMusic = ({ tags, setTags }) => {
         currentTagIndex={currentTagIndex}
         setCurrentMusic={setCurrentMusic}
       />
-      <Metadata currentMusic={currentMusic} />
+      <Metadata currentMusic={currentMusic} currentPlaylist={currentPlaylist} />
       <PlaylistContainer>
         <MenuForPlaylist
           currentPlaylist={currentPlaylist}

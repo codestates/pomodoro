@@ -1,9 +1,11 @@
-import { useContext } from 'react';
+import { useContext, useMemo, useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 
+import { ConfirmModal } from '../../components/desktop/ConfirmModal';
 import { ReactComponent as PlayIcon } from '../../images/TomatoPlay.svg';
 import { UserContext } from '../../App';
+import axios from 'axios';
 
 const MetadataContainer = styled.div`
   margin: 2rem auto 0 auto;
@@ -121,17 +123,117 @@ const musicTimeFormat = (time) => {
   return `${minutes}:${seconds < 10 ? `0${seconds}` : seconds}`;
 };
 
-const Metadata = ({ currentMusic }) => {
-  const { requestUserInfo } = useContext(UserContext);
+const Metadata = ({ currentMusic, currentPlaylist }) => {
+  const {
+    userInfo,
+    musicList,
+    playlist,
+    setPlaylist,
+    setMusicList,
+    requestUserInfo,
+  } = useContext(UserContext);
+  const [displayModalMessage, setDisplayModalMessage] = useState(null);
   const navigate = useNavigate();
 
+  const playlist_idx = useMemo(() => {
+    return playlist.findIndex(
+      (playlist) => playlist.playlist_id === currentPlaylist
+    );
+  }, [playlist, currentPlaylist]);
+
+  const sendMusicList = (items = musicList) => {
+    const endpoint = `https://final.eax.kr/api/playlists/${currentPlaylist}`;
+    const token = localStorage.getItem('Token');
+    const headers = {
+      authorization: `Bearer ${token}`,
+    };
+    const music_order = items.map(({ music_id }) => music_id);
+    axios
+      .put(endpoint, { music_order }, { headers })
+      .then(() => {})
+      .catch((err) => {
+        console.log(err);
+        setMusicList(musicList);
+        sessionStorage.setItem('musicList', JSON.stringify(musicList));
+      });
+  };
+
   const addToPlaylist = (e) => {
-    requestUserInfo();
-    e.preventDefault();
+    if (!currentMusic['music_id']) {
+      setDisplayModalMessage('먼저 음악을 선택해 주세요.');
+      return;
+    }
+    if (!currentPlaylist) {
+      setDisplayModalMessage('먼저 재생목록을 선택해 주세요.');
+      return;
+    }
+
+    if (musicList.length > 50) {
+      setDisplayModalMessage('재생목록은 50곡까지만 추가할 수 있습니다.');
+      return;
+    }
+
+    if (!userInfo) {
+      const newMusicList = [...musicList];
+      const newCurrentMusic = { ...currentMusic };
+      newCurrentMusic.music_id = Math.floor(Math.random() * 1000000);
+      newMusicList.push(newCurrentMusic);
+      setMusicList(newMusicList);
+      sessionStorage.setItem('musicList', JSON.stringify(newMusicList));
+
+      if (playlist_idx === -1) return;
+      const playlistLength = newMusicList.reduce(
+        (acc, { music_time }) => acc + Number(music_time),
+        0
+      );
+      const newPlaylist = [...playlist];
+      newPlaylist[playlist_idx].playlist_time = playlistLength;
+      setPlaylist(newPlaylist);
+      return;
+    }
+
+    const endpoint = `https://final.eax.kr/api/playlists/${currentPlaylist}`;
+    const token = localStorage.getItem('Token');
+    const headers = {
+      authorization: `Bearer ${token}`,
+    };
+    axios
+      .post(endpoint, currentMusic, { headers })
+      .then((res) => {
+        const newMusicList = [...musicList];
+        const newCurrentMusic = { ...currentMusic };
+        newCurrentMusic.music_id = res.data.music_id;
+        newMusicList.push(newCurrentMusic);
+        setMusicList(newMusicList);
+        sessionStorage.setItem('musicList', JSON.stringify(newMusicList));
+        sendMusicList(newMusicList);
+
+        if (playlist_idx === -1) return;
+        const playlistLength = newMusicList.reduce(
+          (acc, { music_time }) => acc + Number(music_time),
+          0
+        );
+        const newPlaylist = [...playlist];
+        newPlaylist[playlist_idx].playlist_time = playlistLength;
+        setPlaylist(newPlaylist);
+        return;
+      })
+      .catch((err) => {
+        console.dir(err);
+      });
+    // console.dir(currentMusic);
+    // console.dir(userInfo);
+    // console.dir(currentPlaylist);
   };
 
   return (
     <MetadataContainer>
+      {displayModalMessage && (
+        <ConfirmModal
+          text={displayModalMessage}
+          handleModal={() => setDisplayModalMessage(null)}
+        />
+      )}
       <MetadataWrapper>
         <GhostLeftDiv />
         <MusicNameWrapper>

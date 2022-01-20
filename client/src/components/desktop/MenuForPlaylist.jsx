@@ -1,8 +1,9 @@
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import styled from 'styled-components';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import axios from 'axios';
 
+import { ConfirmModal } from '../../components/desktop/ConfirmModal';
 import { ReactComponent as PlaylistIcon } from '../../images/playlists.svg';
 import { ReactComponent as SelectedIcon } from '../../images/select.svg';
 import { ReactComponent as DeleteIcon } from '../../images/delete.svg';
@@ -130,6 +131,37 @@ const DeleteDiv = styled.div`
   align-items: center;
 `;
 
+const NewPlaylistWrapper = styled.div`
+  max-width: 22.2rem;
+  margin: 4rem auto 1.5rem auto;
+  display: flex;
+  align-items: center;
+  font-style: normal;
+  font-weight: bold;
+  color: #949393;
+  user-drag: none;
+  -webkit-user-drag: none;
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  cursor: pointer;
+`;
+
+const PlusButton = styled.div`
+  flex: 39 39 auto;
+  max-width: 3.9rem;
+  font-size: 3.5rem;
+  justify-self: flex-start;
+`;
+
+const AddPlaylistDiv = styled.div`
+  flex: 183 183 auto;
+  max-width: 18.3rem;
+  font-size: 2.1rem;
+  justify-self: center;
+`;
+
 const musicTimeFormat = (time) => {
   const minutes = Math.floor(time / 60);
   const seconds = Math.floor(time % 60);
@@ -137,13 +169,24 @@ const musicTimeFormat = (time) => {
 };
 
 const MenuForPlaylist = ({ currentPlaylist, setCurrentPlaylist }) => {
-  const { playlist, requestUserInfo } = useContext(UserContext);
+  const { playlist, setPlaylist, userInfo, requestUserInfo } =
+    useContext(UserContext);
+  const [displayModalMessage, setDisplayModalMessage] = useState(null);
 
   const reorderList = (result) => {
-    console.dir(result);
+    //TODO : Advanced
+    return;
   };
 
   const removePlaylist = (e) => {
+    if (!userInfo) {
+      const playlistidx = e.currentTarget.dataset.id;
+      const newPlaylist = [...playlist];
+      newPlaylist.splice(playlistidx, 1);
+      setPlaylist(newPlaylist);
+      return;
+    }
+
     const { id, playlistid } = e.currentTarget.dataset;
     const endpoint = `https://final.eax.kr/api/playlists/${playlistid}`;
     const token = localStorage.getItem('Token');
@@ -163,8 +206,54 @@ const MenuForPlaylist = ({ currentPlaylist, setCurrentPlaylist }) => {
       });
   };
 
+  const addPlaylistHandler = (e) => {
+    if (playlist.length >= 10) {
+      setDisplayModalMessage('플레이리스트는 10개까지만 생성 가능합니다.');
+      return;
+    }
+    if (!userInfo) {
+      let playlist_id;
+      if (playlist?.length) {
+        const lastPlaylist = Math.min(
+          ...playlist.map(({ playlist_id }) => playlist_id)
+        );
+        playlist_id = lastPlaylist - 1;
+      } else {
+        playlist_id = -1;
+        sessionStorage.setItem('musicListStorage', JSON.stringify({}));
+      }
+      const playlist_name = `임시 리스트 ${playlist_id * -1}`;
+      const playlist_time = null;
+      const newPlaylist = [...playlist];
+      newPlaylist.push({ playlist_id, playlist_name, playlist_time });
+      setPlaylist(newPlaylist);
+      return;
+    }
+    const endpoint = `https://final.eax.kr/api/playlists`;
+    const token = localStorage.getItem('Token');
+    const headers = {
+      authorization: `Bearer ${token}`,
+    };
+    const playlist_name = '새 플레이리스트 ' + (playlist.length + 1);
+
+    axios
+      .post(endpoint, { playlist_name }, { headers })
+      .then((res) => {
+        requestUserInfo(1);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   return (
     <PlaylistContainer>
+      {displayModalMessage && (
+        <ConfirmModal
+          text={displayModalMessage}
+          handleModal={() => setDisplayModalMessage(null)}
+        />
+      )}
       <PlaylistMenuNav>
         <Circle>
           <PlaylistIcon width={34.4} height={34.4} />
@@ -243,6 +332,10 @@ const MenuForPlaylist = ({ currentPlaylist, setCurrentPlaylist }) => {
           )}
         </Droppable>
       </DragDropContext>
+      <NewPlaylistWrapper onClick={addPlaylistHandler}>
+        <PlusButton>+</PlusButton>
+        <AddPlaylistDiv>플레이리스트 추가...</AddPlaylistDiv>
+      </NewPlaylistWrapper>
     </PlaylistContainer>
   );
 };

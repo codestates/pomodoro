@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router';
 import styled from 'styled-components';
 import { UserContext } from '../../App';
@@ -16,15 +16,77 @@ const MainWrapper = styled.div`
   align-items: center;
 `;
 
+const Player = styled.div`
+  /* display: none; */
+`;
+
 const PomodoroPage = ({ isMobile }) => {
-  const POMODORO_TIME = 8;
+  const POMODORO_TIME = 10;
   const BREAKE_TIME = 6;
   const NOTICE_TIME = 5;
   const CIRCLE_DASHARRAY = '0 283';
   const POMODORO_API = 'https://final.eax.kr/api/pomodoro';
 
+  const music = JSON.parse(sessionStorage.getItem('musicList')) || [];
+  const [musicIdx, setMusicIdx] = useState(0);
+  const [player, setPlayer] = useState(null);
+
+  useEffect(() => {
+    let setTimer = setTimeout(() => {
+      makePlayer();
+    }, 500);
+    return () => {
+      clearTimeout(setTimer);
+      clearTimeout(startTimerInterval);
+      clearTimeout(noticeTimerInterval);
+    };
+  }, []);
+
+  const makePlayer = () => {
+    if (music.length > 0) {
+      new window.YT.Player('player', {
+        videoId: music[musicIdx].music_url,
+        events: {
+          onReady: onPlayerReady,
+          onStateChange: onPlayerStateChange,
+        },
+      });
+    }
+  };
+
+  const onPlayerReady = (event) => {
+    event.target.setPlaybackRate(1);
+    event.target.setVolume(70);
+    setPlayer(event.target);
+  };
+
+  const onPlayerStateChange = (event) => {
+    if (event.data === window.YT.PlayerState.ENDED) {
+      const newMusicIdx = (musicIdx + 1) % music.length;
+      setMusicIdx(newMusicIdx);
+      event.target.loadVideoById(music[newMusicIdx].music_url);
+    }
+  };
+
+  const onPlayerPlay = () => {
+    if (!player) return;
+    player.setVolume(70);
+    player.playVideo();
+  };
+
+  const onPlayerSetVolume = () => {
+    if (!player) return;
+    player.setVolume(20);
+  };
+
+  const onPlayerPause = () => {
+    if (!player) return;
+    player.pauseVideo();
+  };
+
   const navigate = useNavigate();
   const { userInfo } = useContext(UserContext);
+
   const [time, setTime] = useState(POMODORO_TIME);
   const [noticeTime, setNoticeTime] = useState(NOTICE_TIME);
   const [pomoCount, setPomoCount] = useState(0);
@@ -60,6 +122,7 @@ const PomodoroPage = ({ isMobile }) => {
     setShowExit(true);
     setShowButton(false);
     sendPomodoroBeginning();
+    onPlayerPlay();
 
     timerInterval = setInterval(() => {
       timePassed += 1;
@@ -68,6 +131,7 @@ const PomodoroPage = ({ isMobile }) => {
       if (timeLeft === -1) {
         clearTimeout(timerInterval);
         setShowExit(false);
+        onPlayerSetVolume();
         clearTimer();
         noticeBreakTime();
         return;
@@ -92,6 +156,7 @@ const PomodoroPage = ({ isMobile }) => {
       if (timeLeft === -1) {
         clearTimeout(timerInterval);
         clearNotice();
+        onPlayerPause();
         setShowButton(true);
         setTime(POMODORO_TIME);
         setStart(false);
@@ -110,6 +175,7 @@ const PomodoroPage = ({ isMobile }) => {
     let timePassed = 0;
     let timeLeft = time;
     setStart(true);
+    onPlayerPlay();
     clearNotice();
     setPomoCount(pomoCount + 1);
     clearTimeout(noticeTimerInterval);
@@ -125,6 +191,7 @@ const PomodoroPage = ({ isMobile }) => {
         setStart(false);
         setIsVisible(true);
         setShowButton(true);
+        onPlayerPause();
         setTimerDasharray(CIRCLE_DASHARRAY);
         clearTimeout(timerInterval);
         return;
@@ -136,8 +203,6 @@ const PomodoroPage = ({ isMobile }) => {
   };
 
   const exitPomodoro = () => {
-    clearTimeout(startTimerInterval);
-    clearTimeout(noticeTimerInterval);
     navigate('/music');
   };
 
@@ -169,6 +234,7 @@ const PomodoroPage = ({ isMobile }) => {
 
   return (
     <MainWrapper isMobile={isMobile}>
+      <Player id="player"></Player>
       <Timer
         time={time}
         start={start}
