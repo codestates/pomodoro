@@ -10,12 +10,12 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   width: 100vw;
+  height: 80vh;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   color: #945151;
   user-select: none;
-  padding: 50px 0 100px;
 
   @media screen and (max-width: 900px) {
     height: auto;
