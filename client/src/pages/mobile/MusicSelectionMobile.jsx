@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
+import { ConfirmModal } from '../../components/desktop/ConfirmModal';
 import { ReactComponent as SearchIcon } from '../../images/search.svg';
 import { ReactComponent as TomatoPlayIcon } from '../../images/TomatoPlay.svg';
 import MusicTagsMobile from '../../components/mobile/MusicTagsMobile';
@@ -136,6 +137,8 @@ const ChooseMusicMobile = ({ tags, setTags }) => {
   const [expandSearchBar, setExpandSearchBar] = useState(false);
   const [fadeOut, setFadeOut] = useState(false);
   const [searchText, setSearchText] = useState('');
+  const [displayModalMessage, setDisplayModalMessage] = useState(null);
+
   const searchRef = useRef(null);
   const focusRef = useRef(null);
 
@@ -154,7 +157,7 @@ const ChooseMusicMobile = ({ tags, setTags }) => {
       .get(endpoint)
       .then((res) => {
         if (res.data.result.length === 0) {
-          alert('검색 결과가 없습니다.');
+          setDisplayModalMessage('검색 결과가 없습니다.');
           return;
         }
         const newTags = [...tags];
@@ -187,6 +190,12 @@ const ChooseMusicMobile = ({ tags, setTags }) => {
 
   return (
     <MobileContainer ref={thisRef} size={size}>
+      {displayModalMessage && (
+        <ConfirmModal
+          text={displayModalMessage}
+          handleModal={() => setDisplayModalMessage(null)}
+        />
+      )}
       <TopGhostDiv />
       <SearchBarAndTags>
         <SearchButton>
