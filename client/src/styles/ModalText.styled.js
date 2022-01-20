@@ -5,4 +5,5 @@ export const ModalText = styled.p`
   text-align: center;
   margin-bottom: 30px;
   user-select: none;
+  color: black;
 `;
