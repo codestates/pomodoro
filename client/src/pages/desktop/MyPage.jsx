@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import MyStatus from '../../components/desktop/MyStatus';
 import MyPlaylist from '../../components/desktop/MyPlaylist';
 import styled from 'styled-components';
+import { ConfirmModal } from '../../components/desktop/ConfirmModal';
+import { UserContext } from '../../App';
 
 const Container = styled.div`
   display: flex;
@@ -22,8 +24,26 @@ const Container = styled.div`
 `;
 
 const MyPage = () => {
+  const [open, setOpen] = useState(false);
+  const { userInfo } = useContext(UserContext);
+
+  useEffect(() => {
+    if (userInfo.pending && !sessionStorage.getItem('modal')) {
+      sessionStorage.setItem('modal', 'showed');
+      setOpen(true);
+    }
+  }, []);
+
   return (
     <Container>
+      {open ? (
+        <ConfirmModal
+          text="메일함의 인증 메일을 확인해주시기 바랍니다."
+          handleModal={setOpen}
+        />
+      ) : (
+        <></>
+      )}
       <MyStatus />
       <MyPlaylist />
     </Container>
