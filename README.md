@@ -18,7 +18,7 @@
 혼자서만 무언가를 하는 것은 아주 강한 의지를 요구하는 일이지만 저희 앱을 사용하는 유저끼리 랭킹시스템을 통해 경쟁하도록 하여 동기부여를 제공합니다.
 <br><br>
 
-### [✨Pomodoro 바로가기✨]()
+### [✨Pomodoro 바로가기✨](https://final.eax.kr/)
 
 ### [📖Wiki 바로가기](https://github.com/codestates/pomodoro/wiki)
 
