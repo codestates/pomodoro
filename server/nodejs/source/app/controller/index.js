@@ -28,7 +28,7 @@ module.exports = {
   },
   music: {
     info: require('./music/get'),
-    addItem: require('./music/post'),
+    addItem: require('./youtube/api'),
     orderChange: require('./music/put'),
     modifyName: require('./music/patch'),
     delete: require('./music/delete'),
@@ -45,8 +45,5 @@ module.exports = {
   },
   tags: {
     get: require('./tags/get'),
-  },
-  youtube: {
-    saveMusicAndThumbnail: require('./youtube/post'),
   },
 };
