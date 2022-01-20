@@ -93,7 +93,11 @@ const SwiperMusicMobile = ({
                   data-music_id={item.music_id}
                 >
                   <img
-                    src={`https://final.eax.kr/images/${item.music_url}.jpg`}
+                    src={
+                      item.music_thumbnail
+                        ? item.music_thumbnail
+                        : `https://final.eax.kr/images/${item.music_url}.jpg`
+                    }
                     alt={item.music_name}
                   />
                   ;
