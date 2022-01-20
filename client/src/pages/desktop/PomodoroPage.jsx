@@ -50,14 +50,14 @@ const PomodoroPage = ({ isMobile }) => {
   const [musicIdx, setMusicIdx] = useState(0);
   const [player, setPlayer] = useState(null);
   const [isMuted, setIsMuted] = useState(false);
-  const alarmPlayer = new Audio(alarm);
-  // const [alarmPlayer] = useState(new Audio(alarm));
+  const [alarmPlayer] = useState(new Audio(alarm));
 
   useEffect(() => {
     let setTimer = setTimeout(() => {
       makePlayer();
     }, 500);
     return () => {
+      alarmPlayer.pause();
       clearTimeout(setTimer);
       clearTimeout(startTimerInterval);
       clearTimeout(noticeTimerInterval);
@@ -180,6 +180,7 @@ const PomodoroPage = ({ isMobile }) => {
     let timerInterval = null;
     let timePassed = 0;
     let timeLeft = noticeTime;
+    alarmPlayer.currentTime = 0;
     alarmPlayer.play();
 
     timerInterval = setInterval(() => {
@@ -208,7 +209,7 @@ const PomodoroPage = ({ isMobile }) => {
     let timerInterval = null;
     let timePassed = 0;
     let timeLeft = time;
-    alarmPlayer.stop();
+    alarmPlayer.pause();
     setStart(true);
     onPlayerPlay();
     clearNotice();
