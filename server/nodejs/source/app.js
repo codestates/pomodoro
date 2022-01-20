@@ -104,7 +104,6 @@ const pomodoro = require('./app/router/pomodoro');
 const rank = require('./app/router/ranks');
 const search = require('./app/router/search');
 const tags = require('./app/router/tags');
-const youtube = require('./app/router/youtube');
 
 app.use(point('/auth'), auth);
 app.use(point('/users'), users);
@@ -117,7 +116,6 @@ app.use(point('/pomodoro'), pomodoro);
 app.use(point('/ranks'), rank);
 app.use(point('/search'), search);
 app.use(point('/tags'), tags);
-app.use(point('/youtube'), youtube);
 
 //=========================================================
 //Not Found : show Available routes
