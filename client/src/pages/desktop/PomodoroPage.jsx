@@ -5,6 +5,9 @@ import styled from 'styled-components';
 import { UserContext } from '../../App';
 import Timer from '../../components/desktop/Timer';
 import TimerButton from '../../components/desktop/TimerButton';
+import sound from '../../images/sound.svg';
+import mute from '../../images/mute.svg';
+import alarm from '../../images/alarm.mp3';
 
 const MainWrapper = styled.div`
   display: flex;
@@ -17,7 +20,23 @@ const MainWrapper = styled.div`
 `;
 
 const Player = styled.div`
-  /* display: none; */
+  display: none;
+`;
+
+const MuteButton = styled.div`
+  max-width: 1320px;
+  width: 70%;
+  display: flex;
+  justify-content: end;
+
+  button {
+    background-color: none;
+    border: none;
+  }
+
+  img {
+    height: 4rem;
+  }
 `;
 
 const PomodoroPage = ({ isMobile }) => {
@@ -30,12 +49,15 @@ const PomodoroPage = ({ isMobile }) => {
   const music = JSON.parse(sessionStorage.getItem('musicList')) || [];
   const [musicIdx, setMusicIdx] = useState(0);
   const [player, setPlayer] = useState(null);
+  const [isMuted, setIsMuted] = useState(false);
+  const [alarmPlayer] = useState(new Audio(alarm));
 
   useEffect(() => {
     let setTimer = setTimeout(() => {
       makePlayer();
     }, 500);
     return () => {
+      alarmPlayer.pause();
       clearTimeout(setTimer);
       clearTimeout(startTimerInterval);
       clearTimeout(noticeTimerInterval);
@@ -82,6 +104,16 @@ const PomodoroPage = ({ isMobile }) => {
   const onPlayerPause = () => {
     if (!player) return;
     player.pauseVideo();
+  };
+
+  const onPlayerMute = () => {
+    if (!player) return;
+    if (player.isMuted()) {
+      player.unMute();
+    } else {
+      player.mute();
+    }
+    setIsMuted(!isMuted);
   };
 
   const navigate = useNavigate();
@@ -148,6 +180,8 @@ const PomodoroPage = ({ isMobile }) => {
     let timerInterval = null;
     let timePassed = 0;
     let timeLeft = noticeTime;
+    alarmPlayer.currentTime = 0;
+    alarmPlayer.play();
 
     timerInterval = setInterval(() => {
       timePassed += 1;
@@ -155,6 +189,7 @@ const PomodoroPage = ({ isMobile }) => {
 
       if (timeLeft === -1) {
         clearTimeout(timerInterval);
+        alarmPlayer.pause();
         clearNotice();
         onPlayerPause();
         setShowButton(true);
@@ -174,6 +209,7 @@ const PomodoroPage = ({ isMobile }) => {
     let timerInterval = null;
     let timePassed = 0;
     let timeLeft = time;
+    alarmPlayer.pause();
     setStart(true);
     onPlayerPlay();
     clearNotice();
@@ -235,6 +271,16 @@ const PomodoroPage = ({ isMobile }) => {
   return (
     <MainWrapper isMobile={isMobile}>
       <Player id="player"></Player>
+      <audio loop src={alarm}></audio>
+      <MuteButton>
+        <button onClick={onPlayerMute}>
+          {isMuted ? (
+            <img src={mute} alt="sound icon"></img>
+          ) : (
+            <img src={sound} alt="sound icon"></img>
+          )}
+        </button>
+      </MuteButton>
       <Timer
         time={time}
         start={start}

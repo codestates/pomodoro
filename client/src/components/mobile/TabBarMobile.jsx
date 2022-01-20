@@ -23,6 +23,7 @@ const Nav = styled.nav`
   bottom: 0;
   padding: 0 1rem;
   transform: translate(-50%, 0);
+  z-index: 80;
 `;
 
 const Button = styled.button`
