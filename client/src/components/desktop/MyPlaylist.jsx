@@ -32,22 +32,34 @@ const Title = styled.h3`
   margin-bottom: 10px;
 `;
 
+const Text = styled.div`
+  color: gray;
+  margin: auto;
+  text-align: center;
+`;
+
 const MyPlaylist = () => {
   const { playlist } = useContext(UserContext);
   return (
     <Container>
       <Title>내 플레이리스트</Title>
-      <Playlists>
-        {playlist.map((item, index) => (
-          <Playlist
-            id={item.playlist_id}
-            index={index}
-            key={item.playlist_id}
-            order={index + 1}
-            name={item.playlist_name}
-          />
-        ))}
-      </Playlists>
+      {playlist.length !== 0 ? (
+        <Playlists>
+          {playlist.map((item, index) => (
+            <Playlist
+              id={item.playlist_id}
+              index={index}
+              key={item.playlist_id}
+              order={index + 1}
+              name={item.playlist_name}
+            />
+          ))}
+        </Playlists>
+      ) : (
+        <Playlists>
+          <Text>플레이리스트가 비어 있습니다.</Text>
+        </Playlists>
+      )}
     </Container>
   );
 };
