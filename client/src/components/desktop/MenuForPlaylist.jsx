@@ -141,7 +141,7 @@ const NewPlaylistWrapper = styled.div`
   align-items: center;
   font-style: normal;
   font-weight: bold;
-  color: #949393;
+  color: rgba(85, 85, 85, 0.8);
   user-drag: none;
   -webkit-user-drag: none;
   user-select: none;
