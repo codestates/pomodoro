@@ -75,11 +75,7 @@ const confirmEmailAddress = async (req, res) => {
 };
 
 const { verifyToken } = require('./tokenFunctions');
-const {
-  findUserInfomation,
-  pendingValidValueCheck,
-  sequelizeError,
-} = require('./error/error');
+const { findUserInfomation, pendingValidValueCheck } = require('./error/error');
 const checkEmaliCertification = (req, res) => {
   const path = `/api/mails POST`;
   const stub = `checkEmaliCertification`;
@@ -87,22 +83,23 @@ const checkEmaliCertification = (req, res) => {
   const token = req.body['token'];
   const userInfo = verifyToken(token);
   const { auth_id } = userInfo;
-  User.findOne({ where: { user_id: auth_id } }).then((user) => {
-    findUserInfomation(res, path, user);
-    const pending = user.getDataValue('pending');
-    pendingValidValueCheck(res, pending);
-    User.update({ pending: false }, { where: { user_id: auth_id } })
-      .then((data) => {
-        if (data[0] === 0) {
-          return res.status(400).send('no pending update. (no user_id)');
-        }
-        return res.status(301);
-      })
-      .catch((err) => {
-        const message = 'pendingUpdate Error';
-        sequelizeError(res, err, path, message);
-      });
-  });
+  User.findOne({ where: { user_id: auth_id } })
+    .then((user) => {
+      findUserInfomation(res, path, user);
+      const pending = user.getDataValue('pending');
+      pendingValidValueCheck(res, pending);
+      return User.update({ pending: false }, { where: { user_id: auth_id } });
+    })
+    .then((data) => {
+      if (data[0] === 0) {
+        res.status(400).send('no pending update. (no user_id)');
+        throw new Error('pendingUpdate Error');
+      }
+      return res.status(201).redirect('https://final.eax.kr/').send('ok');
+    })
+    .catch((err) => {
+      console.error(err);
+    });
 };
 
 module.exports = {
