@@ -4,6 +4,7 @@ import MyPlaylist from '../../components/desktop/MyPlaylist';
 import styled from 'styled-components';
 import { ConfirmModal } from '../../components/desktop/ConfirmModal';
 import { UserContext } from '../../App';
+import { useNavigate } from 'react-router';
 
 const Container = styled.div`
   display: flex;
@@ -26,8 +27,14 @@ const Container = styled.div`
 const MyPage = () => {
   const [open, setOpen] = useState(false);
   const { userInfo } = useContext(UserContext);
+  const navigate = useNavigate();
 
   useEffect(() => {
+    if (!userInfo) {
+      navigate('/');
+      return;
+    }
+
     if (userInfo.pending && !sessionStorage.getItem('modal')) {
       sessionStorage.setItem('modal', 'showed');
       setOpen(true);
