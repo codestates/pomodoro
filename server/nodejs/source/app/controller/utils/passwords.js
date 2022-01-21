@@ -9,6 +9,7 @@ const {
   checkInputData,
   findUserInfomation,
   sequelizeError,
+  checkToken_400_401_404,
 } = require('./error/error');
 
 const sendEmailToRetrievePassword = async (req, res) => {
@@ -57,6 +58,8 @@ const changeUserPassword = async (req, res) => {
   const path = `/api/passwords PATCH`;
   const stub = `changeUserPassword`;
   console.log(`[stub] ${path} ${stub}`);
+  const tokenCheck = checkToken_400_401_404(res, path, req.token);
+  if (!tokenCheck) return;
   const token = req.body['token'];
   const userInfo = verifyToken(token);
   const { auth_id } = userInfo;
@@ -89,6 +92,7 @@ const changeUserPassword = async (req, res) => {
           };
 
           const mailSend = mailSendFunction(res, mailOption);
+          res.send('<script>window.close();</script>');
         })
         .catch((err) => {
           const message = 'password init Error';
