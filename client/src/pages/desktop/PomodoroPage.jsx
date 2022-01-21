@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router';
 import styled from 'styled-components';
 import { UserContext } from '../../App';
@@ -13,7 +13,7 @@ const MainWrapper = styled.div`
   display: flex;
   position: relative;
   margin-top: ${(props) => (props.isMobile ? '14rem' : '8rem')};
-  margin-bottom: 10rem;
+  margin-bottom: 5rem;
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -52,6 +52,36 @@ const PomodoroPage = ({ isMobile }) => {
   const [isMuted, setIsMuted] = useState(false);
   const [alarmPlayer] = useState(new Audio(alarm));
 
+  const navigate = useNavigate();
+  const { userInfo } = useContext(UserContext);
+
+  const [time, setTime] = useState(POMODORO_TIME);
+  const [noticeTime, setNoticeTime] = useState(NOTICE_TIME);
+  const [pomoCount, setPomoCount] = useState(0);
+  const [start, setStart] = useState(false);
+  const [showExit, setShowExit] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
+  const [showButton, setShowButton] = useState(true);
+  const [timerDasharray, setTimerDasharray] = useState(CIRCLE_DASHARRAY);
+  const [noticeDasharray, setNoticeDasharray] = useState(CIRCLE_DASHARRAY);
+  const [startTimerInterval, setStartTimerInterval] = useState(null);
+  const [noticeTimerInterval, setNoticeTimerInterval] = useState(null);
+
+  const startTimerCleanup = useRef();
+  const noticeTimerCleanup = useRef();
+
+  useEffect(() => {
+    if (startTimerInterval) {
+      startTimerCleanup.current = startTimerInterval;
+    }
+  }, [startTimerInterval]);
+
+  useEffect(() => {
+    if (noticeTimerInterval) {
+      noticeTimerCleanup.current = noticeTimerInterval;
+    }
+  }, [noticeTimerCleanup]);
+
   useEffect(() => {
     let setTimer = setTimeout(() => {
       makePlayer();
@@ -59,8 +89,8 @@ const PomodoroPage = ({ isMobile }) => {
     return () => {
       alarmPlayer.pause();
       clearTimeout(setTimer);
-      clearTimeout(startTimerInterval);
-      clearTimeout(noticeTimerInterval);
+      clearTimeout(startTimerCleanup.current);
+      clearTimeout(noticeTimerCleanup.current);
     };
   }, []);
 
@@ -115,21 +145,6 @@ const PomodoroPage = ({ isMobile }) => {
     }
     setIsMuted(!isMuted);
   };
-
-  const navigate = useNavigate();
-  const { userInfo } = useContext(UserContext);
-
-  const [time, setTime] = useState(POMODORO_TIME);
-  const [noticeTime, setNoticeTime] = useState(NOTICE_TIME);
-  const [pomoCount, setPomoCount] = useState(0);
-  const [start, setStart] = useState(false);
-  const [showExit, setShowExit] = useState(false);
-  const [isVisible, setIsVisible] = useState(true);
-  const [showButton, setShowButton] = useState(true);
-  const [timerDasharray, setTimerDasharray] = useState(CIRCLE_DASHARRAY);
-  const [noticeDasharray, setNoticeDasharray] = useState(CIRCLE_DASHARRAY);
-  const [startTimerInterval, setStartTimerInterval] = useState(null);
-  const [noticeTimerInterval, setNoticeTimerInterval] = useState(null);
 
   const clearTimer = () => {
     const breakTime = pomoCount === 3 ? BREAKE_TIME * 3 : BREAKE_TIME;
@@ -271,7 +286,6 @@ const PomodoroPage = ({ isMobile }) => {
   return (
     <MainWrapper isMobile={isMobile}>
       <Player id="player"></Player>
-      <audio loop src={alarm}></audio>
       <MuteButton>
         <button onClick={onPlayerMute}>
           {isMuted ? (
