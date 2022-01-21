@@ -91,8 +91,8 @@ const PomodoroPage = ({ isMobile }) => {
     return () => {
       alarmPlayer.pause();
       clearTimeout(setTimer);
-      clearTimeout(startTimerCleanup.current);
-      clearTimeout(noticeTimerCleanup.current);
+      clearInterval(startTimerCleanup.current);
+      clearInterval(noticeTimerCleanup.current);
     };
   }, []);
 
@@ -183,7 +183,7 @@ const PomodoroPage = ({ isMobile }) => {
       timeLeft = time - timePassed;
 
       if (timeLeft === -1) {
-        clearTimeout(timerInterval);
+        clearInterval(timerInterval);
         setShowExit(false);
         onPlayerSetVolume();
         clearTimer();
@@ -210,7 +210,7 @@ const PomodoroPage = ({ isMobile }) => {
       timeLeft = noticeTime - timePassed;
 
       if (timeLeft === -1) {
-        clearTimeout(timerInterval);
+        clearInterval(timerInterval);
         alarmPlayer.pause();
         clearNotice();
         onPlayerPause();
@@ -236,7 +236,7 @@ const PomodoroPage = ({ isMobile }) => {
     onPlayerPlay();
     clearNotice();
     setPomoCount(pomoCount + 1);
-    clearTimeout(noticeTimerInterval);
+    clearInterval(noticeTimerInterval);
     sendPomodoroEndding();
 
     timerInterval = setInterval(() => {
@@ -251,7 +251,7 @@ const PomodoroPage = ({ isMobile }) => {
         setShowButton(true);
         onPlayerPause();
         setTimerDasharray(CIRCLE_DASHARRAY);
-        clearTimeout(timerInterval);
+        clearInterval(timerInterval);
         return;
       }
 
