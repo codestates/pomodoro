@@ -44,6 +44,7 @@ const Title = styled.h1`
 `;
 
 const TopTwentyContainer = styled.div`
+  background-color: #f2e7da;
   height: 375px;
   border-radius: 5px;
   overflow-y: scroll;
