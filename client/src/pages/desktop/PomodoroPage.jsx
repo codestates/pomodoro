@@ -8,7 +8,7 @@ import TimerButton from '../../components/desktop/TimerButton';
 import sound from '../../images/sound.svg';
 import mute from '../../images/mute.svg';
 import alarm from '../../images/alarm.mp3';
-import Loading from '../../components/desktop/Loading';
+import { ConfirmModal } from '../../components/desktop/ConfirmModal';
 
 const MainWrapper = styled.div`
   display: flex;
@@ -61,9 +61,9 @@ const PomodoroPage = ({ isMobile }) => {
   const [pomoCount, setPomoCount] = useState(0);
   const [start, setStart] = useState(false);
   const [showExit, setShowExit] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
-  const [showButton, setShowButton] = useState(false);
+  const [showButton, setShowButton] = useState(true);
   const [timerDasharray, setTimerDasharray] = useState(CIRCLE_DASHARRAY);
   const [noticeDasharray, setNoticeDasharray] = useState(CIRCLE_DASHARRAY);
   const [startTimerInterval, setStartTimerInterval] = useState(null);
@@ -87,8 +87,6 @@ const PomodoroPage = ({ isMobile }) => {
   useEffect(() => {
     let setTimer = setTimeout(() => {
       makePlayer();
-      setShowButton(true);
-      setIsLoading(false);
     }, 500);
     return () => {
       alarmPlayer.pause();
@@ -166,6 +164,11 @@ const PomodoroPage = ({ isMobile }) => {
   };
 
   const startTimer = () => {
+    if (!window.YT) {
+      setIsLoading(true);
+      return;
+    }
+
     let timerInterval = null;
     let timePassed = 0;
     let timeLeft = time;
@@ -289,7 +292,12 @@ const PomodoroPage = ({ isMobile }) => {
 
   return (
     <MainWrapper isMobile={isMobile}>
-      {!isLoading ? <Loading /> : null}
+      {isLoading ? (
+        <ConfirmModal
+          text="음악을 불러오는 중 입니다."
+          handleModal={setIsLoading}
+        />
+      ) : null}
       <Player id="player"></Player>
       <MuteButton>
         <button onClick={onPlayerMute}>
