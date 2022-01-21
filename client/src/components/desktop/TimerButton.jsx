@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import tomatoPlay from '../../images/TomatoPlay.svg';
+import { ReactComponent as TomatoPlay } from '../../images/TomatoPlay.svg';
 
 const StartWrapper = styled.div`
   display: ${(props) => (props.showButton ? 'flex' : 'none')};
@@ -14,8 +14,13 @@ const StartWrapper = styled.div`
     border-radius: 50%;
   }
 
-  img {
+  svg {
     width: 100%;
+    height: 100%;
+
+    :hover rect {
+      fill-opacity: 1;
+    }
   }
 `;
 
@@ -54,7 +59,7 @@ const TimerButton = ({
     <ButtonWrapper>
       <StartWrapper showButton={showButton} isMobile={isMobile}>
         <button onClick={startTimer}>
-          <img src={tomatoPlay} alt="start tomato" />
+          <TomatoPlay />
         </button>
       </StartWrapper>
       <ExitWrapper exit={showExit} isMobile={isMobile}>
