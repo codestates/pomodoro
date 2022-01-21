@@ -61,7 +61,7 @@ const PomodoroPage = ({ isMobile }) => {
   const [pomoCount, setPomoCount] = useState(0);
   const [start, setStart] = useState(false);
   const [showExit, setShowExit] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
   const [showButton, setShowButton] = useState(true);
   const [timerDasharray, setTimerDasharray] = useState(CIRCLE_DASHARRAY);
@@ -322,7 +322,7 @@ const PomodoroPage = ({ isMobile }) => {
         exitPomodoro={exitPomodoro}
         isMobile={isMobile}
       />
-      {!isLoading ? (
+      {isLoading ? (
         <ConfirmModal
           text="음악을 불러오는 중 입니다."
           handleModal={setIsLoading}
