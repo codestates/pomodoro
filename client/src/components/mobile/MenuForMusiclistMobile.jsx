@@ -89,15 +89,18 @@ const EmptyPlaylist = styled.div`
 `;
 
 const MusicListNameWrapper = styled.div`
+  width: 80vw;
+  margin-left: auto;
+  margin-right: auto;
   display: grid;
-  grid-template-columns: 1fr 13fr 6fr 1fr;
+  grid-template-columns: 8fr 3fr;
   font-style: normal;
   font-weight: bold;
   margin-bottom: 3rem;
 `;
 
 const MusiclistName = styled.div`
-  justify-self: center;
+  justify-self: left;
   align-self: center;
   font-size: 2.3rem; //TODO
   color: rgba(13, 24, 37, 0.9);
@@ -116,7 +119,7 @@ const DropZone = styled.div`
 
 const DragItem = styled.div`
   display: grid;
-  grid-template-columns: 1fr 0.5fr 0.4fr 8.5fr 2.7fr 0.9fr 1fr;
+  grid-template-columns: 1fr 0.5fr 0.4fr 7.3fr 3.9fr 0.9fr 1fr;
   margin-bottom: 1rem; //TODO
 `;
 
@@ -138,18 +141,25 @@ const DeleteDiv = styled.div`
 `;
 
 const TotalTimeDiv = styled.div`
-  justify-self: left;
+  justify-self: right;
   align-self: center;
+  white-space: nowrap;
+  overflow: hidden;
+  padding-right: 0.3rem;
   font-size: 2.2rem;
   color: rgba(0, 0, 0, 0.5);
+  z-index: 1;
 `;
 
 const GhostDiv = styled.div``;
 
 const musicTimeFormat = (time) => {
-  const minutes = Math.floor(time / 60);
+  const hours = Math.floor(time / 3600);
+  const minutes = Math.floor((time % 3600) / 60);
   const seconds = Math.floor(time % 60);
-  return `${minutes}:${seconds < 10 ? `0${seconds}` : seconds}`;
+  return `${hours > 0 ? `${hours}:` : ''}${
+    minutes < 10 ? `0${minutes}` : minutes
+  }:${seconds < 10 ? `0${seconds}` : seconds}`;
 };
 
 const reorder = (list, startIndex, endIndex) => {
@@ -342,7 +352,6 @@ const MenuForMusiclistMobile = ({ size, currentPlaylist }) => {
         {musicList.length ? (
           <>
             <MusicListNameWrapper ref={scrollRef}>
-              <GhostDiv />
               <MusiclistName>
                 {playlist[playlist_idx]?.playlist_name}
               </MusiclistName>
@@ -351,7 +360,6 @@ const MenuForMusiclistMobile = ({ size, currentPlaylist }) => {
                   ? musicTimeFormat(playlist[playlist_idx].playlist_time)
                   : '--:--'}
               </TotalTimeDiv>
-              <GhostDiv />
             </MusicListNameWrapper>
             <DragDropContext onDragEnd={reorderList}>
               <Droppable droppableId="droppableForMusic">

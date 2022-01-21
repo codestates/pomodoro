@@ -109,8 +109,8 @@ const MiddleGhostDiv = styled.div`
 `;
 
 const TitleDiv = styled.div`
-  flex: 467 467 auto;
-  max-width: 46.7rem;
+  flex: 487 487 auto;
+  max-width: 48.7rem;
   color: rgba(13, 24, 37, 0.9);
   display: flex;
   justify-content: flex-start;
@@ -120,13 +120,16 @@ const TitleDiv = styled.div`
 `;
 
 const TotalTimeDiv = styled.div`
-  flex: 155 155 auto;
-  max-width: 15.5rem;
+  flex: 135 135 auto;
+  max-width: 13.5rem;
   display: flex;
-  justify-content: flex-start;
+  justify-content: flex-end;
   align-items: center;
   font-size: 2.2rem;
   color: rgba(0, 0, 0, 0.5);
+  white-space: nowrap;
+  overflow: hidden;
+  padding-right: 0.5rem;
 `;
 
 const DeleteDiv = styled.div`
@@ -138,9 +141,12 @@ const DeleteDiv = styled.div`
 `;
 
 const musicTimeFormat = (time) => {
-  const minutes = Math.floor(time / 60);
+  const hours = Math.floor(time / 3600);
+  const minutes = Math.floor((time % 3600) / 60);
   const seconds = Math.floor(time % 60);
-  return `${minutes}:${seconds < 10 ? `0${seconds}` : seconds}`;
+  return `${hours > 0 ? `${hours}:` : ''}${
+    minutes < 10 ? `0${minutes}` : minutes
+  }:${seconds < 10 ? `0${seconds}` : seconds}`;
 };
 
 const reorder = (list, startIndex, endIndex) => {
