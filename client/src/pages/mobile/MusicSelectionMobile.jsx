@@ -125,6 +125,14 @@ const ButtonsMobile = styled.div`
   grid-template-columns: 1fr 1fr 1fr;
   justify-items: center;
   align-items: center;
+
+  & > svg {
+    filter: drop-shadow(20px 20px 10px rgba(0, 0, 0, 0.12));
+  }
+
+  & > svg:hover rect {
+    fill-opacity: 1;
+  }
 `;
 
 const ChooseMusicMobile = ({ tags, setTags }) => {
@@ -302,9 +310,6 @@ const ChooseMusicMobile = ({ tags, setTags }) => {
           setCurrentPlaylist={setCurrentPlaylist}
         />
         <TomatoPlayIcon
-          style={{
-            filter: 'drop-shadow(20px 20px 10px rgba(0, 0, 0, 0.12))',
-          }}
           width="16vw"
           height="16vw"
           onClick={() => {

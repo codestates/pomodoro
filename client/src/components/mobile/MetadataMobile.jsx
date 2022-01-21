@@ -69,7 +69,7 @@ const AddButton = styled.button`
   font-size: 10vw;
 
   &:hover {
-    background-color: lightgreen;
+    background-color: lightgray;
   }
 `;
 
