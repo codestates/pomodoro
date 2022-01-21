@@ -22,6 +22,7 @@ const Head = styled.header`
     }
 
     img {
+      width: 24.411rem;
       height: 5rem;
     }
 
