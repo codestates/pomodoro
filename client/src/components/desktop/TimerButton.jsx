@@ -56,7 +56,7 @@ const TimerButton = ({
   exitPomodoro,
   isMobile,
 }) => {
-  const [isModal, setIsMotal] = useState(true);
+  const [isModal, setIsMotal] = useState(false);
 
   return (
     <ButtonWrapper>
@@ -66,7 +66,7 @@ const TimerButton = ({
         </button>
       </StartWrapper>
       <ExitWrapper exit={showExit} isMobile={isMobile}>
-        <button onClick={() => setIsMotal(false)}>
+        <button onClick={() => setIsMotal(true)}>
           <svg
             width="142"
             height="159"
@@ -110,12 +110,14 @@ const TimerButton = ({
           </svg>
         </button>
       </ExitWrapper>
-      {!isModal ? (
+      {isModal ? (
         <YesOrNoModal
           text="타이머를
           종료 하시겠습니까?"
           handleModal={setIsMotal}
-          setYes={exitPomodoro}
+          setYes={() => {
+            exitPomodoro();
+          }}
         />
       ) : null}
     </ButtonWrapper>
