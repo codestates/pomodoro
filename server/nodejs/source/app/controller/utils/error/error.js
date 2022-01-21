@@ -15,16 +15,20 @@ const checkInputData = (res, dataArr) => {
 const checkToken_400_401_404 = (res, path, user) => {
   if (user === 400) {
     console.log(`[ERROR] ${path} -> 400 : Bad Reuqest`);
-    return res.status(400).send('Bad Reuqest');
+    res.status(400).send('Bad Reuqest');
+    return false;
   }
   if (user === 401) {
     console.log(`[ERROR] ${path} -> 401 : Unauthorized`);
-    return res.status(401).send('Unauthorized');
+    res.status(401).send('Unauthorized');
+    return false;
   }
   if (user === 404) {
     console.log(`[ERROR] ${path} -> 404 : Not found`);
-    return res.status(404).send('Not found');
+    res.status(404).send('Not found');
+    return false;
   }
+  return true;
 };
 
 const findUserInfomation = (res, path, user) => {
