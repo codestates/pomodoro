@@ -88,6 +88,9 @@ const SwiperMusic = ({ searchResult, currentTagIndex, setCurrentMusic }) => {
                   data-music_time={item.music_time}
                   data-music_url={item.music_url}
                   data-music_id={item.music_id}
+                  data-music_embeddable={
+                    item['music_embeddable'] === false ? 'false' : 'true'
+                  }
                 >
                   <img
                     src={

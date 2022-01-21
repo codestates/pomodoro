@@ -179,6 +179,13 @@ const MetadataMobile = ({ currentMusic, currentPlaylist }) => {
       return;
     }
 
+    if (currentMusic['music_embeddable'] === 'false') {
+      setDisplayModalMessage(
+        '이 음악은 게시자가 사용할 수 없도록 지정한 영상입니다. 다른 영상을 사용해 주세요.'
+      );
+      return;
+    }
+
     if (!userInfo) {
       const newMusicList = [...musicList];
       const newCurrentMusic = { ...currentMusic };

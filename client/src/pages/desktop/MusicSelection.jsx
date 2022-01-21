@@ -218,6 +218,7 @@ const ChooseMusic = ({ tags, setTags }) => {
               music_url: res.data.music_url,
               music_time: res.data.duration,
               music_thumbnail: res.data.thumbnailUrl,
+              music_embeddable: res.data.embeddable,
             },
           ];
           const payload = {
@@ -229,6 +230,10 @@ const ChooseMusic = ({ tags, setTags }) => {
           setTags(newTags);
           setCurrentPlaylist(tag_id);
           fadeOutHandler();
+          if (!res.data.embeddable)
+            setDisplayModalMessage(
+              '이 음악은 게시자가 사용할 수 없도록 지정한 영상입니다. 다른 영상을 사용해 주세요.'
+            );
         })
         .catch((err) => {
           setDisplayModalMessage(
