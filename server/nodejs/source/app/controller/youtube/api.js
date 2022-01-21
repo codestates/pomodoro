@@ -48,18 +48,19 @@ const youtubeAPIsearch = async (req, res) => {
   async function videosList(music_url) {
     let videoInfo = await service.videos.list({
       key: process.env.YOUTUBE_API_KEY,
-      part: 'contentDetails,snippet',
+      part: 'contentDetails,snippet,status',
       id: music_url,
       maxResults: 1,
     });
+
     let { duration } = videoInfo.data.items[0].contentDetails;
-    duration = durationSecoend(duration);
     const { title } = videoInfo.data.items[0].snippet;
     const thumbnailUrl = thumbnailFindImg(
       videoInfo.data.items[0].snippet.thumbnails
     );
-    console.log('thumbnailUrl : ', thumbnailUrl);
-    return { title, thumbnailUrl, duration };
+    duration = durationSecoend(duration);
+    const { embeddable } = videoInfo.data.items[0].status;
+    return { title, thumbnailUrl, duration, embeddable };
   }
 
   async function playListVelueCheck(playlist_id) {
@@ -83,10 +84,11 @@ const youtubeAPIsearch = async (req, res) => {
       const { music_name: title, music_length: duration } =
         musicFindOne.dataValues;
       const thumbnailUrl = `https://final.eax.kr/images/${music_url}.jpg`;
-      return { duration, title, thumbnailUrl };
+      const embeddable = true;
+      return { duration, title, thumbnailUrl, embeddable };
     })
     .then((videoInfo) => {
-      const { duration, title, thumbnailUrl } = videoInfo;
+      const { duration, title, thumbnailUrl, embeddable } = videoInfo;
       req.thumbnailUrl = thumbnailUrl;
       req.videoInfo = { duration, title };
 
@@ -98,8 +100,14 @@ const youtubeAPIsearch = async (req, res) => {
           thumbnailUrl: thumbnailUrl['url']
             ? thumbnailUrl['url']
             : thumbnailUrl,
+          embeddable,
         });
         throw new Error('early return');
+      }
+
+      if (!embeddable) {
+        res.status(415).send('video embeddable false');
+        throw new Error('video embeddable false');
       }
 
       const { playlist_id } = req.params;
@@ -142,6 +150,7 @@ const youtubeAPIsearch = async (req, res) => {
     })
     .catch((err) => {
       if (err.message === 'early return') return;
+      if (err.message === 'video embeddable false') return;
       console.error(err);
       return res.status(500).send(err);
     });
