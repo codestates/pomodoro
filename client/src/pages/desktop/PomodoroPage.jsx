@@ -61,7 +61,7 @@ const PomodoroPage = ({ isMobile }) => {
   const [pomoCount, setPomoCount] = useState(0);
   const [start, setStart] = useState(false);
   const [showExit, setShowExit] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [isVisible, setIsVisible] = useState(true);
   const [showButton, setShowButton] = useState(true);
   const [timerDasharray, setTimerDasharray] = useState(CIRCLE_DASHARRAY);
@@ -164,7 +164,7 @@ const PomodoroPage = ({ isMobile }) => {
   };
 
   const startTimer = () => {
-    if (!window.YT) {
+    if (!player) {
       setIsLoading(true);
       return;
     }
@@ -292,12 +292,6 @@ const PomodoroPage = ({ isMobile }) => {
 
   return (
     <MainWrapper isMobile={isMobile}>
-      {isLoading ? (
-        <ConfirmModal
-          text="음악을 불러오는 중 입니다."
-          handleModal={setIsLoading}
-        />
-      ) : null}
       <Player id="player"></Player>
       <MuteButton>
         <button onClick={onPlayerMute}>
@@ -328,6 +322,12 @@ const PomodoroPage = ({ isMobile }) => {
         exitPomodoro={exitPomodoro}
         isMobile={isMobile}
       />
+      {!isLoading ? (
+        <ConfirmModal
+          text="음악을 불러오는 중 입니다."
+          handleModal={setIsLoading}
+        />
+      ) : null}
     </MainWrapper>
   );
 };

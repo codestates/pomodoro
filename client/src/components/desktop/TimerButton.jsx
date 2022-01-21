@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { ReactComponent as TomatoPlay } from '../../images/TomatoPlay.svg';
+import YesOrNoModal from '../../components/desktop/YesOrNoModal';
 
 const StartWrapper = styled.div`
   display: ${(props) => (props.showButton ? 'flex' : 'none')};
@@ -51,10 +52,12 @@ const TimerButton = ({
   showButton,
   startTimer,
   showExit,
-  exitPomodoro,
   timerDasharray,
+  exitPomodoro,
   isMobile,
 }) => {
+  const [isModal, setIsMotal] = useState(true);
+
   return (
     <ButtonWrapper>
       <StartWrapper showButton={showButton} isMobile={isMobile}>
@@ -63,7 +66,7 @@ const TimerButton = ({
         </button>
       </StartWrapper>
       <ExitWrapper exit={showExit} isMobile={isMobile}>
-        <button onClick={exitPomodoro}>
+        <button onClick={() => setIsMotal(false)}>
           <svg
             width="142"
             height="159"
@@ -107,6 +110,14 @@ const TimerButton = ({
           </svg>
         </button>
       </ExitWrapper>
+      {!isModal ? (
+        <YesOrNoModal
+          text="타이머를
+          종료 하시겠습니까?"
+          handleModal={setIsMotal}
+          setYes={exitPomodoro}
+        />
+      ) : null}
     </ButtonWrapper>
   );
 };
