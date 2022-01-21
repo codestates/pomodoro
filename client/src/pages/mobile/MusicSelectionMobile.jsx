@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
+import { ConfirmModal } from '../../components/desktop/ConfirmModal';
 import { ReactComponent as SearchIcon } from '../../images/search.svg';
 import { ReactComponent as TomatoPlayIcon } from '../../images/TomatoPlay.svg';
 import MusicTagsMobile from '../../components/mobile/MusicTagsMobile';
@@ -136,6 +137,8 @@ const ChooseMusicMobile = ({ tags, setTags }) => {
   const [expandSearchBar, setExpandSearchBar] = useState(false);
   const [fadeOut, setFadeOut] = useState(false);
   const [searchText, setSearchText] = useState('');
+  const [displayModalMessage, setDisplayModalMessage] = useState(null);
+
   const searchRef = useRef(null);
   const focusRef = useRef(null);
 
@@ -149,12 +152,65 @@ const ChooseMusicMobile = ({ tags, setTags }) => {
 
   const searchHandler = (e) => {
     if (e.key !== 'Enter') return;
+
+    if (!searchText) {
+      setDisplayModalMessage('검색어를 입력해 주세요.');
+      return;
+    }
+
+    const youtubeRegEx = [
+      /(?<=\w*youtu\.be\/)(.*)/g,
+      /(?<=\w*youtube\.com\/watch\?v=)(.*)/g,
+    ];
+    for (const reg of youtubeRegEx) {
+      const result = searchText.match(reg);
+      if (!result) continue;
+      //(result).then((data) => {
+      const endpoint = `https://final.eax.kr/api/playlists/0`;
+      const body = {
+        music_url: result,
+      };
+      axios
+        .post(endpoint, body)
+        .then((res) => {
+          const newTags = [...tags];
+          let tag_id;
+          if (newTags[0].tag_id < 0) tag_id = newTags[0].tag_id - 1;
+          else tag_id = -1;
+          const Musics = [
+            {
+              music_id: Math.floor(Math.random() * 1000000) + 1000000,
+              music_name: res.data.title,
+              music_url: res.data.music_url,
+              music_time: res.data.duration,
+              music_thumbnail: res.data.thumbnailUrl,
+            },
+          ];
+          const payload = {
+            tag_id,
+            tag_name: res.data.title.slice(0, 8),
+            Musics,
+          };
+          newTags.unshift(payload);
+          setTags(newTags);
+          setCurrentPlaylist(tag_id);
+          fadeOutHandler();
+        })
+        .catch((err) => {
+          setDisplayModalMessage(
+            '검색 결과가 없습니다. Youtube 주소가 올바른지 확인해 주세요.'
+          );
+          console.dir(err);
+        });
+      return;
+    }
+
     const endpoint = `https://final.eax.kr/api/search?q=${searchText}`;
     axios
       .get(endpoint)
       .then((res) => {
         if (res.data.result.length === 0) {
-          alert('검색 결과가 없습니다.');
+          setDisplayModalMessage('검색 결과가 없습니다.');
           return;
         }
         const newTags = [...tags];
@@ -172,6 +228,10 @@ const ChooseMusicMobile = ({ tags, setTags }) => {
         fadeOutHandler();
       })
       .catch((err) => {
+        if (err?.response.status === 400) {
+          setDisplayModalMessage('검색 결과가 없습니다.');
+          return;
+        }
         console.dir(err);
       });
   };
@@ -187,6 +247,12 @@ const ChooseMusicMobile = ({ tags, setTags }) => {
 
   return (
     <MobileContainer ref={thisRef} size={size}>
+      {displayModalMessage && (
+        <ConfirmModal
+          text={displayModalMessage}
+          handleModal={() => setDisplayModalMessage(null)}
+        />
+      )}
       <TopGhostDiv />
       <SearchBarAndTags>
         <SearchButton>

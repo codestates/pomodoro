@@ -2,6 +2,7 @@ import { useContext, useMemo, useState } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 
+import { ConfirmModal } from '../../components/desktop/ConfirmModal';
 import { ReactComponent as SelectedIcon } from '../../images/select.svg';
 import { UserContext } from '../../App';
 
@@ -133,6 +134,7 @@ const MetadataMobile = ({ currentMusic, currentPlaylist }) => {
   } = useContext(UserContext);
 
   const [showPopup, setShowPopup] = useState(0);
+  const [displayModalMessage, setDisplayModalMessage] = useState(null);
 
   const renderPopup = useMemo(() => showPopup > 0, [showPopup]);
 
@@ -161,16 +163,16 @@ const MetadataMobile = ({ currentMusic, currentPlaylist }) => {
 
   const addToPlaylist = (e) => {
     if (!currentMusic['music_id']) {
-      alert('먼저 음악을 선택해 주세요.');
+      setDisplayModalMessage('먼저 음악을 선택해 주세요.');
       return;
     }
     if (!currentPlaylist) {
-      alert('먼저 재생목록을 선택해 주세요.');
+      setDisplayModalMessage('먼저 재생목록을 선택해 주세요.');
       return;
     }
 
     if (musicList.length > 50) {
-      alert('재생목록은 50곡까지만 추가할 수 있습니다.');
+      setDisplayModalMessage('재생목록은 50곡까지만 추가할 수 있습니다.');
       return;
     }
 
@@ -238,6 +240,12 @@ const MetadataMobile = ({ currentMusic, currentPlaylist }) => {
 
   return (
     <MetadataContainer>
+      {displayModalMessage && (
+        <ConfirmModal
+          text={displayModalMessage}
+          handleModal={() => setDisplayModalMessage(null)}
+        />
+      )}
       <GhostLeftDiv />
       <MusicNameWrapper>
         <MusicName

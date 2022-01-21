@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import axios from 'axios';
 
+import { ConfirmModal } from '../../components/desktop/ConfirmModal';
 import { ReactComponent as PlaylistIcon } from '../../images/playlists.svg';
 import { ReactComponent as SelectedIcon } from '../../images/select.svg';
 import { ReactComponent as DeleteIcon } from '../../images/delete.svg';
@@ -175,6 +176,7 @@ const MenuForPlaylistMobile = ({
     useContext(UserContext);
   const [expandPlaylist, setExpandPlaylist] = useState(false);
   const [fadeOut, setFadeOut] = useState(false);
+  const [displayModalMessage, setDisplayModalMessage] = useState(null);
   const playlistRef = useRef(null);
   const scrollRef = useRef(null);
 
@@ -221,7 +223,7 @@ const MenuForPlaylistMobile = ({
 
   const addPlaylistHandler = (e) => {
     if (playlist.length >= 10) {
-      alert('플레이리스트는 10개까지만 생성 가능합니다.');
+      setDisplayModalMessage('플레이리스트는 10개까지만 생성 가능합니다.');
       return;
     }
     if (!userInfo) {
@@ -261,6 +263,12 @@ const MenuForPlaylistMobile = ({
 
   return (
     <PlaylistContainer>
+      {displayModalMessage && (
+        <ConfirmModal
+          text={displayModalMessage}
+          handleModal={() => setDisplayModalMessage(null)}
+        />
+      )}
       <PlaylistIconStaticCircle
         ref={playlistRef}
         onClick={() => {
