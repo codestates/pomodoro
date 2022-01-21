@@ -46,28 +46,28 @@ const Footer = () => {
   return (
     <Foot>
       <GithubLink href="https://github.com/krim45">
-        <Img src={github}></Img>
+        <Img src={github} alt="footer logo"></Img>
         <ul>
           <li>김경봉</li>
           <li>front-end</li>
         </ul>
       </GithubLink>
       <GithubLink href="https://github.com/kaehehehe">
-        <Img src={github}></Img>
+        <Img src={github} alt="footer logo"></Img>
         <ul>
           <li>카에</li>
           <li>front-end</li>
         </ul>
       </GithubLink>
       <GithubLink href="https://github.com/exxocism">
-        <Img src={github}></Img>
+        <Img src={github} alt="footer logo"></Img>
         <ul>
           <li>최민우</li>
           <li>full-stack</li>
         </ul>
       </GithubLink>
       <GithubLink href="https://github.com/AbyulStudy">
-        <Img src={github}></Img>
+        <Img src={github} alt="footer logo"></Img>
         <ul>
           <li>최민석</li>
           <li>back-end</li>
