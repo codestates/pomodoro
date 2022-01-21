@@ -89,6 +89,7 @@ const changeUserPassword = async (req, res) => {
           };
 
           const mailSend = mailSendFunction(res, mailOption);
+          res.send('<script>window.close();</script>');
         })
         .catch((err) => {
           const message = 'password init Error';
