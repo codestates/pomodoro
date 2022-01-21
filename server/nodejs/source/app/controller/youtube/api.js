@@ -52,16 +52,13 @@ const youtubeAPIsearch = async (req, res) => {
       id: music_url,
       maxResults: 1,
     });
-    console.log('videoInfo : ', videoInfo);
-    console.log('videoInfo.data.items : ', videoInfo.data.items);
 
     let { duration } = videoInfo.data.items[0].contentDetails;
-    duration = durationSecoend(duration);
     const { title } = videoInfo.data.items[0].snippet;
     const thumbnailUrl = thumbnailFindImg(
       videoInfo.data.items[0].snippet.thumbnails
     );
-    console.log('thumbnailUrl : ', thumbnailUrl);
+    duration = durationSecoend(duration);
     const { embeddable } = videoInfo.data.items[0].status;
     return { title, thumbnailUrl, duration, embeddable };
   }
@@ -87,7 +84,8 @@ const youtubeAPIsearch = async (req, res) => {
       const { music_name: title, music_length: duration } =
         musicFindOne.dataValues;
       const thumbnailUrl = `https://final.eax.kr/images/${music_url}.jpg`;
-      return { duration, title, thumbnailUrl };
+      const embeddable = true;
+      return { duration, title, thumbnailUrl, embeddable };
     })
     .then((videoInfo) => {
       const { duration, title, thumbnailUrl, embeddable } = videoInfo;
