@@ -61,6 +61,7 @@ const PomodoroPage = ({ isMobile }) => {
   const [pomoCount, setPomoCount] = useState(0);
   const [start, setStart] = useState(false);
   const [showExit, setShowExit] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [isVisible, setIsVisible] = useState(true);
   const [showButton, setShowButton] = useState(false);
   const [timerDasharray, setTimerDasharray] = useState(CIRCLE_DASHARRAY);
@@ -87,6 +88,7 @@ const PomodoroPage = ({ isMobile }) => {
     let setTimer = setTimeout(() => {
       makePlayer();
       setShowButton(true);
+      setIsLoading(false);
     }, 500);
     return () => {
       alarmPlayer.pause();
@@ -287,7 +289,7 @@ const PomodoroPage = ({ isMobile }) => {
 
   return (
     <MainWrapper isMobile={isMobile}>
-      {!showButton ? <Loading /> : null}
+      {!isLoading ? <Loading /> : null}
       <Player id="player"></Player>
       <MuteButton>
         <button onClick={onPlayerMute}>
