@@ -24,11 +24,11 @@ const GhostLeftDiv = styled.div`
 `;
 
 const MusicNameWrapper = styled.div`
-  flex: 299 299 auto;
-  max-width: 29.9rem;
+  flex: 279 279 auto;
+  max-width: 27.9rem;
   font-style: normal;
   font-weight: bold;
-  font-size: 3.1rem;
+  font-size: 2.9rem;
   white-space: nowrap;
   overflow: hidden;
   color: rgba(0, 0, 0, 0.5);
@@ -58,11 +58,12 @@ const GhostMiddleDiv = styled.div`
 `;
 
 const MusicLength = styled.div`
-  flex: 100 100 auto;
-  max-width: 10rem;
+  flex: 120 120 auto;
+  justify-self: flex-end;
+  max-width: 12rem;
   font-style: normal;
   font-weight: bold;
-  font-size: 3.1rem;
+  font-size: 2.9rem;
   color: rgba(0, 0, 0, 0.5);
 `;
 
@@ -119,9 +120,12 @@ const LetsGo = styled.div`
 `;
 
 const musicTimeFormat = (time) => {
-  const minutes = Math.floor(time / 60);
+  const hours = Math.floor(time / 3600);
+  const minutes = Math.floor((time % 3600) / 60);
   const seconds = Math.floor(time % 60);
-  return `${minutes}:${seconds < 10 ? `0${seconds}` : seconds}`;
+  return `${hours > 0 ? `${hours}:` : ''}${
+    minutes < 10 ? `0${minutes}` : minutes
+  }:${seconds < 10 ? `0${seconds}` : seconds}`;
 };
 
 const Metadata = ({ currentMusic, currentPlaylist }) => {

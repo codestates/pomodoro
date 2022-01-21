@@ -103,8 +103,8 @@ const CheckBoxDiv = styled.div`
 `;
 
 const TitleDiv = styled.div`
-  flex: 208 208 auto;
-  max-width: 20.8rem;
+  flex: 180 180 auto;
+  max-width: 18rem;
   color: rgba(13, 24, 37, 0.9);
   display: flex;
   justify-content: flex-start;
@@ -114,12 +114,15 @@ const TitleDiv = styled.div`
 `;
 
 const TotalTimeDiv = styled.div`
-  flex: 73 73 auto;
-  max-width: 7.3rem;
+  flex: 101 101 auto;
+  max-width: 10.1rem;
   display: flex;
-  justify-content: flex-start;
+  justify-content: flex-end;
   align-items: center;
   font-size: 2.2rem;
+  white-space: nowrap;
+  overflow: hidden;
+  padding-right: 0.5rem;
   color: rgba(0, 0, 0, 0.5);
 `;
 
@@ -163,9 +166,12 @@ const AddPlaylistDiv = styled.div`
 `;
 
 const musicTimeFormat = (time) => {
-  const minutes = Math.floor(time / 60);
+  const hours = Math.floor(time / 3600);
+  const minutes = Math.floor((time % 3600) / 60);
   const seconds = Math.floor(time % 60);
-  return `${minutes}:${seconds < 10 ? `0${seconds}` : seconds}`;
+  return `${hours > 0 ? `${hours}:` : ''}${
+    minutes < 10 ? `0${minutes}` : minutes
+  }:${seconds < 10 ? `0${seconds}` : seconds}`;
 };
 
 const MenuForPlaylist = ({ currentPlaylist, setCurrentPlaylist }) => {
