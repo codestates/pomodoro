@@ -61,12 +61,12 @@ const TimerButton = ({
   return (
     <ButtonWrapper>
       <StartWrapper showButton={showButton} isMobile={isMobile}>
-        <button className="start-button" onClick={startTimer}>
+        <button onClick={startTimer} aria-label="start button">
           <TomatoPlay />
         </button>
       </StartWrapper>
       <ExitWrapper exit={showExit} isMobile={isMobile}>
-        <button className="exit-button" onClick={() => setIsMotal(true)}>
+        <button onClick={() => setIsMotal(true)} aria-label="exit button">
           <svg
             width="142"
             height="159"
