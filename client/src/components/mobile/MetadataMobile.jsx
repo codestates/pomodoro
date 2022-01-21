@@ -118,9 +118,12 @@ const ToastText = styled.div`
 `;
 
 const musicTimeFormat = (time) => {
-  const minutes = Math.floor(time / 60);
+  const hours = Math.floor(time / 3600);
+  const minutes = Math.floor((time % 3600) / 60);
   const seconds = Math.floor(time % 60);
-  return `${minutes}:${seconds < 10 ? `0${seconds}` : seconds}`;
+  return `${hours > 0 ? `${hours}:` : ''}${
+    minutes < 10 ? `0${minutes}` : minutes
+  }:${seconds < 10 ? `0${seconds}` : seconds}`;
 };
 
 const MetadataMobile = ({ currentMusic, currentPlaylist }) => {

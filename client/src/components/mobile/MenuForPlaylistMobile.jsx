@@ -105,7 +105,7 @@ const DropZone = styled.div`
 
 const DragItem = styled.div`
   display: grid;
-  grid-template-columns: 1fr 1.7fr 10.4fr 2.9fr 1.6fr 1fr;
+  grid-template-columns: 1fr 1.7fr 8.4fr 4.9fr 1.6fr 1fr;
   margin-bottom: 1.5rem; //TODO
 `;
 
@@ -124,8 +124,11 @@ const TitleDiv = styled.div`
 `;
 
 const TotalTimeDiv = styled.div`
-  justify-self: left;
+  justify-self: right;
   align-self: center;
+  white-space: nowrap;
+  overflow: hidden;
+  padding-right: 0.3rem;
   font-size: 2.2rem;
   color: rgba(0, 0, 0, 0.5);
 `;
@@ -162,9 +165,12 @@ const PlusButton = styled.div`
 `;
 
 const musicTimeFormat = (time) => {
-  const minutes = Math.floor(time / 60);
+  const hours = Math.floor(time / 3600);
+  const minutes = Math.floor((time % 3600) / 60);
   const seconds = Math.floor(time % 60);
-  return `${minutes}:${seconds < 10 ? `0${seconds}` : seconds}`;
+  return `${hours > 0 ? `${hours}:` : ''}${
+    minutes < 10 ? `0${minutes}` : minutes
+  }:${seconds < 10 ? `0${seconds}` : seconds}`;
 };
 
 const MenuForPlaylistMobile = ({
