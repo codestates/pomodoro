@@ -28,10 +28,8 @@ const SwiperContainer = styled.div`
   & .swiper-slide img,
   & .swiper-slide .loading-placeholder {
     border-radius: 2rem;
-    width: 38.8rem;
+    width: 41.1rem;
     height: 29.1rem;
-    /* width: 41.1rem;
-    height: 29.1rem; */
     object-fit: fill;
   }
 
