@@ -248,6 +248,7 @@ const MenuForPlaylistMobile = ({
       const newPlaylist = [...playlist];
       newPlaylist.push({ playlist_id, playlist_name, playlist_time });
       setPlaylist(newPlaylist);
+      setCurrentPlaylist(playlist_id);
       return;
     }
     const endpoint = `https://final.eax.kr/api/playlists`;
@@ -261,6 +262,7 @@ const MenuForPlaylistMobile = ({
       .post(endpoint, { playlist_name }, { headers })
       .then((res) => {
         requestUserInfo(1);
+        setCurrentPlaylist(res.data.playlist_id);
       })
       .catch((err) => {
         console.log(err);
