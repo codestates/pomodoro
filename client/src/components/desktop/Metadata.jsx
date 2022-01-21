@@ -69,6 +69,7 @@ const MusicLength = styled.div`
 const AddButton = styled.button`
   flex: 62 62 auto;
   max-width: 5.5rem;
+  min-width: 5.5rem;
   height: 5.5rem;
   border-radius: 50%;
   background: #f7f2ed;
@@ -84,7 +85,7 @@ const AddButton = styled.button`
   cursor: pointer;
 
   &:hover {
-    background-color: lightgreen;
+    background-color: lightgray;
   }
 `;
 
@@ -101,8 +102,8 @@ const StartButtonWrapper = styled.div`
     filter: drop-shadow(20px 20px 10px rgba(0, 0, 0, 0.12));
   }
 
-  & > svg:hover path {
-    fill: yellow;
+  & > svg:hover rect {
+    fill-opacity: 1;
   }
 `;
 
