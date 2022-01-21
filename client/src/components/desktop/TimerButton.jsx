@@ -61,12 +61,12 @@ const TimerButton = ({
   return (
     <ButtonWrapper>
       <StartWrapper showButton={showButton} isMobile={isMobile}>
-        <button onClick={startTimer}>
+        <button className="start-button" onClick={startTimer}>
           <TomatoPlay />
         </button>
       </StartWrapper>
       <ExitWrapper exit={showExit} isMobile={isMobile}>
-        <button onClick={() => setIsMotal(true)}>
+        <button className="exit-button" onClick={() => setIsMotal(true)}>
           <svg
             width="142"
             height="159"
