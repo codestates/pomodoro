@@ -4,6 +4,7 @@ const helmet = require('helmet');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const { tokenParser } = require('./app/controller/utils/tokenFunctions');
+const methodOverride = require('method-override');
 let app, readFileSync, http2Express, http2, options;
 
 //=========================================================
@@ -37,6 +38,17 @@ app.use(tokenParser());
 app.use(cookieParser());
 app.use(express.json({ limit: '100mb' })); //{ "message" : "ok" }
 app.use(express.urlencoded({ limit: '100mb', extended: true })); //message=ok
+// html form method Parser (PATCH , DELETE , PUT)
+app.use(
+  methodOverride(function (req, res) {
+    if (req.body && typeof req.body === 'object' && '_method' in req.body) {
+      // look in urlencoded POST bodies and delete it
+      var method = req.body._method;
+      delete req.body._method;
+      return method;
+    }
+  })
+);
 
 //=========================================================
 // Main Logger
@@ -75,52 +87,35 @@ app.use(cors(corsOptions));
 //=========================================================
 // Current SERVER MODE
 //=========================================================
-const PREFIX = '/dev'; // 'api' or 'dev'
+const PREFIX = '/api'; // 'api' or 'dev'
 const point = (URL) => `${PREFIX}${URL}`;
 
 //=========================================================
 // MVC pattern - Routes
 //=========================================================
-const controller = require('./app/controller');
-// deployment
-app.post(point('/upload'), controller.upload);
+const auth = require('./app/router/auth');
+const users = require('./app/router/users');
+const password = require('./app/router/passwords');
+const nickname = require('./app/router/nicknames');
+const mail = require('./app/router/mails');
+const playlist = require('./app/router/playlists');
+const music = require('./app/router/music');
+const pomodoro = require('./app/router/pomodoro');
+const rank = require('./app/router/ranks');
+const search = require('./app/router/search');
+const tags = require('./app/router/tags');
 
-//USER
-app.post(point('/auth'), controller.users.auth);
-app.get(point('/users'), controller.users.get);
-app.post(point('/users'), controller.users.post);
-app.patch(point('/users'), controller.users.patch);
-app.delete(point('/users'), controller.users.delete);
-
-//PASSWORD
-app.post(point('/passwords'), controller.passwords.post);
-app.patch(point('/passwords'), controller.passwords.patch);
-
-//NICKNAME
-app.get(point('/nicknames/:nickname'), controller.nicknames.get);
-
-//MAIL
-app.get(point('/mails/:email'), controller.mails.get);
-app.post(point('/mails'), controller.mails.post);
-
-//PLAYLIST
-app.get(point('/playlists'), controller.playlists.get);
-app.post(point('/playlists'), controller.playlists.post);
-app.patch(point('/playlists/:playlist_id'), controller.playlists.patch);
-app.delete(point('/playlists/:playlist_id'), controller.playlists.delete);
-
-//PLAYLIST
-app.get(point('/playlists/:playlist_id'), controller.music.get);
-app.post(point('/playlists/:playlist_id'), controller.music.post);
-app.patch(point('/playlists/:playlist_id/:music_id'), controller.music.patch);
-app.delete(point('/playlists/:playlist_id/:music_id'), controller.music.delete);
-
-//POMODORO
-app.post(point('/pomodoro'), controller.pomodoro.post);
-app.patch(point('/pomodoro'), controller.pomodoro.patch);
-
-//RANK
-app.get(point('/ranks'), controller.ranks.get);
+app.use(point('/auth'), auth);
+app.use(point('/users'), users);
+app.use(point('/passwords'), password);
+app.use(point('/nicknames'), nickname);
+app.use(point('/mails'), mail);
+app.use(point('/playlists'), playlist);
+app.use(point('/playlists'), music);
+app.use(point('/pomodoro'), pomodoro);
+app.use(point('/ranks'), rank);
+app.use(point('/search'), search);
+app.use(point('/tags'), tags);
 
 //=========================================================
 //Not Found : show Available routes

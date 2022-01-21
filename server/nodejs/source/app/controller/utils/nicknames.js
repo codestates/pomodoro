@@ -6,12 +6,18 @@ const checkIfNickNameAlreadyExists = (req, res) => {
     console.log('[ERROR] /api/nicknames GET -> 400 : nickname is required');
     return res.status(400).send('nickname is required');
   }
+
   if (utf8Length(req.params.nickname) > 32) {
     console.log('[ERROR] /api/nicknames GET -> 400 : nickname is too long');
     return res.status(400).send('nickname is too long');
   }
 
   const nickname = decodeURI(req.params.nickname);
+
+  if (typeof nickname !== 'string') {
+    console.log('[ERROR] /api/nicknames GET -> 400 : nickname is invalid');
+    return res.status(400).send('nickname is invalid');
+  }
 
   User.findOne({ where: { nickname } })
     .then((query) => {

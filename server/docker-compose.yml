@@ -12,10 +12,12 @@ services:
 #    expose:
 #        "3306"
     ports:
-      - "3306:3306"
+      - "13306:3306"
     volumes:
       - ./mysql/Pomodoro.sql:/docker-entrypoint-initdb.d/dump.sql
       - db:/var/lib/mysql
+    cap_add:
+      - SYS_NICE
     env_file:
       - .store/mysql.env
   nodejs:
@@ -34,7 +36,7 @@ services:
     command: >
       sh -c "chmod +x /root/deploy/*.sh
       && /root/deploy/inotify_entrypoint.sh
-      && exec nodemon app.js"
+      && exec nodemon -L app.js"
   nginx:
     build: ./nginx
     restart: always
@@ -45,7 +47,9 @@ services:
       - .store/nginx.conf:/etc/nginx/nginx.conf
       - ./nginx/njs_script:/etc/nginx/script
       - ./nginx/html:/usr/share/nginx/html
+      - ./nginx/html:/etc/nginx/html
       - ./nginx/html2:/usr/share/nginx/html2
+      - ./nginx/html2:/etc/nginx/html2
       - ./nginx/logs:/etc/nginx/logs
       - ./nodejs/deploy:/usr/share/nginx/node
       - .store/cert:/etc/nginx/cert:ro

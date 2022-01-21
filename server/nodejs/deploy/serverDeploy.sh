@@ -11,6 +11,10 @@ do
   rm -rf *
   cd ..
   SOURCE_REPO=`cat ./.repo`
+  if [ $? -ne 0 ]; then
+    echo "no .repo files, exiting ..."
+    exit 0
+  fi
   rm -f ./.repo
   WORKING_DIR=$(pwd)
 
@@ -44,6 +48,10 @@ do
   rm -rf $TARGET_FOLDER/*
   cp -rf * $TARGET_FOLDER/
   cp -f ./app.js $TARGET_FOLDER/
+  chown -R 1000 $TARGET_FOLDER/.
+  chgrp -R 1000 $TARGET_FOLDER/.
+  chown -R 1000 $TARGET_FOLDER/*
+  chgrp -R 1000 $TARGET_FOLDER/*
 
   # remove files after finish
   popd
