@@ -164,7 +164,7 @@ const PomodoroPage = ({ isMobile }) => {
   };
 
   const startTimer = () => {
-    if (!player) {
+    if (!player && music.length !== 0) {
       setIsLoading(true);
       return;
     }
