@@ -8,6 +8,7 @@ import TimerButton from '../../components/desktop/TimerButton';
 import sound from '../../images/sound.svg';
 import mute from '../../images/mute.svg';
 import alarm from '../../images/alarm.mp3';
+import Loading from '../../components/desktop/Loading';
 
 const MainWrapper = styled.div`
   display: flex;
@@ -61,7 +62,7 @@ const PomodoroPage = ({ isMobile }) => {
   const [start, setStart] = useState(false);
   const [showExit, setShowExit] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
-  const [showButton, setShowButton] = useState(true);
+  const [showButton, setShowButton] = useState(false);
   const [timerDasharray, setTimerDasharray] = useState(CIRCLE_DASHARRAY);
   const [noticeDasharray, setNoticeDasharray] = useState(CIRCLE_DASHARRAY);
   const [startTimerInterval, setStartTimerInterval] = useState(null);
@@ -85,6 +86,7 @@ const PomodoroPage = ({ isMobile }) => {
   useEffect(() => {
     let setTimer = setTimeout(() => {
       makePlayer();
+      setShowButton(true);
     }, 500);
     return () => {
       alarmPlayer.pause();
@@ -285,6 +287,7 @@ const PomodoroPage = ({ isMobile }) => {
 
   return (
     <MainWrapper isMobile={isMobile}>
+      {!showButton ? <Loading /> : null}
       <Player id="player"></Player>
       <MuteButton>
         <button onClick={onPlayerMute}>
