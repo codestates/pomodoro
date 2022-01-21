@@ -169,7 +169,7 @@ const Metadata = ({ currentMusic, currentPlaylist }) => {
       return;
     }
     if (!currentPlaylist) {
-      setDisplayModalMessage('먼저 재생목록을 선택해 주세요.');
+      setDisplayModalMessage('먼저 플레이리스트를 선택해 주세요.');
       return;
     }
 
