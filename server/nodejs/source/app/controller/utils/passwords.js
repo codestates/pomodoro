@@ -16,8 +16,6 @@ const sendEmailToRetrievePassword = async (req, res) => {
   var path = `/api/passwords POST`;
   const stub = `sendEmailToRetrievePassword`;
   console.log(`[stub] ${path} ${stub}`);
-  const tokenCheck = checkToken_400_401_404(res, path, req.token);
-  if (!tokenCheck) return;
   checkInputData(res, [req.body['email']]);
   const { email } = req.body;
 
