@@ -42,7 +42,7 @@ const youtubeAPIsearch = async (req, res) => {
   async function videosList(music_url) {
     let videoInfo = await service.videos.list({
       key: process.env.YOUTUBE_API_KEY,
-      part: 'contentDetails,snippet',
+      part: 'contentDetails,snippet,status',
       id: music_url,
       maxResults: 1,
     });
