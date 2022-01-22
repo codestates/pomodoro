@@ -258,6 +258,11 @@ const MenuForPlaylistMobile = ({
     };
     const playlist_name = '새 플레이리스트 ' + (playlist.length + 1);
 
+    const playlist_time = null;
+    const oldPlaylist = [...playlist];
+    const newPlaylist = [...playlist];
+    newPlaylist.push({ playlist_id: null, playlist_name, playlist_time });
+    setPlaylist(newPlaylist);
     axios
       .post(endpoint, { playlist_name }, { headers })
       .then((res) => {
@@ -265,6 +270,7 @@ const MenuForPlaylistMobile = ({
         setCurrentPlaylist(res.data.playlist_id);
       })
       .catch((err) => {
+        setPlaylist(oldPlaylist);
         console.log(err);
       });
   };
