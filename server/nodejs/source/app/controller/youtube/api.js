@@ -6,18 +6,12 @@ const { checkInputData } = require('../utils/error/error');
 const imgUrlDownload = require('../utils/youtubeFunction');
 
 const durationSecoend = (time) => {
-  time = time.split(/[A-Z]+/);
-  time.pop();
-  time.shift();
-  if (time.length === 1) {
-    return Number(time[0]);
-  }
-  if (time.length === 2) {
-    return Number(time[0]) * 60 + Number(time[1]);
-  }
-  if (time.length === 3) {
-    return Number(time[0]) * 3600 + Number(time[1]) * 60 + Number(time[2]);
-  }
+  const m = /^[a-z]*(?:(\d+)H)?(?:(\d+)M)?(\d+)S$/i.exec(time);
+  const hour = m[1] ? parseInt(m[1], 10) : 0;
+  const minutes = m[2] ? parseInt(m[2], 10) : 0;
+  const seconds = m[3] ? parseInt(m[3], 10) : 0;
+
+  return hour * 3600 + minutes * 60 + seconds;
 };
 
 const thumbnailFindImg = (thumbnails) => {
@@ -48,7 +42,7 @@ const youtubeAPIsearch = async (req, res) => {
   async function videosList(music_url) {
     let videoInfo = await service.videos.list({
       key: process.env.YOUTUBE_API_KEY,
-      part: 'contentDetails,snippet,status',
+      part: 'contentDetails,snippet',
       id: music_url,
       maxResults: 1,
     });
