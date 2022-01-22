@@ -45,6 +45,9 @@ const { createToken } = require('./tokenFunctions');
 const { ejsRenderFile, mailSendFunction } = require('./mailFunctions');
 
 const confirmEmailAddress = async (req, res) => {
+  const path = `/api/mails POST`;
+  const stub = `confirmEmailAddress`;
+  console.log(`[stub] ${path} ${stub}`);
   const tokenCheck = checkToken_400_401_404(res, path, req.token);
   if (!tokenCheck) return;
   const { id, email } = req.token;
@@ -79,7 +82,7 @@ const confirmEmailAddress = async (req, res) => {
 const { verifyToken } = require('./tokenFunctions');
 const { findUserInfomation, pendingValidValueCheck } = require('./error/error');
 const checkEmaliCertification = (req, res) => {
-  const path = `/api/mails POST`;
+  const path = `/api/mails PATCH`;
   const stub = `checkEmaliCertification`;
   console.log(`[stub] ${path} ${stub}`);
   const tokenCheck = checkToken_400_401_404(res, path, req.token);
