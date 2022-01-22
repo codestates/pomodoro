@@ -51,6 +51,28 @@ const confirmEmailAddress = async (req, res) => {
   const tokenCheck = checkToken_400_401_404(res, path, req.token);
   if (!tokenCheck) return;
   const { id, email } = req.token;
+
+  if (id === process.env.SYSTEM_USER_ID) {
+    console.log(`[ERROR] ${path} -> 401 : SYSTEM User cannot be activated`);
+    return res.status(401).send('You can not use this function');
+  }
+
+  let ifUserAlreadyAuthenticated;
+  try {
+    ifUserAlreadyAuthenticated = await User.findOne({ where: { user_id: id } });
+  } catch (err) {
+    console.log(`[ERROR] ${path} -> 500 : ${err}`);
+    return res.status(500).send('Internal Server Error');
+  }
+  if (!ifUserAlreadyAuthenticated) {
+    console.log(`[ERROR] ${path} -> 401 : User Not Found`);
+    return res.status(404).send('User Not Found');
+  }
+  if (ifUserAlreadyAuthenticated.getDataValue('pending') === false) {
+    console.log(`[ERROR] ${path} -> 409 : User already authenticated`);
+    return res.status(409).send('User already authenticated');
+  }
+
   const rand = crypto.randomBytes(64).toString('hex');
   // dummydata 를 집어 넣어 payload 값을 길게 만들어 브루트포스 공격 방지
   const payload = {
