@@ -80,7 +80,11 @@ const confirmEmailAddress = async (req, res) => {
 };
 
 const { verifyToken } = require('./tokenFunctions');
-const { findUserInfomation, pendingValidValueCheck } = require('./error/error');
+const {
+  findUserInfomation,
+  pendingValidValueCheck,
+  checkToken_400_401_404,
+} = require('./error/error');
 const checkEmaliCertification = (req, res) => {
   const path = `/api/mails PATCH`;
   const stub = `checkEmaliCertification`;
