@@ -1,9 +1,8 @@
 require('dotenv').config();
 const { User, Music, Playlist } = require('../../models/');
-const { google } = require('googleapis');
-const service = google.youtube('v3');
 const { checkInputData } = require('../utils/error/error');
 const imgUrlDownload = require('../utils/youtubeFunction');
+const axios = require('axios');
 
 const durationSecoend = (time) => {
   const m = /^[a-z]*(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)*/i.exec(time);
@@ -40,12 +39,15 @@ const youtubeAPIsearch = async (req, res) => {
   const music_url = req.body['music_url'];
 
   async function videosList(music_url) {
-    let videoInfo = await service.videos.list({
-      key: process.env.YOUTUBE_API_KEY,
-      part: 'contentDetails,snippet,status',
-      id: music_url,
-      maxResults: 1,
-    });
+    const endpoint = `https://www.googleapis.com/youtube/v3/videos?part=snippet,contentDetails,status&id=${music_url}&key=${process.env.YOUTUBE_API_KEY}`;
+
+    let videoInfo;
+    try {
+      videoInfo = await axios.get(endpoint);
+    } catch (e) {
+      console.log(`[ERROR] ${path} ${stub} -> 500 : ${e}`);
+      return res.status(500).send('Internal Server Error');
+    }
 
     let { duration } = videoInfo.data.items[0].contentDetails;
     const { title } = videoInfo.data.items[0].snippet;
