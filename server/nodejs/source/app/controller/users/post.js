@@ -114,7 +114,7 @@ const signUp = async (req, res) => {
         type: result.user_type,
         pending: result.pending,
       };
-      const token = createToken(tokenInfo, '3h');
+      const token = createToken(tokenInfo, '7d');
 
       console.log(
         `[SUCCESS] /api/users POST -> 201 : user ${result.nickname} created`
