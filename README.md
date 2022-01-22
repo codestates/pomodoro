@@ -62,7 +62,7 @@
 
 # Network Diagram
 
-![](https://github.com/exxocism/exxo-file-share/raw/master/pomodoro_architecture_02.png)
+![](https://raw.githubusercontent.com/exxocism/exxo-file-share/master/pomo_architecture.png)
 <br><br>
 
 # Team: Bug Life
