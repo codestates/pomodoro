@@ -52,7 +52,7 @@ const confirmEmailAddress = async (req, res) => {
   if (!tokenCheck) return;
   const { id, email } = req.token;
 
-  if (id === process.env.SYSTEM_USER_ID) {
+  if (id == process.env.SYSTEM_USER_ID) {
     console.log(`[ERROR] ${path} -> 401 : SYSTEM User cannot be activated`);
     return res.status(401).send('You can not use this function');
   }
