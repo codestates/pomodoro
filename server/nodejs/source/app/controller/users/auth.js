@@ -70,7 +70,7 @@ const login = (req, res) => {
         type: result.user_type,
         pending: result.pending,
       };
-      const token = createToken(tokenInfo, '3h');
+      const token = createToken(tokenInfo, '7d');
 
       //return token
       console.log(
