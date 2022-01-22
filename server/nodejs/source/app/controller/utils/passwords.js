@@ -32,9 +32,9 @@ const sendEmailToRetrievePassword = async (req, res) => {
       };
       const authToken__10m = createToken(payload, '10m');
 
-      const path = '/source/app/view/passwordMail.ejs';
+      const ejs_path = '/source/app/view/passwordMail.ejs';
       const purpose = 'forgetPassword';
-      const emailTemplate = ejsRenderFile(res, purpose, path, {
+      const emailTemplate = ejsRenderFile(res, purpose, ejs_path, {
         code: authToken__10m,
         apiUrl: process.env.GMAIL_PASSWORDMAIL,
       });
@@ -78,9 +78,9 @@ const changeUserPassword = async (req, res) => {
         .digest('hex');
       User.update({ pwd_hash, salt }, { where: { user_id } })
         .then((user) => {
-          const path = '/source/app/view/initPasswordMail.ejs';
+          const ejs_path = '/source/app/view/initPasswordMail.ejs';
           const purpose = 'initPassword';
-          const emailTemplate = ejsRenderFile(res, purpose, path, {
+          const emailTemplate = ejsRenderFile(res, purpose, ejs_path, {
             password: random_pwd,
           });
 

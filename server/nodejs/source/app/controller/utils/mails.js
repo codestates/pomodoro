@@ -60,9 +60,9 @@ const confirmEmailAddress = async (req, res) => {
 
   const authToken__1h = createToken(payload, '1h');
 
-  const path = '/source/app/view/authMail.ejs';
+  const ejs_path = '/source/app/view/authMail.ejs';
   const purpose = 'emailAuth';
-  const emailTemplate = ejsRenderFile(res, purpose, path, {
+  const emailTemplate = ejsRenderFile(res, purpose, ejs_path, {
     email: email,
     code: authToken__1h,
     apiUrl: process.env.GMAIL_AUTHMAIL,
