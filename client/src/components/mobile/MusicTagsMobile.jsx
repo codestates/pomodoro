@@ -65,7 +65,7 @@ const MusicTags = ({ tags, currentTagIndex, setCurrentTagIndex }) => {
                 data-id={index}
                 style={{
                   backgroundColor:
-                    currentTagIndex == index
+                    currentTagIndex == tag.tag_id
                       ? 'rgba(81, 163, 30, 0.5)'
                       : '#ffbd6f',
                   maxWidth: `${calculateTagWidth(tag.tag_name)}rem`,
