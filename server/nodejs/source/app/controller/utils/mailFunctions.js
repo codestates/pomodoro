@@ -36,7 +36,7 @@ const mailSendFunction = (res, mailOption, authToken) => {
       return res.status(500).send('sendMail error');
     } else {
       console.log('Email send :' + info.response);
-      return res.status(200).json(authToken);
+      return res.status(200).send('Authentication mail sent');
     }
   });
 };
