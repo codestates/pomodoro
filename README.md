@@ -26,7 +26,7 @@
 
 # Front-end tech stacks
 
-![](https://img.shields.io/badge/react-61DAFB?style=for-the-badge&logo=react&logoColor=black)
+![](https://img.shields.io/badge/react-00008B?style=for-the-badge&logo=react&logoColor=white)
 ![](https://img.shields.io/badge/Greeensock-88CE02?style=for-the-badge&logo=GreenSock&logoColor=black)
 ![](https://img.shields.io/badge/Swiper-6332F6?style=for-the-badge&logo=Swiper&logoColor=white)
 ![](https://img.shields.io/badge/react_beautiful_dnd-3CBDB1?style=for-the-badge&logo=CNCF&logoColor=white)
@@ -46,7 +46,7 @@
 ![](https://img.shields.io/badge/jsonwebtoken-000000?style=for-the-badge&logo=JSON-Web-Tokens&logoColor=purple)
 ![](https://img.shields.io/badge/nodemailer-00BF6F?style=for-the-badge&logo=Campaign-Monitor&logoColor=white)
 ![](https://img.shields.io/badge/Google_Cloud_API-4285F4?style=for-the-badge&logo=Google-Cloud&logoColor=white)
-![](https://img.shields.io/badge/Nodemailer-8A8A8A?style=for-the-badge&logo=SitePoint&logoColor=white)
+![](https://img.shields.io/badge/EJS-8A8A8A?style=for-the-badge&logo=SitePoint&logoColor=white)
 
 <br><br>
 
