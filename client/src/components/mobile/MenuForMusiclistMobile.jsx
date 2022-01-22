@@ -249,7 +249,7 @@ const MenuForMusiclistMobile = ({ size, currentPlaylist }) => {
       return;
     }
     if (userInfo) {
-      getMusicList();
+      if (currentPlaylist > 0) getMusicList();
       sessionStorage.setItem('musicListStorage', JSON.stringify({}));
       return;
     }

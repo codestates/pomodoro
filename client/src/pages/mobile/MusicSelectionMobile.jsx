@@ -139,7 +139,7 @@ const ChooseMusicMobile = ({ tags, setTags }) => {
   const navigate = useNavigate();
   const thisRef = useRef(null);
   const [size, setSize] = useState({ start: 0, end: 0 });
-  const [currentTagIndex, setCurrentTagIndex] = useState(0);
+  const [currentTagIndex, setCurrentTagIndex] = useState(null);
   const [currentMusic, setCurrentMusic] = useState({});
   const [currentPlaylist, setCurrentPlaylist] = useState(null);
   const [expandSearchBar, setExpandSearchBar] = useState(false);
@@ -203,6 +203,7 @@ const ChooseMusicMobile = ({ tags, setTags }) => {
           newTags.unshift(payload);
           setTags(newTags);
           setCurrentTagIndex(tag_id);
+          setSearchText('');
           fadeOutHandler();
           if (!res.data.embeddable)
             setDisplayModalMessage(
@@ -237,7 +238,8 @@ const ChooseMusicMobile = ({ tags, setTags }) => {
         };
         newTags.unshift(payload);
         setTags(newTags);
-        setCurrentPlaylist(tag_id);
+        setCurrentTagIndex(tag_id);
+        setSearchText('');
         fadeOutHandler();
       })
       .catch((err) => {
@@ -294,14 +296,26 @@ const ChooseMusicMobile = ({ tags, setTags }) => {
         </SearchBarContainer>
         <MusicTagsMobile
           tags={tags}
-          currentTagIndex={currentTagIndex}
+          currentTagIndex={
+            currentTagIndex
+              ? currentTagIndex
+              : tags?.length > 0
+              ? tags[0]['tag_id']
+              : null
+          }
           setCurrentTagIndex={setCurrentTagIndex}
         />
       </SearchBarAndTags>
       <MiddleGhostDiv></MiddleGhostDiv>
       <SwiperMusicMobile
         searchResult={tags}
-        currentTagIndex={currentTagIndex}
+        currentTagIndex={
+          currentTagIndex
+            ? currentTagIndex
+            : tags?.length > 0
+            ? tags[0]['tag_id']
+            : null
+        }
         setCurrentMusic={setCurrentMusic}
       />
       <MetadataMobile
