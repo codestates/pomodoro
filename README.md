@@ -26,16 +26,15 @@
 
 # Front-end tech stacks
 
-![](https://img.shields.io/badge/html-E34F26?style=for-the-badge&logo=html5&logoColor=white)
-![](https://img.shields.io/badge/css3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
-![](https://img.shields.io/badge/javascript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
 ![](https://img.shields.io/badge/react-61DAFB?style=for-the-badge&logo=react&logoColor=black)
+![](https://img.shields.io/badge/Greeensock-88CE02?style=for-the-badge&logo=GreenSock&logoColor=black)
+![](https://img.shields.io/badge/Swiper-6332F6?style=for-the-badge&logo=Swiper&logoColor=white)
+![](https://img.shields.io/badge/react_beautiful_dnd-3CBDB1?style=for-the-badge&logo=CNCF&logoColor=white)
 ![](https://img.shields.io/badge/react_router-CA4245?style=for-the-badge&logo=React-Router&logoColor=white)
 ![](https://img.shields.io/badge/react_styled-DB7093?style=for-the-badge&logo=styled-components&logoColor=pink)
 ![](https://img.shields.io/badge/react_responsive-EA4AAA?style=for-the-badge&logo=GitHub-Sponsors&logoColor=lightpink)
 ![](https://img.shields.io/badge/axios-A100FF?style=for-the-badge&logo=Accenture&logoColor=lightgreen)
-![](https://img.shields.io/badge/Greeensock-88CE02?style=for-the-badge&logo=GreenSock&logoColor=black)
-![](https://img.shields.io/badge/Swiper-6332F6?style=for-the-badge&logo=Swiper&logoColor=white)
+
 <br><br>
 
 # Back-end tech stacks
@@ -45,10 +44,10 @@
 ![](https://img.shields.io/badge/Mysql-4479A1?style=for-the-badge&logo=MySQL&logoColor=white)
 ![](https://img.shields.io/badge/sequelize-52B0E7?style=for-the-badge&logo=sequelize&logoColor=white)
 ![](https://img.shields.io/badge/jsonwebtoken-000000?style=for-the-badge&logo=JSON-Web-Tokens&logoColor=purple)
-![](https://img.shields.io/badge/multer-36A9AE?style=for-the-badge&logo=Gumroad&logoColor=black)
-![](https://img.shields.io/badge/cookie_Parser-D4AA00?style=for-the-badge&logo=Cookiecutter&logoColor=white)
-![](https://img.shields.io/badge/cors-F24C53?style=for-the-badge&logo=Corona-Engine&logoColor=white)
-![](https://img.shields.io/badge/dotenv-172B4D?style=for-the-badge&logo=Confluence&logoColor=yellow)
+![](https://img.shields.io/badge/nodemailer-00BF6F?style=for-the-badge&logo=Campaign-Monitor&logoColor=white)
+![](https://img.shields.io/badge/Google_Cloud_API-4285F4?style=for-the-badge&logo=Google-Cloud&logoColor=white)
+![](https://img.shields.io/badge/Nodemailer-8A8A8A?style=for-the-badge&logo=SitePoint&logoColor=white)
+
 <br><br>
 
 # Deployment tech stacks
