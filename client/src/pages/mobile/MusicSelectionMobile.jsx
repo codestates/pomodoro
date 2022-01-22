@@ -168,7 +168,7 @@ const ChooseMusicMobile = ({ tags, setTags }) => {
 
     const youtubeRegEx = [
       /(?<=\w*youtu\.be\/)(.*)/g,
-      /(?<=\w*youtube\.com\/watch\?v=)(.*)/g,
+      /(?<=\w*youtube\.com\/watch\?v=)(.*)(?=[&])|(?<=\w*youtube\.com\/watch\?v=)(.*)/g,
     ];
     for (const reg of youtubeRegEx) {
       const result = searchText.match(reg);
@@ -202,7 +202,7 @@ const ChooseMusicMobile = ({ tags, setTags }) => {
           };
           newTags.unshift(payload);
           setTags(newTags);
-          setCurrentPlaylist(tag_id);
+          setCurrentTagIndex(tag_id);
           fadeOutHandler();
           if (!res.data.embeddable)
             setDisplayModalMessage(
