@@ -8,7 +8,7 @@ import TimerButton from '../../components/desktop/TimerButton';
 import sound from '../../images/sound.svg';
 import mute from '../../images/mute.svg';
 import alarm from '../../images/alarm.mp3';
-import { ConfirmModal } from '../../components/desktop/ConfirmModal';
+import Loading from '../../components/desktop/Loading';
 
 const MainWrapper = styled.div`
   display: flex;
@@ -46,22 +46,20 @@ const PomodoroPage = ({ isMobile }) => {
   const NOTICE_TIME = 10;
   const CIRCLE_DASHARRAY = '0 283';
   const POMODORO_API = 'https://final.eax.kr/api/pomodoro';
-
   const music = JSON.parse(sessionStorage.getItem('musicList')) || [];
-  const [musicIdx, setMusicIdx] = useState(0);
-  const [player, setPlayer] = useState(null);
-  const [isMuted, setIsMuted] = useState(false);
-  const [alarmPlayer] = useState(new Audio(alarm));
 
   const navigate = useNavigate();
   const { userInfo } = useContext(UserContext);
 
+  const [player, setPlayer] = useState(null);
+  const [isMuted, setIsMuted] = useState(false);
+  const [alarmPlayer] = useState(new Audio(alarm));
   const [time, setTime] = useState(POMODORO_TIME);
   const [noticeTime, setNoticeTime] = useState(NOTICE_TIME);
   const [pomoCount, setPomoCount] = useState(0);
   const [start, setStart] = useState(false);
   const [showExit, setShowExit] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [isVisible, setIsVisible] = useState(true);
   const [showButton, setShowButton] = useState(true);
   const [timerDasharray, setTimerDasharray] = useState(CIRCLE_DASHARRAY);
@@ -85,40 +83,54 @@ const PomodoroPage = ({ isMobile }) => {
   }, [noticeTimerCleanup]);
 
   useEffect(() => {
-    let setTimer = setTimeout(() => {
-      makePlayer();
-    }, 500);
+    window.onYouTubeIframeAPIReady = (e) => {
+      if (music.length > 0) {
+        const newPlayer = new window.YT.Player('player', {
+          width: '0',
+          height: '0',
+          videoId: music[0].music_url,
+          events: {
+            onReady: onPlayerReady,
+            onStateChange: onPlayerStateChange,
+          },
+        });
+
+        sessionStorage.setItem('musicIdx', 0);
+        setPlayer(newPlayer);
+      }
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 3000);
+    };
+
+    if (!window.YT) {
+      const tag = document.createElement('script');
+      tag.src = 'https://www.youtube.com/iframe_api';
+
+      const firstScriptTag = document.getElementsByTagName('script')[0];
+      firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+    } else {
+      window.onYouTubeIframeAPIReady();
+    }
+
     return () => {
       alarmPlayer.pause();
-      clearTimeout(setTimer);
       clearInterval(startTimerCleanup.current);
       clearInterval(noticeTimerCleanup.current);
     };
   }, []);
 
-  const makePlayer = () => {
-    if (music.length > 0) {
-      new window.YT.Player('player', {
-        videoId: music[musicIdx].music_url,
-        events: {
-          onReady: onPlayerReady,
-          onStateChange: onPlayerStateChange,
-        },
-      });
-    }
-  };
-
   const onPlayerReady = (event) => {
     event.target.setPlaybackRate(1);
     event.target.setVolume(70);
-    setPlayer(event.target);
   };
 
   const onPlayerStateChange = (event) => {
     if (event.data === window.YT.PlayerState.ENDED) {
-      const newMusicIdx = (musicIdx + 1) % music.length;
-      setMusicIdx(newMusicIdx);
-      event.target.loadVideoById(music[newMusicIdx].music_url);
+      const idx =
+        (JSON.parse(sessionStorage.getItem('musicIdx')) + 1) % music.length;
+      sessionStorage.setItem('musicIdx', idx);
+      event.target.loadVideoById(music[idx].music_url);
     }
   };
 
@@ -293,6 +305,7 @@ const PomodoroPage = ({ isMobile }) => {
   return (
     <MainWrapper isMobile={isMobile}>
       <Player id="player"></Player>
+      {isLoading ? <Loading /> : null}
       <MuteButton>
         <button onClick={onPlayerMute}>
           {isMuted ? (
@@ -322,12 +335,6 @@ const PomodoroPage = ({ isMobile }) => {
         exitPomodoro={exitPomodoro}
         isMobile={isMobile}
       />
-      {isLoading ? (
-        <ConfirmModal
-          text="음악을 불러오는 중 입니다."
-          handleModal={setIsLoading}
-        />
-      ) : null}
     </MainWrapper>
   );
 };
