@@ -229,6 +229,7 @@ const ChooseMusic = ({ tags, setTags }) => {
           newTags.unshift(payload);
           setTags(newTags);
           setCurrentTagIndex(tag_id);
+          setSearchText('');
           fadeOutHandler();
           if (!res.data.embeddable)
             setDisplayModalMessage(
@@ -264,6 +265,7 @@ const ChooseMusic = ({ tags, setTags }) => {
         newTags.unshift(payload);
         setTags(newTags);
         setCurrentTagIndex(tag_id);
+        setSearchText('');
         fadeOutHandler();
       })
       .catch((err) => {
