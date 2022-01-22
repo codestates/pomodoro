@@ -237,7 +237,7 @@ const ChooseMusicMobile = ({ tags, setTags }) => {
         };
         newTags.unshift(payload);
         setTags(newTags);
-        setCurrentPlaylist(tag_id);
+        setCurrentTagIndex(tag_id);
         fadeOutHandler();
       })
       .catch((err) => {
