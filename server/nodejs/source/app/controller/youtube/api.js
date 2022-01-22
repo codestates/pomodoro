@@ -6,7 +6,7 @@ const { checkInputData } = require('../utils/error/error');
 const imgUrlDownload = require('../utils/youtubeFunction');
 
 const durationSecoend = (time) => {
-  const m = /^[a-z]*(?:(\d+)H)?(?:(\d+)M)?(\d+)S$/i.exec(time);
+  const m = /^[a-z]*(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)*/i.exec(time);
   const hour = m[1] ? parseInt(m[1], 10) : 0;
   const minutes = m[2] ? parseInt(m[2], 10) : 0;
   const seconds = m[3] ? parseInt(m[3], 10) : 0;
