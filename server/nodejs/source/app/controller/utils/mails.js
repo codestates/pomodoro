@@ -45,6 +45,11 @@ const { createToken } = require('./tokenFunctions');
 const { ejsRenderFile, mailSendFunction } = require('./mailFunctions');
 
 const confirmEmailAddress = async (req, res) => {
+  const path = `/api/mails POST`;
+  const stub = `confirmEmailAddress`;
+  console.log(`[stub] ${path} ${stub}`);
+  const tokenCheck = checkToken_400_401_404(res, path, req.token);
+  if (!tokenCheck) return;
   const { id, email } = req.token;
   const rand = crypto.randomBytes(64).toString('hex');
   // dummydata 를 집어 넣어 payload 값을 길게 만들어 브루트포스 공격 방지
@@ -77,9 +82,11 @@ const confirmEmailAddress = async (req, res) => {
 const { verifyToken } = require('./tokenFunctions');
 const { findUserInfomation, pendingValidValueCheck } = require('./error/error');
 const checkEmaliCertification = (req, res) => {
-  const path = `/api/mails POST`;
+  const path = `/api/mails PATCH`;
   const stub = `checkEmaliCertification`;
   console.log(`[stub] ${path} ${stub}`);
+  const tokenCheck = checkToken_400_401_404(res, path, req.token);
+  if (!tokenCheck) return;
   const token = req.body['token'];
   const userInfo = verifyToken(token);
   const { auth_id } = userInfo;
