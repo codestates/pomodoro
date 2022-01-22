@@ -41,9 +41,9 @@ const MuteButton = styled.div`
 `;
 
 const PomodoroPage = ({ isMobile }) => {
-  const POMODORO_TIME = 10;
-  const BREAKE_TIME = 6;
-  const NOTICE_TIME = 5;
+  const POMODORO_TIME = 25 * 60;
+  const BREAKE_TIME = 5 * 60;
+  const NOTICE_TIME = 10;
   const CIRCLE_DASHARRAY = '0 283';
   const POMODORO_API = 'https://final.eax.kr/api/pomodoro';
 
