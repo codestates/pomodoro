@@ -97,8 +97,8 @@ const PomodoroPage = ({ isMobile }) => {
 
         sessionStorage.setItem('musicIdx', 0);
         setPlayer(newPlayer);
-        setIsLoading(false);
       }
+      setIsLoading(false);
     };
 
     if (!window.YT) {
