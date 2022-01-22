@@ -61,8 +61,8 @@ const MusicTags = ({ tags, currentTagIndex, setCurrentTagIndex }) => {
         {tags
           ? tags?.map((tag, index) => (
               <SwiperSlide
-                key={tag.tag_id}
-                data-id={index}
+                key={index}
+                data-id={tag.tag_id}
                 style={{
                   backgroundColor:
                     currentTagIndex == tag.tag_id

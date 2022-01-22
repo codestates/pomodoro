@@ -165,7 +165,7 @@ export const CurrentPlaylistInfo = createContext({
 
 const ChooseMusic = ({ tags, setTags }) => {
   const screenShouldShrink = useMediaQuery({ query: '(max-width: 1065px)' });
-  const [currentTagIndex, setCurrentTagIndex] = useState(0);
+  const [currentTagIndex, setCurrentTagIndex] = useState(null);
   const [currentMusic, setCurrentMusic] = useState({});
   const [currentPlaylist, setCurrentPlaylist] = useState(null);
   const [expandSearchBar, setExpandSearchBar] = useState(false);
@@ -326,7 +326,13 @@ const ChooseMusic = ({ tags, setTags }) => {
             <TagWrapper ref={tagsRef}>
               <MusicTags
                 tags={tags}
-                currentTagIndex={currentTagIndex}
+                currentTagIndex={
+                  currentTagIndex
+                    ? currentTagIndex
+                    : tags?.length > 0
+                    ? tags[0]['tag_id']
+                    : null
+                }
                 setCurrentTagIndex={setCurrentTagIndex}
               />
             </TagWrapper>
@@ -371,7 +377,13 @@ const ChooseMusic = ({ tags, setTags }) => {
           <TagWrapper ref={tagsRef}>
             <MusicTags
               tags={tags}
-              currentTagIndex={currentTagIndex}
+              currentTagIndex={
+                currentTagIndex
+                  ? currentTagIndex
+                  : tags?.length > 0
+                  ? tags[0]['tag_id']
+                  : null
+              }
               setCurrentTagIndex={setCurrentTagIndex}
             />
           </TagWrapper>
@@ -379,7 +391,13 @@ const ChooseMusic = ({ tags, setTags }) => {
       )}
       <SwiperMusic
         searchResult={tags}
-        currentTagIndex={currentTagIndex}
+        currentTagIndex={
+          currentTagIndex
+            ? currentTagIndex
+            : tags?.length > 0
+            ? tags[0]['tag_id']
+            : null
+        }
         setCurrentMusic={setCurrentMusic}
       />
       <Metadata currentMusic={currentMusic} currentPlaylist={currentPlaylist} />

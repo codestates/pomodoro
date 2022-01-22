@@ -53,6 +53,13 @@ const SwiperMusicMobile = ({
   currentTagIndex,
   setCurrentMusic,
 }) => {
+  let searchIndex,
+    idx = -1;
+  if (!searchResult?.length || !currentTagIndex) searchIndex = null;
+  if (Array.isArray(searchResult))
+    idx = searchResult.findIndex((item) => item.tag_id == currentTagIndex);
+  searchIndex = idx === -1 ? null : idx;
+
   const StoreSlideInfo = (swiper) => {
     const data = swiper.slides[swiper.activeIndex].dataset;
     setCurrentMusic(data);
@@ -80,10 +87,10 @@ const SwiperMusicMobile = ({
         onUpdate={StoreSlideInfo}
         onSlideChange={StoreSlideInfo}
       >
-        {searchResult[currentTagIndex] &&
-        searchResult[currentTagIndex]['Musics'] &&
-        searchResult[currentTagIndex].Musics.length
-          ? searchResult[currentTagIndex].Musics?.map((item) => {
+        {searchResult[searchIndex] &&
+        searchResult[searchIndex]['Musics'] &&
+        searchResult[searchIndex].Musics.length
+          ? searchResult[searchIndex].Musics?.map((item) => {
               return (
                 <SwiperSlide
                   key={item.music_id}
