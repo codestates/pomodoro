@@ -152,7 +152,12 @@ const youtubeAPIsearch = async (req, res) => {
         }
         const fileName = `${music_url}.jpg`;
         const filePath = `${process.env.IMAGE_PATH}${fileName}`;
-        fileToSave.data.pipe(require('fs').createWriteStream(filePath));
+        try {
+          fileToSave.data.pipe(require('fs').createWriteStream(filePath));
+        } catch (e) {
+          console.log(`[ERROR] ${path} ${stub} -> 500 : ${e}`);
+          return res.status(500).send('Internal Server Error');
+        }
       }
 
       // Music 에서 추가하기
