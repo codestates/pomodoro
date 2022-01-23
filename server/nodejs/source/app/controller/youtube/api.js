@@ -36,7 +36,11 @@ const youtubeAPIsearch = async (req, res) => {
   const stub = `youtubeAPIsearch`;
   console.log(`[stub] ${path} ${stub}`);
   checkInputData(res, [req.body['music_url'], req.params['playlist_id']]);
-  const music_url = req.body['music_url'];
+  let music_url = req.body['music_url'];
+  const idx = music_url.indexOf('&');
+  if (idx > 0) {
+    music_url = music_url.substring(0, idx);
+  }
 
   async function videosList(music_url) {
     const endpoint = `https://www.googleapis.com/youtube/v3/videos?part=snippet,contentDetails,status&id=${music_url}&key=${process.env.YOUTUBE_API_KEY}`;
