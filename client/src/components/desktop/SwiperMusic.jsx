@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useState, useRef } from 'react';
 import styled from 'styled-components';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
@@ -13,6 +13,7 @@ import 'swiper/css';
 import 'swiper/css/effect-coverflow';
 import 'swiper/css/pagination';
 import { ReactComponent as Loading } from '../../images/loading.svg';
+import PreviewPopup from './PreviewPopup';
 
 SwiperCore.use([EffectCoverflow, Pagination, Mousewheel, Keyboard]);
 
@@ -50,7 +51,15 @@ const LoadingPlaceHolder = styled.div`
   background: linear-gradient(lightgray, var(--color-background), lightgray);
 `;
 
-const SwiperMusic = ({ searchResult, currentTagIndex, setCurrentMusic }) => {
+const SwiperMusic = ({
+  searchResult,
+  currentTagIndex,
+  currentMusic,
+  setCurrentMusic,
+}) => {
+  const [displayPreview, setDisplayPreview] = useState(false);
+  const swiperPos = useRef(null);
+
   let searchIndex,
     idx = -1;
   if (!searchResult?.length || !currentTagIndex) searchIndex = null;
@@ -72,7 +81,14 @@ const SwiperMusic = ({ searchResult, currentTagIndex, setCurrentMusic }) => {
   };
 
   return (
-    <SwiperContainer>
+    <SwiperContainer ref={swiperPos}>
+      {displayPreview && (
+        <PreviewPopup
+          URL={currentMusic?.music_url}
+          closeHandler={() => setDisplayPreview(false)}
+          posY={swiperPos.current?.offsetTop}
+        />
+      )}
       <Swiper
         effect="coverflow"
         grabCursor={true}
@@ -107,6 +123,7 @@ const SwiperMusic = ({ searchResult, currentTagIndex, setCurrentMusic }) => {
                   data-music_embeddable={
                     item['music_embeddable'] === false ? 'false' : 'true'
                   }
+                  onClick={() => setDisplayPreview(true)}
                 >
                   <img
                     src={

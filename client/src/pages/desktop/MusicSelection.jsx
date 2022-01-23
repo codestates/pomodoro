@@ -400,6 +400,7 @@ const ChooseMusic = ({ tags, setTags }) => {
             ? tags[0]['tag_id']
             : null
         }
+        currentMusic={currentMusic}
         setCurrentMusic={setCurrentMusic}
       />
       <Metadata currentMusic={currentMusic} currentPlaylist={currentPlaylist} />

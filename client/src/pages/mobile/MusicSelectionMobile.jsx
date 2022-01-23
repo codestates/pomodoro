@@ -316,6 +316,7 @@ const ChooseMusicMobile = ({ tags, setTags }) => {
             ? tags[0]['tag_id']
             : null
         }
+        currentMusic={currentMusic}
         setCurrentMusic={setCurrentMusic}
       />
       <MetadataMobile
