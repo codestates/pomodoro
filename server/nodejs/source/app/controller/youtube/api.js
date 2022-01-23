@@ -42,7 +42,7 @@ const youtubeAPIsearch = async (req, res) => {
     /(?<=\w*youtube\.com\/watch\?v=)(.*)(?=[&])|(?<=\w*youtube\.com\/watch\?v=)(.*)/g,
   ];
   for (const checkRegEx of youtubeRegEx) {
-    const result = music_url.match(checkRegEx);
+    const result = checkRegEx.exec(music_url);
     if (!result) continue;
     music_url = result[0];
     break;
