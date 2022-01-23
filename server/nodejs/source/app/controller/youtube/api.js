@@ -37,6 +37,16 @@ const youtubeAPIsearch = async (req, res) => {
   console.log(`[stub] ${path} ${stub}`);
   checkInputData(res, [req.body['music_url'], req.params['playlist_id']]);
   let music_url = req.body['music_url'];
+  const youtubeRegEx = [
+    /(?<=\w*youtu\.be\/)(.*)/g,
+    /(?<=\w*youtube\.com\/watch\?v=)(.*)(?=[&])|(?<=\w*youtube\.com\/watch\?v=)(.*)/g,
+  ];
+  for (const checkRegEx of youtubeRegEx) {
+    const result = searchText.match(reg);
+    if (!result) continue;
+    music_url = result;
+    break;
+  }
   const idx = music_url.indexOf('&');
   if (idx > 0) {
     music_url = music_url.substring(0, idx);
