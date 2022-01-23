@@ -44,7 +44,7 @@ const youtubeAPIsearch = async (req, res) => {
   for (const checkRegEx of youtubeRegEx) {
     const result = music_url.match(checkRegEx);
     if (!result) continue;
-    music_url = result;
+    music_url = result[0];
     break;
   }
   const idx = music_url.indexOf('&');
