@@ -133,13 +133,26 @@ const youtubeAPIsearch = async (req, res) => {
     .then(async (user) => {
       // 파일 생성 후 저장하기
       if (req.thumbnailUrl['url']) {
-        imgUrlDownload(
-          req.thumbnailUrl.url,
-          `${process.env.IMAGE_PATH}${music_url}.jpg`,
-          () => {
-            console.log(`${music_url}.jpg 파일 생성`);
-          }
-        );
+        // imgUrlDownload(
+        //   req.thumbnailUrl.url,
+        //   `${process.env.IMAGE_PATH}${music_url}.jpg`,
+        //   () => {
+        //     console.log(`${music_url}.jpg 파일 생성`);
+        //   }
+        // );
+
+        let fileToSave;
+        try {
+          fileToSave = await axios.get(req.thumbnailUrl.url, {
+            responseType: 'stream',
+          });
+        } catch (e) {
+          console.log(`[ERROR] ${path} ${stub} -> 500 : ${e}`);
+          return res.status(500).send('Internal Server Error');
+        }
+        const fileName = `${music_url}.jpg`;
+        const filePath = `${process.env.IMAGE_PATH}${fileName}`;
+        fileToSave.data.pipe(require('fs').createWriteStream(filePath));
       }
 
       // Music 에서 추가하기
