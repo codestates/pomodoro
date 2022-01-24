@@ -83,11 +83,11 @@ const PomodoroPage = ({ isMobile }) => {
   }, [noticeTimerCleanup]);
 
   useEffect(() => {
-    window.onYouTubeIframeAPIReady = (e) => {
+    window.onYouTubeIframeAPIReady = () => {
       if (music.length > 0) {
         const newPlayer = new window.YT.Player('player', {
-          width: '0',
-          height: '0',
+          width: '480',
+          height: '270',
           videoId: music[0].music_url,
           events: {
             onReady: onPlayerReady,
@@ -97,10 +97,9 @@ const PomodoroPage = ({ isMobile }) => {
 
         sessionStorage.setItem('musicIdx', 0);
         setPlayer(newPlayer);
-      }
-      setTimeout(() => {
+      } else {
         setIsLoading(false);
-      }, 3000);
+      }
     };
 
     if (!window.YT) {
@@ -123,6 +122,7 @@ const PomodoroPage = ({ isMobile }) => {
   const onPlayerReady = (event) => {
     event.target.setPlaybackRate(1);
     event.target.setVolume(70);
+    setIsLoading(false);
   };
 
   const onPlayerStateChange = (event) => {
