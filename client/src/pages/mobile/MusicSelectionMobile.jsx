@@ -288,7 +288,7 @@ const ChooseMusicMobile = ({ tags, setTags }) => {
           <SearchText
             ref={focusRef}
             type="text"
-            placeholder="검색어를 입력하세요 (혹은 Youtube 주소 입력)"
+            placeholder="검색어 혹은 Youtube 주소"
             value={searchText}
             onChange={(e) => setSearchText(e.target.value)}
             onKeyDown={searchHandler}
@@ -316,6 +316,7 @@ const ChooseMusicMobile = ({ tags, setTags }) => {
             ? tags[0]['tag_id']
             : null
         }
+        currentMusic={currentMusic}
         setCurrentMusic={setCurrentMusic}
       />
       <MetadataMobile

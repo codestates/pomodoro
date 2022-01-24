@@ -36,7 +36,21 @@ const youtubeAPIsearch = async (req, res) => {
   const stub = `youtubeAPIsearch`;
   console.log(`[stub] ${path} ${stub}`);
   checkInputData(res, [req.body['music_url'], req.params['playlist_id']]);
-  const music_url = req.body['music_url'];
+  let music_url = req.body['music_url'];
+  const youtubeRegEx = [
+    /(?<=\w*youtu\.be\/)(.*)/g,
+    /(?<=\w*youtube\.com\/watch\?v=)(.*)(?=[&])|(?<=\w*youtube\.com\/watch\?v=)(.*)/g,
+  ];
+  for (const checkRegEx of youtubeRegEx) {
+    const result = checkRegEx.exec(music_url);
+    if (!result) continue;
+    music_url = result[0];
+    break;
+  }
+  const idx = music_url.indexOf('&');
+  if (idx > 0) {
+    music_url = music_url.substring(0, idx);
+  }
 
   async function videosList(music_url) {
     const endpoint = `https://www.googleapis.com/youtube/v3/videos?part=snippet,contentDetails,status&id=${music_url}&key=${process.env.YOUTUBE_API_KEY}`;
@@ -119,13 +133,31 @@ const youtubeAPIsearch = async (req, res) => {
     .then(async (user) => {
       // 파일 생성 후 저장하기
       if (req.thumbnailUrl['url']) {
-        imgUrlDownload(
-          req.thumbnailUrl.url,
-          `${process.env.IMAGE_PATH}${music_url}.jpg`,
-          () => {
-            console.log(`${music_url}.jpg 파일 생성`);
-          }
-        );
+        // imgUrlDownload(
+        //   req.thumbnailUrl.url,
+        //   `${process.env.IMAGE_PATH}${music_url}.jpg`,
+        //   () => {
+        //     console.log(`${music_url}.jpg 파일 생성`);
+        //   }
+        // );
+
+        let fileToSave;
+        try {
+          fileToSave = await axios.get(req.thumbnailUrl.url, {
+            responseType: 'stream',
+          });
+        } catch (e) {
+          console.log(`[ERROR] ${path} ${stub} -> 500 : ${e}`);
+          return res.status(500).send('Internal Server Error');
+        }
+        const fileName = `${music_url}.jpg`;
+        const filePath = `${process.env.IMAGE_PATH}${fileName}`;
+        try {
+          fileToSave.data.pipe(require('fs').createWriteStream(filePath));
+        } catch (e) {
+          console.log(`[ERROR] ${path} ${stub} -> 500 : ${e}`);
+          return res.status(500).send('Internal Server Error');
+        }
       }
 
       // Music 에서 추가하기

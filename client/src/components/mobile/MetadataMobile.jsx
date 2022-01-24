@@ -1,17 +1,42 @@
-import { useContext, useMemo, useState } from 'react';
+import { useContext, useMemo, useState, useRef } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 
 import { ConfirmModal } from '../../components/desktop/ConfirmModal';
+import PreviewPopupMobile from './PreviewPopupMobile';
 import { ReactComponent as SelectedIcon } from '../../images/select.svg';
 import { UserContext } from '../../App';
 
 const MetadataContainer = styled.div`
   display: grid;
-  grid-template-columns: 2fr 6fr 2fr;
+  grid-template-columns: 1.9fr 0.1fr 6fr 0.1fr 1.9fr;
 `;
 
-const GhostLeftDiv = styled.div``;
+const GhostDiv = styled.div``;
+
+const PreviewButton = styled.button`
+  justify-self: right;
+  align-self: center;
+  border-radius: 50%;
+  width: 10vw;
+  height: 10vw;
+  background: #f7f2ed;
+  box-shadow: 0.5rem 0.5rem 0.3rem 0.3rem rgba(0, 0, 0, 0.12);
+  border: none;
+  color: gray;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 6vw;
+  padding-left: 1vw;
+
+  &:hover {
+    background-color: lightgray;
+  }
+`;
 
 const MusicNameWrapper = styled.div`
   display: flex;
@@ -137,7 +162,9 @@ const MetadataMobile = ({ currentMusic, currentPlaylist }) => {
   } = useContext(UserContext);
 
   const [showPopup, setShowPopup] = useState(0);
+  const [displayPreview, setDisplayPreview] = useState(false);
   const [displayModalMessage, setDisplayModalMessage] = useState(null);
+  const swiperPos = useRef(null);
 
   const renderPopup = useMemo(() => showPopup > 0, [showPopup]);
 
@@ -243,20 +270,25 @@ const MetadataMobile = ({ currentMusic, currentPlaylist }) => {
       .catch((err) => {
         console.dir(err);
       });
-    // console.dir(currentMusic);
-    // console.dir(userInfo);
-    // console.dir(currentPlaylist);
   };
 
   return (
-    <MetadataContainer>
+    <MetadataContainer ref={swiperPos}>
+      {displayPreview && (
+        <PreviewPopupMobile
+          URL={currentMusic?.music_url}
+          closeHandler={() => setDisplayPreview(false)}
+          posY={swiperPos.current?.previousElementSibling}
+        />
+      )}
       {displayModalMessage && (
         <ConfirmModal
           text={displayModalMessage}
           handleModal={() => setDisplayModalMessage(null)}
         />
       )}
-      <GhostLeftDiv />
+      <PreviewButton onClick={() => setDisplayPreview(true)}>▶️</PreviewButton>
+      <GhostDiv />
       <MusicNameWrapper>
         <MusicName
           text={currentMusic['music_name'] ? currentMusic.music_name.length : 7}
@@ -269,6 +301,7 @@ const MetadataMobile = ({ currentMusic, currentPlaylist }) => {
             : '--:--'}
         </MusicLength>
       </MusicNameWrapper>
+      <GhostDiv />
       <AddButton onClick={addToPlaylist}>+</AddButton>
       {renderPopup && (
         <AddedToastPopup>
