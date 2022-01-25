@@ -12,7 +12,6 @@ import MetadataMobile from '../../components/mobile/MetadataMobile';
 import MenuForPlaylistMobile from '../../components/mobile/MenuForPlaylistMobile';
 import MenuForMusiclistMobile from '../../components/mobile/MenuForMusiclistMobile';
 
-require('dotenv').config();
 const SERVER_ENDPOINT =
   process.env.REACT_APP_ENDPOINT || 'https://final.eax.kr';
 

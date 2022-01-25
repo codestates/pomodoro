@@ -7,7 +7,6 @@ import PreviewPopupMobile from './PreviewPopupMobile';
 import { ReactComponent as SelectedIcon } from '../../images/select.svg';
 import { UserContext } from '../../App';
 
-require('dotenv').config();
 const SERVER_ENDPOINT =
   process.env.REACT_APP_ENDPOINT || 'https://final.eax.kr';
 

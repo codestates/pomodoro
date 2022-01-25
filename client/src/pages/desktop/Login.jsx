@@ -12,7 +12,6 @@ import styled from 'styled-components';
 import axios from 'axios';
 import { UserContext } from '../../App';
 
-require('dotenv').config();
 const SERVER_ENDPOINT =
   process.env.REACT_APP_ENDPOINT || 'https://final.eax.kr';
 

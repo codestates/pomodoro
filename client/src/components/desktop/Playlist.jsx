@@ -5,7 +5,6 @@ import { ReactComponent as Delete } from '../../images/delete.svg';
 import axios from 'axios';
 import { UserContext } from '../../App';
 
-require('dotenv').config();
 const SERVER_ENDPOINT =
   process.env.REACT_APP_ENDPOINT || 'https://final.eax.kr';
 

@@ -8,7 +8,6 @@ import { ReactComponent as PlayIcon } from '../../images/TomatoPlay.svg';
 import { UserContext } from '../../App';
 import axios from 'axios';
 
-require('dotenv').config();
 const SERVER_ENDPOINT =
   process.env.REACT_APP_ENDPOINT || 'https://final.eax.kr';
 

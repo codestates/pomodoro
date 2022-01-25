@@ -16,7 +16,6 @@ import {
 } from '../../validation/validation';
 import styled from 'styled-components';
 
-require('dotenv').config();
 const SERVER_ENDPOINT =
   process.env.REACT_APP_ENDPOINT || 'https://final.eax.kr';
 

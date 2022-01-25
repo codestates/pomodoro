@@ -13,7 +13,6 @@ import { isValidEmail } from '../../validation/validation';
 import { ConfirmModal } from '../../components/desktop/ConfirmModal';
 import axios from 'axios';
 
-require('dotenv').config();
 const SERVER_ENDPOINT =
   process.env.REACT_APP_ENDPOINT || 'https://final.eax.kr';
 

@@ -20,7 +20,6 @@ import PomodoroPage from './pages/desktop/PomodoroPage';
 import axios from 'axios';
 import './App.css';
 
-require('dotenv').config();
 const SERVER_ENDPOINT =
   process.env.REACT_APP_ENDPOINT || 'https://final.eax.kr';
 

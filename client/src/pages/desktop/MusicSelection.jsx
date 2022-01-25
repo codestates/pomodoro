@@ -11,7 +11,6 @@ import Metadata from '../../components/desktop/Metadata';
 import MenuForPlaylist from '../../components/desktop/MenuForPlaylist';
 import MenuForMusicList from '../../components/desktop/MenuForMusiclist';
 
-require('dotenv').config();
 const SERVER_ENDPOINT =
   process.env.REACT_APP_ENDPOINT || 'https://final.eax.kr';
 
