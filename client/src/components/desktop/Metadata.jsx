@@ -9,7 +9,8 @@ import { UserContext } from '../../App';
 import axios from 'axios';
 
 require('dotenv').config();
-const SERVER_ENDPOINT = process.env.ENDPOINT || 'https://final.eax.kr';
+const SERVER_ENDPOINT =
+  process.env.REACT_APP_ENDPOINT || 'https://final.eax.kr';
 
 const MetadataContainer = styled.div`
   margin: 2rem auto 0 auto;

@@ -10,7 +10,8 @@ import styled from 'styled-components';
 import axios from 'axios';
 
 require('dotenv').config();
-const SERVER_ENDPOINT = process.env.ENDPOINT || 'https://final.eax.kr';
+const SERVER_ENDPOINT =
+  process.env.REACT_APP_ENDPOINT || 'https://final.eax.kr';
 
 const StyledIcon = styled.div`
   margin-bottom: 30px;

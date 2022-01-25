@@ -11,7 +11,8 @@ import alarm from '../../images/alarm.mp3';
 import Loading from '../../components/desktop/Loading';
 
 require('dotenv').config();
-const SERVER_ENDPOINT = process.env.ENDPOINT || 'https://final.eax.kr';
+const SERVER_ENDPOINT =
+  process.env.REACT_APP_ENDPOINT || 'https://final.eax.kr';
 
 const MainWrapper = styled.div`
   display: flex;

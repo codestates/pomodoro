@@ -9,7 +9,8 @@ import { ReactComponent as DeleteIcon } from '../../images/delete.svg';
 import { UserContext } from '../../App';
 
 require('dotenv').config();
-const SERVER_ENDPOINT = process.env.ENDPOINT || 'https://final.eax.kr';
+const SERVER_ENDPOINT =
+  process.env.REACT_APP_ENDPOINT || 'https://final.eax.kr';
 
 const MusicListContainer = styled.div`
   flex: 817 817 auto;2022-01-16 04:32:43

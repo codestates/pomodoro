@@ -16,7 +16,8 @@ import { ReactComponent as Loading } from '../../images/loading.svg';
 import PreviewPopupMobile from './PreviewPopupMobile';
 
 require('dotenv').config();
-const SERVER_ENDPOINT = process.env.ENDPOINT || 'https://final.eax.kr';
+const SERVER_ENDPOINT =
+  process.env.REACT_APP_ENDPOINT || 'https://final.eax.kr';
 
 SwiperCore.use([EffectCoverflow, Pagination, Mousewheel, Keyboard]);
 

@@ -12,7 +12,8 @@ import MenuForPlaylist from '../../components/desktop/MenuForPlaylist';
 import MenuForMusicList from '../../components/desktop/MenuForMusiclist';
 
 require('dotenv').config();
-const SERVER_ENDPOINT = process.env.ENDPOINT || 'https://final.eax.kr';
+const SERVER_ENDPOINT =
+  process.env.REACT_APP_ENDPOINT || 'https://final.eax.kr';
 
 const MainContainer = styled.div`
   max-width: 132rem;
