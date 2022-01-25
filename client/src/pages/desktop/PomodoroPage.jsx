@@ -10,6 +10,9 @@ import mute from '../../images/mute.svg';
 import alarm from '../../images/alarm.mp3';
 import Loading from '../../components/desktop/Loading';
 
+require('dotenv').config();
+const SERVER_ENDPOINT = process.env.ENDPOINT || 'https://final.eax.kr';
+
 const MainWrapper = styled.div`
   display: flex;
   position: relative;
@@ -45,7 +48,7 @@ const PomodoroPage = ({ isMobile }) => {
   const BREAKE_TIME = 5 * 60;
   const NOTICE_TIME = 10;
   const CIRCLE_DASHARRAY = '0 283';
-  const POMODORO_API = 'https://final.eax.kr/api/pomodoro';
+  const POMODORO_API = `${SERVER_ENDPOINT}/api/pomodoro`;
   const music = JSON.parse(sessionStorage.getItem('musicList')) || [];
 
   const navigate = useNavigate();

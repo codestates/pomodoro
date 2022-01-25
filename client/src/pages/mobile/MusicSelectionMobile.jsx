@@ -12,6 +12,9 @@ import MetadataMobile from '../../components/mobile/MetadataMobile';
 import MenuForPlaylistMobile from '../../components/mobile/MenuForPlaylistMobile';
 import MenuForMusiclistMobile from '../../components/mobile/MenuForMusiclistMobile';
 
+require('dotenv').config();
+const SERVER_ENDPOINT = process.env.ENDPOINT || 'https://final.eax.kr';
+
 const MobileContainer = styled.div`
   margin-top: ${({ size }) => size.start}px;
   height: ${({ size }) => size.end - size.start}px;
@@ -174,7 +177,7 @@ const ChooseMusicMobile = ({ tags, setTags }) => {
       const result = searchText.match(reg);
       if (!result) continue;
       //(result).then((data) => {
-      const endpoint = `https://final.eax.kr/api/playlists/0`;
+      const endpoint = `${SERVER_ENDPOINT}/api/playlists/0`;
       const body = {
         music_url: result,
       };
@@ -219,7 +222,7 @@ const ChooseMusicMobile = ({ tags, setTags }) => {
       return;
     }
 
-    const endpoint = `https://final.eax.kr/api/search?q=${searchText}`;
+    const endpoint = `${SERVER_ENDPOINT}/api/search?q=${searchText}`;
     axios
       .get(endpoint)
       .then((res) => {

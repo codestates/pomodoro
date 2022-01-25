@@ -15,6 +15,9 @@ import 'swiper/css/pagination';
 import { ReactComponent as Loading } from '../../images/loading.svg';
 import PreviewPopupMobile from './PreviewPopupMobile';
 
+require('dotenv').config();
+const SERVER_ENDPOINT = process.env.ENDPOINT || 'https://final.eax.kr';
+
 SwiperCore.use([EffectCoverflow, Pagination, Mousewheel, Keyboard]);
 
 const SwiperContainer = styled.div`
@@ -120,7 +123,7 @@ const SwiperMusicMobile = ({
                     src={
                       item.music_thumbnail
                         ? item.music_thumbnail
-                        : `https://final.eax.kr/images/${item.music_url}.jpg`
+                        : `${SERVER_ENDPOINT}/images/${item.music_url}.jpg`
                     }
                     alt={item.music_name}
                   />

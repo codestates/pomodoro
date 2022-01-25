@@ -13,6 +13,9 @@ import { isValidEmail } from '../../validation/validation';
 import { ConfirmModal } from '../../components/desktop/ConfirmModal';
 import axios from 'axios';
 
+require('dotenv').config();
+const SERVER_ENDPOINT = process.env.ENDPOINT || 'https://final.eax.kr';
+
 const StyledIcon = styled.div`
   margin-bottom: 30px;
 `;
@@ -53,7 +56,7 @@ const ForgotPassword = () => {
     if (email === '' || showErrMsg) return;
 
     await axios
-      .post('https://final.eax.kr/api/passwords', {
+      .post(`${SERVER_ENDPOINT}/api/passwords`, {
         email,
       })
       .then((res) => {

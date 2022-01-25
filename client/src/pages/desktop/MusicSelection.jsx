@@ -11,6 +11,9 @@ import Metadata from '../../components/desktop/Metadata';
 import MenuForPlaylist from '../../components/desktop/MenuForPlaylist';
 import MenuForMusicList from '../../components/desktop/MenuForMusiclist';
 
+require('dotenv').config();
+const SERVER_ENDPOINT = process.env.ENDPOINT || 'https://final.eax.kr';
+
 const MainContainer = styled.div`
   max-width: 132rem;
   min-width: 75.7rem;
@@ -200,7 +203,7 @@ const ChooseMusic = ({ tags, setTags }) => {
       const result = searchText.match(reg);
       if (!result) continue;
       //(result).then((data) => {
-      const endpoint = `https://final.eax.kr/api/playlists/0`;
+      const endpoint = `${SERVER_ENDPOINT}/api/playlists/0`;
       const body = {
         music_url: result,
       };
@@ -245,7 +248,7 @@ const ChooseMusic = ({ tags, setTags }) => {
       return;
     }
 
-    const endpoint = `https://final.eax.kr/api/search?q=${searchText}`;
+    const endpoint = `${SERVER_ENDPOINT}/api/search?q=${searchText}`;
     axios
       .get(endpoint)
       .then((res) => {

@@ -4,6 +4,9 @@ import Rank from '../../components/desktop/Rank';
 import MyRank from '../../components/desktop/MyRank';
 import axios from 'axios';
 
+require('dotenv').config();
+const SERVER_ENDPOINT = process.env.ENDPOINT || 'https://final.eax.kr';
+
 const Container = styled.div`
   display: flex;
   width: 100vw;
@@ -69,7 +72,7 @@ const Ranking = () => {
 
   useEffect(() => {
     axios
-      .get('https://final.eax.kr/api/ranks')
+      .get(`${SERVER_ENDPOINT}/api/ranks`)
       .then((res) => {
         setRankingList(res.data.result);
       })

@@ -16,6 +16,9 @@ import {
 } from '../../validation/validation';
 import styled from 'styled-components';
 
+require('dotenv').config();
+const SERVER_ENDPOINT = process.env.ENDPOINT || 'https://final.eax.kr';
+
 const StyledLogo = styled.div`
   width: 100%;
   cursor: pointer;
@@ -46,7 +49,7 @@ const SignUp = () => {
     const nickname = nicknameRef.current.value;
 
     await axios
-      .get(`https://final.eax.kr/api/nicknames/${nickname}`)
+      .get(`${SERVER_ENDPOINT}/api/nicknames/${nickname}`)
       .then((res) => {
         return;
       })
@@ -82,7 +85,7 @@ const SignUp = () => {
     const email = emailRef.current.value;
 
     await axios
-      .get(`https://final.eax.kr/api/mails/${email}`)
+      .get(`${SERVER_ENDPOINT}/api/mails/${email}`)
       .then((res) => {
         return;
       })
@@ -128,7 +131,7 @@ const SignUp = () => {
 
   const sendAuthMail = async (token) => {
     await axios.post(
-      'https://final.eax.kr/api/mails',
+      `${SERVER_ENDPOINT}/api/mails`,
       {},
       {
         headers: { authorization: `Bearer ${token}` },
@@ -156,7 +159,7 @@ const SignUp = () => {
       return;
 
     await axios
-      .post('https://final.eax.kr/api/users', {
+      .post(`${SERVER_ENDPOINT}/api/users`, {
         nickname,
         email,
         password,
