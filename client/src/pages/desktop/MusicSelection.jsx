@@ -12,7 +12,7 @@ import MenuForPlaylist from '../../components/desktop/MenuForPlaylist';
 import MenuForMusicList from '../../components/desktop/MenuForMusiclist';
 
 const SERVER_ENDPOINT =
-  process.env.REACT_APP_ENDPOINT || 'https://final.eax.kr';
+  process.env.REACT_APP_ENDPOINT || window.location.origin;
 
 const MainContainer = styled.div`
   max-width: 132rem;

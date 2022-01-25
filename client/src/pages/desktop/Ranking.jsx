@@ -5,7 +5,7 @@ import MyRank from '../../components/desktop/MyRank';
 import axios from 'axios';
 
 const SERVER_ENDPOINT =
-  process.env.REACT_APP_ENDPOINT || 'https://final.eax.kr';
+  process.env.REACT_APP_ENDPOINT || window.location.origin;
 
 const Container = styled.div`
   display: flex;

@@ -11,7 +11,7 @@ import alarm from '../../images/alarm.mp3';
 import Loading from '../../components/desktop/Loading';
 
 const SERVER_ENDPOINT =
-  process.env.REACT_APP_ENDPOINT || 'https://final.eax.kr';
+  process.env.REACT_APP_ENDPOINT || window.location.origin;
 
 const MainWrapper = styled.div`
   display: flex;

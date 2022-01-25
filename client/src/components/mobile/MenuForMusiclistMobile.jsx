@@ -9,7 +9,7 @@ import { ReactComponent as DeleteIcon } from '../../images/delete.svg';
 import { UserContext } from '../../App';
 
 const SERVER_ENDPOINT =
-  process.env.REACT_APP_ENDPOINT || 'https://final.eax.kr';
+  process.env.REACT_APP_ENDPOINT || window.location.origin;
 
 const MusiclistContainer = styled.div``;
 const MusiclistIconStaticCircle = styled.div`

@@ -18,7 +18,7 @@ import PreviewPopup from './PreviewPopup';
 SwiperCore.use([EffectCoverflow, Pagination, Mousewheel, Keyboard]);
 
 const SERVER_ENDPOINT =
-  process.env.REACT_APP_ENDPOINT || 'https://final.eax.kr';
+  process.env.REACT_APP_ENDPOINT || window.location.origin;
 
 const SwiperContainer = styled.div`
   margin-top: 3rem;

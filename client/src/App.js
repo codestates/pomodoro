@@ -21,7 +21,7 @@ import axios from 'axios';
 import './App.css';
 
 const SERVER_ENDPOINT =
-  process.env.REACT_APP_ENDPOINT || 'https://final.eax.kr';
+  process.env.REACT_APP_ENDPOINT || window.location.origin;
 
 export const UserContext = createContext({
   userInfo: '',

@@ -10,7 +10,7 @@ import styled from 'styled-components';
 import axios from 'axios';
 
 const SERVER_ENDPOINT =
-  process.env.REACT_APP_ENDPOINT || 'https://final.eax.kr';
+  process.env.REACT_APP_ENDPOINT || window.location.origin;
 
 const StyledIcon = styled.div`
   margin-bottom: 30px;

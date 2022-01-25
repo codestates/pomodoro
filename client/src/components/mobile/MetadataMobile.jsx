@@ -8,7 +8,7 @@ import { ReactComponent as SelectedIcon } from '../../images/select.svg';
 import { UserContext } from '../../App';
 
 const SERVER_ENDPOINT =
-  process.env.REACT_APP_ENDPOINT || 'https://final.eax.kr';
+  process.env.REACT_APP_ENDPOINT || window.location.origin;
 
 const MetadataContainer = styled.div`
   display: grid;

@@ -16,7 +16,7 @@ import { ReactComponent as Loading } from '../../images/loading.svg';
 import PreviewPopupMobile from './PreviewPopupMobile';
 
 const SERVER_ENDPOINT =
-  process.env.REACT_APP_ENDPOINT || 'https://final.eax.kr';
+  process.env.REACT_APP_ENDPOINT || window.location.origin;
 
 SwiperCore.use([EffectCoverflow, Pagination, Mousewheel, Keyboard]);
 

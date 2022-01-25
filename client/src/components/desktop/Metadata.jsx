@@ -9,7 +9,7 @@ import { UserContext } from '../../App';
 import axios from 'axios';
 
 const SERVER_ENDPOINT =
-  process.env.REACT_APP_ENDPOINT || 'https://final.eax.kr';
+  process.env.REACT_APP_ENDPOINT || window.location.origin;
 
 const MetadataContainer = styled.div`
   margin: 2rem auto 0 auto;

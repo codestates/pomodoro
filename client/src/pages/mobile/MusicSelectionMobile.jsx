@@ -13,7 +13,7 @@ import MenuForPlaylistMobile from '../../components/mobile/MenuForPlaylistMobile
 import MenuForMusiclistMobile from '../../components/mobile/MenuForMusiclistMobile';
 
 const SERVER_ENDPOINT =
-  process.env.REACT_APP_ENDPOINT || 'https://final.eax.kr';
+  process.env.REACT_APP_ENDPOINT || window.location.origin;
 
 const MobileContainer = styled.div`
   margin-top: ${({ size }) => size.start}px;
