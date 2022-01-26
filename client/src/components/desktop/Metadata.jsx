@@ -8,6 +8,9 @@ import { ReactComponent as PlayIcon } from '../../images/TomatoPlay.svg';
 import { UserContext } from '../../App';
 import axios from 'axios';
 
+const SERVER_ENDPOINT =
+  process.env.REACT_APP_ENDPOINT || window.location.origin;
+
 const MetadataContainer = styled.div`
   margin: 2rem auto 0 auto;
   max-width: 119.5rem;
@@ -174,7 +177,7 @@ const Metadata = ({ currentMusic, currentPlaylist }) => {
   }, [playlist, currentPlaylist]);
 
   const sendMusicList = (items = musicList) => {
-    const endpoint = `https://final.eax.kr/api/playlists/${currentPlaylist}`;
+    const endpoint = `${SERVER_ENDPOINT}/api/playlists/${currentPlaylist}`;
     const token = localStorage.getItem('Token');
     const headers = {
       authorization: `Bearer ${token}`,
@@ -231,7 +234,7 @@ const Metadata = ({ currentMusic, currentPlaylist }) => {
       return;
     }
 
-    const endpoint = `https://final.eax.kr/api/playlists/${currentPlaylist}`;
+    const endpoint = `${SERVER_ENDPOINT}/api/playlists/${currentPlaylist}`;
     const token = localStorage.getItem('Token');
     const headers = {
       authorization: `Bearer ${token}`,

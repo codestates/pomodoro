@@ -17,6 +17,9 @@ import PreviewPopup from './PreviewPopup';
 
 SwiperCore.use([EffectCoverflow, Pagination, Mousewheel, Keyboard]);
 
+const SERVER_ENDPOINT =
+  process.env.REACT_APP_ENDPOINT || window.location.origin;
+
 const SwiperContainer = styled.div`
   margin-top: 3rem;
   margin-bottom: 2rem;
@@ -129,7 +132,7 @@ const SwiperMusic = ({
                     src={
                       item.music_thumbnail
                         ? item.music_thumbnail
-                        : `https://final.eax.kr/images/${item.music_url}.jpg`
+                        : `${SERVER_ENDPOINT}/images/${item.music_url}.jpg`
                     }
                     alt={item.music_name}
                   />

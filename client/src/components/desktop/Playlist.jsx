@@ -5,6 +5,9 @@ import { ReactComponent as Delete } from '../../images/delete.svg';
 import axios from 'axios';
 import { UserContext } from '../../App';
 
+const SERVER_ENDPOINT =
+  process.env.REACT_APP_ENDPOINT || window.location.origin;
+
 const Container = styled.li`
   display: flex;
   width: 100%;
@@ -58,7 +61,7 @@ const Playlist = ({ order, name, id, index }) => {
     if (!edited) return;
     await axios
       .patch(
-        `https://final.eax.kr/api/playlists/${id}`,
+        `${SERVER_ENDPOINT}/api/playlists/${id}`,
         {
           playlist_name: title,
         },
@@ -91,7 +94,7 @@ const Playlist = ({ order, name, id, index }) => {
 
   const handleDelete = async () => {
     await axios
-      .delete(`https://final.eax.kr/api/playlists/${id}`, {
+      .delete(`${SERVER_ENDPOINT}/api/playlists/${id}`, {
         headers: { authorization: `Bearer ${localStorage.getItem('Token')}` },
       })
       .then((res) => {

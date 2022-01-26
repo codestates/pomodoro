@@ -7,6 +7,9 @@ import PreviewPopupMobile from './PreviewPopupMobile';
 import { ReactComponent as SelectedIcon } from '../../images/select.svg';
 import { UserContext } from '../../App';
 
+const SERVER_ENDPOINT =
+  process.env.REACT_APP_ENDPOINT || window.location.origin;
+
 const MetadataContainer = styled.div`
   display: grid;
   grid-template-columns: 1.9fr 0.1fr 6fr 0.1fr 1.9fr;
@@ -175,7 +178,7 @@ const MetadataMobile = ({ currentMusic, currentPlaylist }) => {
   }, [playlist, currentPlaylist]);
 
   const sendMusicList = (items = musicList) => {
-    const endpoint = `https://final.eax.kr/api/playlists/${currentPlaylist}`;
+    const endpoint = `${SERVER_ENDPOINT}/api/playlists/${currentPlaylist}`;
     const token = localStorage.getItem('Token');
     const headers = {
       authorization: `Bearer ${token}`,
@@ -237,7 +240,7 @@ const MetadataMobile = ({ currentMusic, currentPlaylist }) => {
       return;
     }
 
-    const endpoint = `https://final.eax.kr/api/playlists/${currentPlaylist}`;
+    const endpoint = `${SERVER_ENDPOINT}/api/playlists/${currentPlaylist}`;
     const token = localStorage.getItem('Token');
     const headers = {
       authorization: `Bearer ${token}`,
