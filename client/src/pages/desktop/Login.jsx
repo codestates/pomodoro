@@ -12,6 +12,9 @@ import styled from 'styled-components';
 import axios from 'axios';
 import { UserContext } from '../../App';
 
+const SERVER_ENDPOINT =
+  process.env.REACT_APP_ENDPOINT || window.location.origin;
+
 const StyledLogo = styled.div`
   width: 100%;
   cursor: pointer;
@@ -58,7 +61,7 @@ const Login = () => {
     }
 
     await axios
-      .post('https://final.eax.kr/api/auth', {
+      .post(`${SERVER_ENDPOINT}/api/auth`, {
         nickname,
         password,
       })

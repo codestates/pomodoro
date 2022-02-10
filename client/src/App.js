@@ -20,6 +20,9 @@ import PomodoroPage from './pages/desktop/PomodoroPage';
 import axios from 'axios';
 import './App.css';
 
+const SERVER_ENDPOINT =
+  process.env.REACT_APP_ENDPOINT || window.location.origin;
+
 export const UserContext = createContext({
   userInfo: '',
   rankingList: [],
@@ -52,9 +55,9 @@ const App = () => {
       authorization: `Bearer ${token}`,
     };
     const requestDictionary = [
-      ['https://final.eax.kr/api/users', setUserInfo, '', TOKEN_REQUIRED],
-      ['https://final.eax.kr/api/playlists', setPlaylist, [], TOKEN_REQUIRED],
-      ['https://final.eax.kr/api/tags', setTags, false],
+      [`${SERVER_ENDPOINT}/api/users`, setUserInfo, '', TOKEN_REQUIRED],
+      [`${SERVER_ENDPOINT}/api/playlists`, setPlaylist, [], TOKEN_REQUIRED],
+      [`${SERVER_ENDPOINT}/api/tags`, setTags, false],
     ];
     //특정요청만 다시 불러오는 경우 배열과 아닌경우를 분리하여 융통성 있개 배치
     let getRequests = [];

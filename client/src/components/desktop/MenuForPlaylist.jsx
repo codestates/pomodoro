@@ -9,6 +9,9 @@ import { ReactComponent as SelectedIcon } from '../../images/select.svg';
 import { ReactComponent as DeleteIcon } from '../../images/delete.svg';
 import { UserContext } from '../../App';
 
+const SERVER_ENDPOINT =
+  process.env.REACT_APP_ENDPOINT || window.location.origin;
+
 const PlaylistContainer = styled.div`
   flex: 388 388 auto;
   max-width: 38.8rem;
@@ -194,7 +197,7 @@ const MenuForPlaylist = ({ currentPlaylist, setCurrentPlaylist }) => {
     }
 
     const { id, playlistid } = e.currentTarget.dataset;
-    const endpoint = `https://final.eax.kr/api/playlists/${playlistid}`;
+    const endpoint = `${SERVER_ENDPOINT}/api/playlists/${playlistid}`;
     const token = localStorage.getItem('Token');
     const headers = {
       authorization: `Bearer ${token}`,
@@ -236,7 +239,7 @@ const MenuForPlaylist = ({ currentPlaylist, setCurrentPlaylist }) => {
       setCurrentPlaylist(playlist_id);
       return;
     }
-    const endpoint = `https://final.eax.kr/api/playlists`;
+    const endpoint = `${SERVER_ENDPOINT}/api/playlists`;
     const token = localStorage.getItem('Token');
     const headers = {
       authorization: `Bearer ${token}`,

@@ -8,6 +8,9 @@ import { ReactComponent as DnDIcon } from '../../images/dragAndDrop.svg';
 import { ReactComponent as DeleteIcon } from '../../images/delete.svg';
 import { UserContext } from '../../App';
 
+const SERVER_ENDPOINT =
+  process.env.REACT_APP_ENDPOINT || window.location.origin;
+
 const MusiclistContainer = styled.div``;
 const MusiclistIconStaticCircle = styled.div`
   border-radius: 50%;
@@ -192,7 +195,7 @@ const MenuForMusiclistMobile = ({ size, currentPlaylist }) => {
   }, [playlist, currentPlaylist]);
 
   const getMusicList = () => {
-    const endpoint = `https://final.eax.kr/api/playlists/${currentPlaylist}`;
+    const endpoint = `${SERVER_ENDPOINT}/api/playlists/${currentPlaylist}`;
     const token = localStorage.getItem('Token');
     const headers = {
       authorization: `Bearer ${token}`,
@@ -209,7 +212,7 @@ const MenuForMusiclistMobile = ({ size, currentPlaylist }) => {
   };
 
   const sendMusicList = (items = musicList) => {
-    const endpoint = `https://final.eax.kr/api/playlists/${currentPlaylist}`;
+    const endpoint = `${SERVER_ENDPOINT}/api/playlists/${currentPlaylist}`;
     const token = localStorage.getItem('Token');
     const headers = {
       authorization: `Bearer ${token}`,
@@ -279,7 +282,7 @@ const MenuForMusiclistMobile = ({ size, currentPlaylist }) => {
   };
 
   const removeMusic = (e) => {
-    const endpoint = `https://final.eax.kr/api/playlists/${currentPlaylist}/${e.currentTarget.dataset.musicid}`;
+    const endpoint = `${SERVER_ENDPOINT}/api/playlists/${currentPlaylist}/${e.currentTarget.dataset.musicid}`;
     const token = localStorage.getItem('Token');
     const headers = {
       authorization: `Bearer ${token}`,

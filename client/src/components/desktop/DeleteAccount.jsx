@@ -9,6 +9,9 @@ import { FormErrorMsg } from '../../styles/FormErrorMsg.styled';
 import styled from 'styled-components';
 import axios from 'axios';
 
+const SERVER_ENDPOINT =
+  process.env.REACT_APP_ENDPOINT || window.location.origin;
+
 const StyledIcon = styled.div`
   margin-bottom: 30px;
   svg .st0,
@@ -74,7 +77,7 @@ export const DeleteAccount = ({ setOpen }) => {
 
   const handleDeleteBtn = async () => {
     await axios
-      .delete('https://final.eax.kr/api/users', {
+      .delete(`${SERVER_ENDPOINT}/api/users`, {
         headers: {
           authorization: `Bearer ${localStorage.getItem('Token')}`,
           'X-password': passwordRef.current.value,

@@ -4,6 +4,9 @@ import Rank from '../../components/desktop/Rank';
 import MyRank from '../../components/desktop/MyRank';
 import axios from 'axios';
 
+const SERVER_ENDPOINT =
+  process.env.REACT_APP_ENDPOINT || window.location.origin;
+
 const Container = styled.div`
   display: flex;
   width: 100vw;
@@ -69,7 +72,7 @@ const Ranking = () => {
 
   useEffect(() => {
     axios
-      .get('https://final.eax.kr/api/ranks')
+      .get(`${SERVER_ENDPOINT}/api/ranks`)
       .then((res) => {
         setRankingList(res.data.result);
       })
