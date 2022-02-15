@@ -132,7 +132,6 @@ const LandingPage = () => {
         scrollTrigger: {
           trigger: box.current,
           toggleActions: 'play reset restart reset',
-          markers: true,
           start: 'top 650px',
           end: 'bottom 150px',
         },
