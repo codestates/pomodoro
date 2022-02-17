@@ -1,4 +1,4 @@
-import React, { useState, useLayoutEffect, createContext } from 'react';
+import React, { useState, useLayoutEffect, createContext, Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useMediaQuery } from 'react-responsive';
 
@@ -9,19 +9,20 @@ import SignUp from './pages/desktop/SignUp';
 import ForgotPassword from './pages/desktop/ForgotPassword';
 import EditUserInfo from './pages/desktop/EditUserInfo';
 import Bye from './pages/desktop/Bye';
-import MusicSelection from './pages/desktop/MusicSelection';
-import MusicSelectionMobile from './pages/mobile/MusicSelectionMobile';
 import LandingPage from './pages/desktop/LandingPage';
 import LandingPageMobile from './pages/mobile/LandingPageMobile';
 import LayoutWithHeader from './pages/desktop/LayoutWithHeader';
 import LayoutMobileWithHeader from './pages/mobile/LayoutMobileWithHeader';
 import TabBarMobile from './components/mobile/TabBarMobile';
 import PomodoroPage from './pages/desktop/PomodoroPage';
+import Loading from './components/desktop/Loading';
 import axios from 'axios';
 import './App.css';
 
-const SERVER_ENDPOINT =
-  process.env.REACT_APP_ENDPOINT || window.location.origin;
+const MusicSelection = React.lazy(() => import('./pages/desktop/MusicSelection'));
+const MusicSelectionMobile = React.lazy(() => import('./pages/mobile/MusicSelectionMobile'));
+
+const SERVER_ENDPOINT = process.env.REACT_APP_ENDPOINT || window.location.origin;
 
 export const UserContext = createContext({
   userInfo: '',
@@ -63,8 +64,7 @@ const App = () => {
     let getRequests = [];
     if (specificRequest) {
       if (Array.isArray(specificRequest))
-        for (const requestID of specificRequest)
-          getRequests.push(requestDictionary[requestID]);
+        for (const requestID of specificRequest) getRequests.push(requestDictionary[requestID]);
       else getRequests.push(requestDictionary[specificRequest]);
     } else getRequests = requestDictionary;
 
@@ -126,16 +126,17 @@ const App = () => {
               <Route path="/" element={<LandingPageMobile />} />
               <Route
                 path="/music"
-                element={<MusicSelectionMobile tags={tags} setTags={setTags} />}
+                element={
+                  <Suspense fallback={<Loading />}>
+                    <MusicSelectionMobile tags={tags} setTags={setTags} />
+                  </Suspense>
+                }
               />
               <Route path="/editinfo" element={<EditUserInfo />} />
               <Route path="/delete" element={<Bye />} />
               <Route path="/mypage" element={<MyPage />} />
               <Route path="/ranking" element={<Ranking />} />
-              <Route
-                path="/pomodoro"
-                element={<PomodoroPage isMobile={isMobile} />}
-              />
+              <Route path="/pomodoro" element={<PomodoroPage isMobile={isMobile} />} />
             </Route>
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<SignUp />} />
@@ -167,16 +168,17 @@ const App = () => {
             <Route path="/" element={<LandingPage />} />
             <Route
               path="/music"
-              element={<MusicSelection tags={tags} setTags={setTags} />}
+              element={
+                <Suspense fallback={<Loading />}>
+                  <MusicSelection tags={tags} setTags={setTags} />
+                </Suspense>
+              }
             />
             <Route path="/delete" element={<Bye />} />
             <Route path="/editinfo" element={<EditUserInfo />} />
             <Route path="/ranking" element={<Ranking />} />
             <Route path="/mypage" element={<MyPage />} />
-            <Route
-              path="/pomodoro"
-              element={<PomodoroPage isMobile={isMobile} />}
-            />
+            <Route path="/pomodoro" element={<PomodoroPage isMobile={isMobile} />} />
           </Route>
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
